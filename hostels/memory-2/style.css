@@ -1411,192 +1411,133 @@ h2 em {
 /* =========================================================
    REVIEWS
 ========================================================= */
+/* =========================
+   REVIEWS AUTO SCROLL
+========================= */
 
 .reviews {
-  max-width: none;
-
-  background: #111;
-
-  color: #fff;
-}
-
-.reviews .section-label {
-  max-width: var(--container);
-
-  margin-left: auto;
-  margin-right: auto;
-
-  padding: 0 5vw;
-
-  color: #888;
-}
-
-.reviews .section-label span {
-  color: #fff;
-
-  border-color: #555;
-}
-
-.reviews-heading {
-  max-width: var(--container);
-
-  margin: 0 auto 55px;
-
-  padding: 0 5vw;
-
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: space-between;
-
-  gap: 40px;
-}
-
-.reviews-heading .eyebrow {
-  color: #888;
-}
-
-.reviews-heading h2 {
-  max-width: 750px;
-}
-
-.rating-box {
-  flex-shrink: 0;
-
-  min-width: 150px;
-
-  padding-left: 25px;
-
-  border-left: 1px solid #444;
-}
-
-.rating-box strong {
-  display: block;
-
-  font-family: var(--serif);
-
-  font-size: 55px;
-
-  line-height: 0.9;
-
-  font-weight: 400;
-}
-
-.rating-box span {
-  display: block;
-
-  margin-top: 10px;
-
-  color: #777;
-
-  font-size: 8px;
-
-  font-weight: 800;
-
-  line-height: 1.5;
-
-  letter-spacing: 0.12em;
+    overflow: hidden;
 }
 
 .reviews-window {
-  max-width: var(--container);
-
-  margin: auto;
-
-  padding: 0 5vw;
-
-  overflow-x: auto;
-
-  scrollbar-width: none;
-}
-
-.reviews-window::-webkit-scrollbar {
-  display: none;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .reviews-track {
-  display: flex;
+    display: flex;
+    width: max-content;
+    gap: 20px;
 
-  gap: 15px;
+    animation: reviewsAutoScroll 32s linear infinite;
 
-  width: max-content;
+    will-change: transform;
 }
 
+/* Individual review */
 .review-card {
-  width: clamp(280px, 30vw, 400px);
+    flex: 0 0 340px;
+    width: 340px;
+    padding: 28px;
+    box-sizing: border-box;
 
-  min-height: 300px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 18px;
 
-  padding: 28px;
-
-  border: 1px solid #333;
-
-  background: #151515;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.review-top {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding-bottom: 20px;
-
-  border-bottom: 1px solid #333;
-
-  color: #777;
-
-  font-size: 9px;
-
-  font-weight: 800;
+.review-stars {
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
 }
 
-.review-top div {
-  color: #fff;
-
-  letter-spacing: 0.1em;
+.review-card p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
 }
 
-.review-card > p {
-  margin-top: 30px;
+.review-author {
+    margin-top: 24px;
 
-  color: #aaa;
-
-  font-family: var(--serif);
-
-  font-size: 19px;
-
-  line-height: 1.55;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
-.review-person {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 5px;
-
-  margin-top: 35px;
+.review-author strong {
+    font-size: 14px;
 }
 
-.review-person strong {
-  font-size: 10px;
-
-  letter-spacing: 0.12em;
+.review-author span {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    opacity: 0.6;
 }
 
-.review-person span {
-  color: #666;
-
-  font-size: 8px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.12em;
+/* Pause only when user hovers */
+.reviews-track:hover {
+    animation-play-state: paused;
 }
 
+
+/* =========================
+   DESKTOP
+========================= */
+
+@keyframes reviewsAutoScroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-50% - 10px));
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .reviews-window {
+        overflow: hidden;
+    }
+
+    .reviews-track {
+        gap: 14px;
+        animation-duration: 28s;
+    }
+
+    .review-card {
+        flex: 0 0 82vw;
+        width: 82vw;
+        min-height: 230px;
+        padding: 22px;
+    }
+
+    .review-card p {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .review-author {
+        margin-top: 20px;
+    }
+
+    .reviews-track:hover {
+        animation-play-state: running;
+    }
+}
 
 /* =========================================================
    LOCATION
