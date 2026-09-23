@@ -446,4 +446,110 @@ document
             }
         );
 
+    }); /* =================================
+   ROOM GALLERY SWIPE / DRAG
+================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const galleries = document.querySelectorAll(".room-gallery");
+
+    galleries.forEach(gallery => {
+
+        const track = gallery.querySelector(".room-gallery-track");
+        const prev = gallery.querySelector(".gallery-prev");
+        const next = gallery.querySelector(".gallery-next");
+
+        if (!track) return;
+
+        const getAmount = () => track.clientWidth;
+
+        /* NEXT */
+        if (next) {
+            next.addEventListener("click", () => {
+
+                track.scrollBy({
+                    left: getAmount(),
+                    behavior: "smooth"
+                });
+
+            });
+        }
+
+        /* PREVIOUS */
+        if (prev) {
+            prev.addEventListener("click", () => {
+
+                track.scrollBy({
+                    left: -getAmount(),
+                    behavior: "smooth"
+                });
+
+            });
+        }
+
+
+        /* =========================
+           MOUSE DRAG
+        ========================= */
+
+        let isDragging = false;
+        let startX = 0;
+        let startScroll = 0;
+
+        track.addEventListener("mousedown", e => {
+
+            isDragging = true;
+
+            startX = e.pageX;
+            startScroll = track.scrollLeft;
+
+            track.style.scrollBehavior = "auto";
+
+        });
+
+        track.addEventListener("mousemove", e => {
+
+            if (!isDragging) return;
+
+            e.preventDefault();
+
+            const distance = e.pageX - startX;
+
+            track.scrollLeft = startScroll - distance;
+
+        });
+
+        const stopDragging = () => {
+
+            isDragging = false;
+
+            track.style.scrollBehavior = "smooth";
+
+        };
+
+        track.addEventListener("mouseup", stopDragging);
+        track.addEventListener("mouseleave", stopDragging);
+
+
+        /* =========================
+           MOUSE WHEEL
+        ========================= */
+
+        track.addEventListener("wheel", e => {
+
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+
+                e.preventDefault();
+
+                track.scrollLeft += e.deltaY;
+
+            }
+
+        }, {
+            passive: false
+        });
+
     });
+
+});
