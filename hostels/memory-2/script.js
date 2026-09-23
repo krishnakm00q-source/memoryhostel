@@ -565,4 +565,26 @@ document.addEventListener("DOMContentLoaded", () => {
     "font-weight:bold;"
   );
 
+}); /* =========================
+   REVIEWS INFINITE LOOP
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const reviewsTrack = document.querySelector(".reviews-track");
+
+    if (!reviewsTrack) return;
+
+    // Original cards
+    const originalCards = Array.from(
+        reviewsTrack.querySelectorAll(".review-card")
+    );
+
+    // Duplicate cards for seamless infinite scrolling
+    originalCards.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        reviewsTrack.appendChild(clone);
+    });
+
 });
