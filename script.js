@@ -1,57 +1,51 @@
+```javascript
 /* =========================================================
    MEMORY GROUP
    MAIN JAVASCRIPT
-   ========================================================= */
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================================
+    /* =======================================================
        NAVBAR
-       ===================================================== */
+    ======================================================== */
 
     const navbar = document.getElementById("navbar");
 
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
-
-    if (window.scrollY > 30) {
-        navbar.classList.add("scrolled");
+    function updateNavbar() {
+        if (window.scrollY > 40) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
     }
+
+    updateNavbar();
 
     window.addEventListener(
         "scroll",
-        () => {
-
-            if (window.scrollY > 30) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-
-        },
+        updateNavbar,
         { passive: true }
     );
 
 
-    /* =====================================================
+    /* =======================================================
        MOBILE MENU
-       ===================================================== */
+    ======================================================== */
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
 
     if (menuToggle && navLinks) {
 
         menuToggle.addEventListener("click", () => {
-
             navLinks.classList.toggle("active");
-
         });
-
 
         navLinks.querySelectorAll("a").forEach((link) => {
 
             link.addEventListener("click", () => {
-
                 navLinks.classList.remove("active");
-
             });
 
         });
@@ -59,49 +53,119 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =====================================================
-       MEMORY EVENTS PHOTOS
-       ===================================================== */
+    /* =======================================================
+       SMOOTH INTERNAL LINKS
+    ======================================================== */
 
-    const eventsTrack = document.getElementById("eventsTrack");
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
-    /*
-       IMPORTANT:
+        link.addEventListener("click", (event) => {
 
-       These are the files actually inside:
+            const targetId = link.getAttribute("href");
 
-       /memory-photos/
+            if (!targetId || targetId === "#") {
+                return;
+            }
 
-       Do NOT move them into assets.
-    */
+            const target = document.querySelector(targetId);
 
-    const eventPhotos = [
+            if (!target) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const navbarHeight =
+                navbar ? navbar.offsetHeight : 0;
+
+            const targetPosition =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                navbarHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+
+        });
+
+    });
+
+
+    /* =======================================================
+       REVEAL ANIMATIONS
+    ======================================================== */
+
+    const revealElements = document.querySelectorAll(
+        ".section-heading, .pricing-grid, .hostel-grid, " +
+        ".philosophy-content, .owner-layout, " +
+        ".moments-heading, .events-slider, .final-contact-inner"
+    );
+
+    revealElements.forEach((element) => {
+        element.classList.add("reveal");
+    });
+
+    const revealObserver =
+        new IntersectionObserver(
+            (entries, observer) => {
+
+                entries.forEach((entry) => {
+
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.classList.add("visible");
+
+                    observer.unobserve(entry.target);
+
+                });
+
+            },
+            {
+                threshold: 0.12
+            }
+        );
+
+    revealElements.forEach((element) => {
+        revealObserver.observe(element);
+    });
+
+
+    /* =======================================================
+       MEMORY EVENTS / MOMENTS
+       
+       These are the files currently inside:
+       memory-photos/
+    ======================================================== */
+
+    const eventImages = [
 
         "WhatsApp Image 2026-09-26 at 4.36.49 PM.jpeg",
+
+        "WhatsApp Image 2026-09-26 at 4.36.50 PM.jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.50 PM (1).jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.50 PM (2).jpeg",
 
-        "WhatsApp Image 2026-09-26 at 4.36.50 PM.jpeg",
+        "WhatsApp Image 2026-09-26 at 4.36.51 PM.jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.51 PM (1).jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.51 PM (2).jpeg",
 
-        "WhatsApp Image 2026-09-26 at 4.36.51 PM.jpeg",
+        "WhatsApp Image 2026-09-26 at 4.36.52 PM.jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.52 PM (1).jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.52 PM (2).jpeg",
 
-        "WhatsApp Image 2026-09-26 at 4.36.52 PM.jpeg",
+        "WhatsApp Image 2026-09-26 at 4.36.56 PM.jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.56 PM (1).jpeg",
-
-        "WhatsApp Image 2026-09-26 at 4.36.56 PM (2).jpeg",
-
-        "WhatsApp Image 2026-09-26 at 4.36.56 PM.jpeg",
 
         "WhatsApp Image 2026-09-26 at 4.36.57 PM.jpeg",
 
@@ -112,276 +176,507 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    if (eventsTrack) {
+    const eventsSlider =
+        document.getElementById("eventsSlider");
 
-        /*
-           Build the first set.
-        */
+    const eventsProgress =
+        document.getElementById("eventsProgress");
 
-        eventPhotos.forEach((photo, index) => {
+    const eventsPrev =
+        document.getElementById("eventsPrev");
 
-            const card = document.createElement("div");
+    const eventsNext =
+        document.getElementById("eventsNext");
+
+
+    if (eventsSlider) {
+
+        eventImages.forEach((fileName, index) => {
+
+            const card =
+                document.createElement("article");
 
             card.className = "event-card";
 
-            const image = document.createElement("img");
+
+            const image =
+                document.createElement("img");
 
             image.src =
                 "memory-photos/" +
-                encodeURIComponent(photo);
+                encodeURIComponent(fileName);
 
             image.alt =
-                "Memory Group event moment " +
-                (index + 1);
+                `Memory Group moment ${index + 1}`;
 
-            image.loading = index < 4
-                ? "eager"
-                : "lazy";
+            image.loading =
+                index < 3 ? "eager" : "lazy";
 
-            image.addEventListener("error", () => {
 
-                card.style.display = "none";
+            const label =
+                document.createElement("div");
 
-            });
+            label.className =
+                "event-label";
+
+            label.textContent =
+                `MEMORY MOMENT · ${String(index + 1).padStart(2, "0")}`;
+
 
             card.appendChild(image);
+            card.appendChild(label);
 
-            eventsTrack.appendChild(card);
-
-        });
-
-
-        /*
-           Duplicate the cards.
-
-           This creates a seamless continuous
-           auto-scroll instead of jumping back.
-        */
-
-        const originalCards =
-            Array.from(eventsTrack.children);
-
-        originalCards.forEach((card) => {
-
-            const clone = card.cloneNode(true);
-
-            clone.setAttribute(
-                "aria-hidden",
-                "true"
-            );
-
-            eventsTrack.appendChild(clone);
+            eventsSlider.appendChild(card);
 
         });
 
-
-        /* =================================================
-           AUTO SCROLL
-           ================================================= */
-
-        let position = 0;
-
-        let speed = 0.45;
-
-        let paused = false;
-
-        let animationFrame;
+    }
 
 
-        function animateEvents() {
+    /* =======================================================
+       EVENTS SLIDER
+    ======================================================== */
 
-            if (!paused) {
+    let currentEventIndex = 0;
+    let autoScrollTimer = null;
+    let isUserInteracting = false;
 
-                position -= speed;
 
-                const halfWidth =
-                    eventsTrack.scrollWidth / 2;
+    function getEventCards() {
 
-                if (Math.abs(position) >= halfWidth) {
+        if (!eventsSlider) {
+            return [];
+        }
 
-                    position = 0;
+        return Array.from(
+            eventsSlider.querySelectorAll(".event-card")
+        );
 
-                }
+    }
 
-                eventsTrack.style.transform =
-                    `translate3d(${position}px, 0, 0)`;
+
+    function getScrollAmount() {
+
+        const cards =
+            getEventCards();
+
+        if (!cards.length) {
+            return 0;
+        }
+
+        const cardWidth =
+            cards[0].getBoundingClientRect().width;
+
+        const gap = 18;
+
+        return cardWidth + gap;
+
+    }
+
+
+    function updateProgress() {
+
+        if (!eventsProgress || !eventsSlider) {
+            return;
+        }
+
+        const maxScroll =
+            eventsSlider.scrollWidth -
+            eventsSlider.clientWidth;
+
+        if (maxScroll <= 0) {
+            eventsProgress.style.width = "100%";
+            return;
+        }
+
+        const percentage =
+            (eventsSlider.scrollLeft / maxScroll) * 100;
+
+        eventsProgress.style.width =
+            `${Math.min(100, Math.max(0, percentage))}%`;
+
+    }
+
+
+    function goToEvent(index) {
+
+        const cards =
+            getEventCards();
+
+        if (!cards.length) {
+            return;
+        }
+
+        if (index >= cards.length) {
+            index = 0;
+        }
+
+        if (index < 0) {
+            index = cards.length - 1;
+        }
+
+        currentEventIndex = index;
+
+        eventsSlider.scrollTo({
+            left: getScrollAmount() * index,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    function nextEvent() {
+        goToEvent(currentEventIndex + 1);
+    }
+
+
+    function previousEvent() {
+        goToEvent(currentEventIndex - 1);
+    }
+
+
+    if (eventsNext) {
+        eventsNext.addEventListener(
+            "click",
+            () => {
+                nextEvent();
+                restartAutoScroll();
+            }
+        );
+    }
+
+
+    if (eventsPrev) {
+        eventsPrev.addEventListener(
+            "click",
+            () => {
+                previousEvent();
+                restartAutoScroll();
+            }
+        );
+    }
+
+
+    if (eventsSlider) {
+
+        eventsSlider.addEventListener(
+            "scroll",
+            updateProgress,
+            { passive: true }
+        );
+
+
+        /* Mouse drag */
+
+        let isDragging = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+
+        eventsSlider.addEventListener(
+            "pointerdown",
+            (event) => {
+
+                isDragging = true;
+                isUserInteracting = true;
+
+                startX = event.clientX;
+                startScrollLeft =
+                    eventsSlider.scrollLeft;
+
+                eventsSlider.setPointerCapture(
+                    event.pointerId
+                );
+
+                stopAutoScroll();
 
             }
-
-            animationFrame =
-                requestAnimationFrame(
-                    animateEvents
-                );
-        }
+        );
 
 
-        const eventsSlider =
-            document.getElementById("eventsSlider");
+        eventsSlider.addEventListener(
+            "pointermove",
+            (event) => {
 
-
-        if (eventsSlider) {
-
-            eventsSlider.addEventListener(
-                "mouseenter",
-                () => {
-                    paused = true;
+                if (!isDragging) {
+                    return;
                 }
-            );
 
-            eventsSlider.addEventListener(
-                "mouseleave",
-                () => {
-                    paused = false;
-                }
-            );
+                const distance =
+                    event.clientX - startX;
 
-            eventsSlider.addEventListener(
-                "touchstart",
-                () => {
-                    paused = true;
-                },
-                { passive: true }
-            );
+                eventsSlider.scrollLeft =
+                    startScrollLeft - distance;
 
-            eventsSlider.addEventListener(
-                "touchend",
-                () => {
-                    setTimeout(() => {
-                        paused = false;
-                    }, 1200);
-                },
-                { passive: true }
-            );
-
-        }
+            }
+        );
 
 
-        /*
-           Start after browser has painted the page.
-        */
+        eventsSlider.addEventListener(
+            "pointerup",
+            (event) => {
 
-        requestAnimationFrame(() => {
-            animateEvents();
-        });
+                isDragging = false;
+                isUserInteracting = false;
+
+                try {
+                    eventsSlider.releasePointerCapture(
+                        event.pointerId
+                    );
+                } catch (_) {}
+
+                restartAutoScroll();
+
+            }
+        );
 
 
-        /*
-           Stop animation if tab becomes hidden.
-        */
-
-        document.addEventListener(
-            "visibilitychange",
+        eventsSlider.addEventListener(
+            "pointercancel",
             () => {
 
-                paused =
-                    document.hidden;
+                isDragging = false;
+                isUserInteracting = false;
 
+                restartAutoScroll();
+
+            }
+        );
+
+
+        /* Touch / mouse hover pause */
+
+        eventsSlider.addEventListener(
+            "mouseenter",
+            () => {
+                isUserInteracting = true;
+                stopAutoScroll();
+            }
+        );
+
+
+        eventsSlider.addEventListener(
+            "mouseleave",
+            () => {
+                isUserInteracting = false;
+                restartAutoScroll();
             }
         );
 
     }
 
 
-    /* =====================================================
-       5500 ROOM PHOTO FALLBACK
-       ===================================================== */
+    /* =======================================================
+       AUTO SCROLL
+       
+       Memory events automatically move.
+       User interaction temporarily pauses it.
+    ======================================================== */
 
-    /*
-       5500.jpeg does NOT exist yet.
+    function startAutoScroll() {
 
-       Therefore it must NOT show a broken-image icon.
+        stopAutoScroll();
 
-       When you upload:
+        autoScrollTimer =
+            setInterval(() => {
 
-       room-photos/5500.jpeg
+                if (
+                    !isUserInteracting &&
+                    eventsSlider
+                ) {
+                    nextEvent();
+                }
 
-       the same code will automatically
-       start showing the image.
-    */
-
-    const roomImages =
-        document.querySelectorAll(
-            ".room-photo"
-        );
-
-
-    roomImages.forEach((image) => {
-
-        image.addEventListener(
-            "error",
-            () => {
-
-                const wrapper =
-                    image.closest(".room-image");
-
-                if (!wrapper) return;
-
-                wrapper.classList.add(
-                    "missing"
-                );
-
-            }
-        );
-
-
-        /*
-           In case browser already knows
-           the image failed before listener.
-        */
-
-        if (image.complete && image.naturalWidth === 0) {
-
-            const wrapper =
-                image.closest(".room-image");
-
-            if (wrapper) {
-
-                wrapper.classList.add(
-                    "missing"
-                );
-
-            }
-
-        }
-
-    });
-
-
-    /* =====================================================
-       CURRENT YEAR
-       ===================================================== */
-
-    const year =
-        document.getElementById("year");
-
-    if (year) {
-
-        year.textContent =
-            new Date().getFullYear();
+            }, 4000);
 
     }
 
 
-    /* =====================================================
-       CLOSE MOBILE MENU ON RESIZE
-       ===================================================== */
+    function stopAutoScroll() {
 
-    window.addEventListener(
-        "resize",
+        if (autoScrollTimer) {
+
+            clearInterval(autoScrollTimer);
+
+            autoScrollTimer = null;
+
+        }
+
+    }
+
+
+    function restartAutoScroll() {
+
+        stopAutoScroll();
+
+        setTimeout(() => {
+
+            if (!isUserInteracting) {
+                startAutoScroll();
+            }
+
+        }, 1500);
+
+    }
+
+
+    if (eventsSlider) {
+
+        updateProgress();
+
+        setTimeout(() => {
+            startAutoScroll();
+        }, 2000);
+
+    }
+
+
+    /* =======================================================
+       PAUSE EVENTS WHEN TAB IS NOT ACTIVE
+    ======================================================== */
+
+    document.addEventListener(
+        "visibilitychange",
         () => {
 
+            if (document.hidden) {
+                stopAutoScroll();
+            } else {
+                restartAutoScroll();
+            }
+
+        }
+    );
+
+
+    /* =======================================================
+       CURRENT YEAR
+    ======================================================== */
+
+    const currentYear =
+        document.getElementById("currentYear");
+
+    if (currentYear) {
+        currentYear.textContent =
+            new Date().getFullYear();
+    }
+
+
+    /* =======================================================
+       K R I S H N A   P A R A L L A X
+    ======================================================== */
+
+    const background =
+        document.querySelector(".background-image");
+
+    const supportsFinePointer =
+        window.matchMedia(
+            "(pointer: fine)"
+        ).matches;
+
+
+    if (
+        background &&
+        supportsFinePointer
+    ) {
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        let currentX = 0;
+        let currentY = 0;
+
+
+        window.addEventListener(
+            "mousemove",
+            (event) => {
+
+                mouseX =
+                    (event.clientX /
+                    window.innerWidth - 0.5) * 14;
+
+                mouseY =
+                    (event.clientY /
+                    window.innerHeight - 0.5) * 10;
+
+            },
+            { passive: true }
+        );
+
+
+        function animateBackground() {
+
+            currentX +=
+                (mouseX - currentX) * 0.035;
+
+            currentY +=
+                (mouseY - currentY) * 0.035;
+
+            background.style.transform =
+                `scale(1.05) translate3d(${currentX}px, ${currentY}px, 0)`;
+
+            requestAnimationFrame(
+                animateBackground
+            );
+
+        }
+
+        animateBackground();
+
+    }
+
+
+    /* =======================================================
+       IMAGE ERROR HANDLING
+    ======================================================== */
+
+    document.addEventListener(
+        "error",
+        (event) => {
+
+            const element =
+                event.target;
+
             if (
-                window.innerWidth > 850 &&
-                navLinks
+                element &&
+                element.tagName === "IMG"
             ) {
 
+                element.classList.add(
+                    "image-error"
+                );
+
+                console.warn(
+                    "Memory Group image could not be loaded:",
+                    element.src
+                );
+
+            }
+
+        },
+        true
+    );
+
+
+    /* =======================================================
+       ESCAPE CLOSE MOBILE MENU
+    ======================================================== */
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (
+                event.key === "Escape" &&
+                navLinks
+            ) {
                 navLinks.classList.remove(
                     "active"
                 );
-
             }
 
         }
     );
 
 });
+```
