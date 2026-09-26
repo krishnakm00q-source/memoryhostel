@@ -1,928 +1,587 @@
-/* =========================================================
-   MEMORY GROUP — MAIN WEBSITE SCRIPT
-   ========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
-  "use strict";
+  const header = document.querySelector(".site-header");
+  const navToggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav-links");
+  const year = document.getElementById("year");
 
-  /* =========================================================
-     CONFIG
-     ========================================================= */
+  // Current year
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
 
-  const HOSTEL_PATHS = {
-    memory1: "hostels/memory-1/",
-    memory2: "hostels/memory-2/",
-    memory3: "hostels/memory-3/"
+  /* =========================================
+     NAVBAR SCROLL EFFECT
+  ========================================= */
+
+  const updateHeader = () => {
+    if (!header) return;
+
+    header.classList.toggle(
+      "scrolled",
+      window.scrollY > 24
+    );
   };
 
-  const WHATSAPP_NUMBER = "919576210396";
-  const CALL_NUMBER = "918789934663";
+  updateHeader();
 
-  /*
-    IMPORTANT:
-    These are the images currently inside /memory-photos/
-  */
-  const MEMORY_PHOTOS = [
-    "WhatsApp Image 2026-09-26 at 4.36.49 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM (1).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM (2).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM (1).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM (2).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM (1).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM (2).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM (1).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM (2).jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.57 PM.jpeg",
-    "WhatsApp Image 2026-09-26 at 4.36.58 PM.jpeg",
-    "b51d30b1-b2b0-4170-9810-ba2b747b9e54.jpg"
-  ];
-
-
-  /* =========================================================
-     HELPERS
-     ========================================================= */
-
-  const $ = (selector, parent = document) =>
-    parent.querySelector(selector);
-
-  const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
-
-  const isReducedMotion = () =>
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-
-  /* =========================================================
-     NAVIGATION
-     ========================================================= */
-
-  const navbar = $("[data-navbar], .navbar, header");
-
-  function updateNavbar() {
-    if (!navbar) return;
-
-    if (window.scrollY > 30) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-  }
-
-  window.addEventListener("scroll", updateNavbar, {
-    passive: true
-  });
-
-  updateNavbar();
-
-
-  /* =========================================================
-     MOBILE MENU
-     ========================================================= */
-
-  const menuButton = $(
-    ".menu-toggle, .mobile-menu-toggle, [data-menu-toggle]"
+  window.addEventListener(
+    "scroll",
+    updateHeader,
+    { passive: true }
   );
 
-  const mobileMenu = $(
-    ".mobile-menu, .nav-mobile, [data-mobile-menu]"
-  );
 
-  if (menuButton && mobileMenu) {
+  /* =========================================
+     MOBILE NAVIGATION
+  ========================================= */
 
-    menuButton.addEventListener("click", () => {
-
-      const isOpen = mobileMenu.classList.toggle("active");
-
-      menuButton.classList.toggle("active", isOpen);
-
-      menuButton.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-      );
-
-      document.body.classList.toggle(
-        "menu-open",
-        isOpen
-      );
-    });
-
-
-    /* Close menu after clicking link */
-
-    $$(".mobile-menu a, .nav-mobile a", mobileMenu).forEach(
-      link => {
-        link.addEventListener("click", () => {
-
-          mobileMenu.classList.remove("active");
-
-          menuButton.classList.remove("active");
-
-          menuButton.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-          document.body.classList.remove(
-            "menu-open"
-          );
-        });
-      }
+  const closeMenu = () => {
+    navToggle?.classList.remove("active");
+    navToggle?.setAttribute(
+      "aria-expanded",
+      "false"
     );
-  }
 
+    navLinks?.classList.remove("open");
 
-  /* =========================================================
-     SMOOTH SCROLL
-     ========================================================= */
+    document.body.classList.remove(
+      "menu-open"
+    );
+  };
 
-  $$('a[href^="#"]').forEach(link => {
+  navToggle?.addEventListener("click", () => {
+    const isOpen =
+      navLinks?.classList.toggle("open");
 
-    link.addEventListener("click", event => {
+    navToggle.classList.toggle(
+      "active",
+      isOpen
+    );
 
-      const targetId =
-        link.getAttribute("href");
+    navToggle.setAttribute(
+      "aria-expanded",
+      String(Boolean(isOpen))
+    );
 
-      if (
-        !targetId ||
-        targetId === "#" ||
-        targetId.length < 2
-      ) {
-        return;
-      }
-
-      const target =
-        document.querySelector(targetId);
-
-      if (!target) return;
-
-      event.preventDefault();
-
-      const navbarHeight =
-        navbar ? navbar.offsetHeight : 0;
-
-      const targetPosition =
-        target.getBoundingClientRect().top +
-        window.scrollY -
-        navbarHeight -
-        20;
-
-      if (isReducedMotion()) {
-        window.scrollTo(
-          0,
-          targetPosition
-        );
-      } else {
-        window.scrollTo({
-          top: targetPosition,
-          behavior: "smooth"
-        });
-      }
-    });
+    document.body.classList.toggle(
+      "menu-open",
+      Boolean(isOpen)
+    );
   });
 
 
-  /* =========================================================
-     HOSTEL PAGE LINKS
-     ========================================================= */
-
-  function setupHostelLinks() {
-
-    const memory1Links = $$(
-      '[data-hostel="memory-1"], [data-hostel="memory1"]'
-    );
-
-    const memory2Links = $$(
-      '[data-hostel="memory-2"], [data-hostel="memory2"]'
-    );
-
-    const memory3Links = $$(
-      '[data-hostel="memory-3"], [data-hostel="memory3"]'
-    );
-
-
-    memory1Links.forEach(link => {
-      link.addEventListener("click", () => {
-        window.location.href =
-          HOSTEL_PATHS.memory1;
-      });
-    });
-
-
-    memory2Links.forEach(link => {
-      link.addEventListener("click", () => {
-        window.location.href =
-          HOSTEL_PATHS.memory2;
-      });
-    });
-
-
-    memory3Links.forEach(link => {
-      link.addEventListener("click", () => {
-        window.location.href =
-          HOSTEL_PATHS.memory3;
-      });
-    });
-  }
-
-  setupHostelLinks();
-
-
-  /* =========================================================
-     DIRECT HOSTEL CARD SUPPORT
-     ========================================================= */
-
-  $$(".hostel-card, .branch-card, .property-card").forEach(
-    card => {
-
-      const text =
-        card.textContent.toLowerCase();
-
-      let destination = null;
-
-      if (
-        text.includes("memory one") ||
-        text.includes("memory 1")
-      ) {
-        destination =
-          HOSTEL_PATHS.memory1;
-      }
-
-      if (
-        text.includes("memory two") ||
-        text.includes("memory 2")
-      ) {
-        destination =
-          HOSTEL_PATHS.memory2;
-      }
-
-      if (
-        text.includes("memory three") ||
-        text.includes("memory 3")
-      ) {
-        destination =
-          HOSTEL_PATHS.memory3;
-      }
-
-      if (!destination) return;
-
-      const button =
-        card.querySelector(
-          "a, button, .know-more, .explore"
-        );
-
-      if (button) {
-
-        button.addEventListener(
-          "click",
-          event => {
-
-            if (
-              button.tagName.toLowerCase() ===
-              "a" &&
-              button.getAttribute("href")
-            ) {
-              return;
-            }
-
-            event.preventDefault();
-
-            window.location.href =
-              destination;
-          }
-        );
-
-      } else {
-
-        card.style.cursor = "pointer";
-
-        card.addEventListener(
-          "click",
-          () => {
-            window.location.href =
-              destination;
-          }
-        );
-      }
+  // Close mobile menu after clicking a link
+  navLinks?.querySelectorAll("a").forEach(
+    (link) => {
+      link.addEventListener(
+        "click",
+        closeMenu
+      );
     }
   );
 
 
-  /* =========================================================
-     MEMORY PHOTO GALLERY
-     ========================================================= */
-
-  function findGallery() {
-
-    const possibleSelectors = [
-      "#memory-gallery",
-      "#life-gallery",
-      ".memory-gallery",
-      ".life-gallery",
-      ".gallery-track",
-      ".gallery-container",
-      "[data-memory-gallery]"
-    ];
-
-    for (const selector of possibleSelectors) {
-
-      const element =
-        $(selector);
-
-      if (element) {
-        return element;
-      }
+  // Close mobile menu when switching to desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 800) {
+      closeMenu();
     }
+  });
 
-    return null;
+
+  /* =========================================
+     KRISHNA HERO PARALLAX
+  ========================================= */
+
+  const hero =
+    document.querySelector(".hero");
+
+  const heroBg =
+    document.querySelector(".hero-bg");
+
+  if (
+    hero &&
+    heroBg &&
+    !window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+  ) {
+    hero.addEventListener(
+      "pointermove",
+      (event) => {
+        if (window.innerWidth < 900) return;
+
+        const rect =
+          hero.getBoundingClientRect();
+
+        const x =
+          (
+            (event.clientX - rect.left) /
+            rect.width -
+            0.5
+          ) * 8;
+
+        const y =
+          (
+            (event.clientY - rect.top) /
+            rect.height -
+            0.5
+          ) * 5;
+
+        heroBg.style.transform =
+          `scale(1.055) translate3d(${x}px, ${y}px, 0)`;
+      }
+    );
+
+    hero.addEventListener(
+      "pointerleave",
+      () => {
+        heroBg.style.transform =
+          "scale(1.035)";
+      }
+    );
   }
 
 
-  const gallery = findGallery();
+  /* =========================================
+     SCROLL REVEAL ANIMATIONS
+  ========================================= */
 
-
-  if (gallery) {
-
-    /*
-      Determine whether gallery already contains
-      a track element.
-    */
-
-    let track =
-      gallery.querySelector(
-        ".gallery-track, .memory-gallery-track"
-      );
-
-    if (!track) {
-
-      track =
-        document.createElement("div");
-
-      track.className =
-        "gallery-track memory-gallery-track";
-
-      gallery.appendChild(track);
-    }
-
-
-    /* Remove loading text */
-
-    const loading =
-      gallery.querySelector(
-        ".gallery-loading, .loading-memories"
-      );
-
-    if (loading) {
-      loading.remove();
-    }
-
-
-    /* Build gallery */
-
-    function createGalleryImage(filename) {
-
-      const item =
-        document.createElement("div");
-
-      item.className =
-        "gallery-item memory-gallery-item";
-
-      const image =
-        document.createElement("img");
-
-      image.src =
-        "memory-photos/" +
-        encodeURIComponent(filename)
-          .replace(/%2F/g, "/");
-
-      image.alt =
-        "Memory Group community moment";
-
-      image.loading = "lazy";
-
-      image.decoding = "async";
-
-      image.addEventListener(
-        "error",
-        () => {
-          item.remove();
-        }
-      );
-
-      item.appendChild(image);
-
-      return item;
-    }
-
-
-    /*
-      Add images once.
-    */
-
-    MEMORY_PHOTOS.forEach(filename => {
-
-      track.appendChild(
-        createGalleryImage(filename)
-      );
-
-    });
-
-
-    /*
-      Duplicate images for seamless
-      infinite scrolling.
-    */
-
-    MEMORY_PHOTOS.forEach(filename => {
-
-      track.appendChild(
-        createGalleryImage(filename)
-      );
-
-    });
-
-
-    /*
-      Auto scrolling.
-
-      CSS animation normally handles this.
-      This JS fallback keeps it moving even if
-      the CSS animation isn't present.
-    */
-
-    let autoScrollAnimation = null;
-
-    function startGalleryScroll() {
-
-      if (
-        isReducedMotion() ||
-        !track
-      ) {
-        return;
-      }
-
-      if (
-        getComputedStyle(track)
-          .animationName !== "none"
-      ) {
-        return;
-      }
-
-      let position = 0;
-
-      const speed =
-        window.innerWidth < 700
-          ? 0.35
-          : 0.55;
-
-      function animate() {
-
-        position += speed;
-
-        const halfWidth =
-          track.scrollWidth / 2;
-
-        if (position >= halfWidth) {
-          position = 0;
-        }
-
-        track.style.transform =
-          `translate3d(-${position}px,0,0)`;
-
-        autoScrollAnimation =
-          requestAnimationFrame(
-            animate
-          );
-      }
-
-      autoScrollAnimation =
-        requestAnimationFrame(
-          animate
-        );
-    }
-
-
-    function stopGalleryScroll() {
-
-      if (autoScrollAnimation) {
-
-        cancelAnimationFrame(
-          autoScrollAnimation
-        );
-
-        autoScrollAnimation =
-          null;
-      }
-    }
-
-
-    window.addEventListener(
-      "resize",
-      () => {
-
-        stopGalleryScroll();
-
-        setTimeout(
-          startGalleryScroll,
-          300
-        );
-
-      }
+  const revealItems =
+    document.querySelectorAll(
+      `
+      .room-card,
+      .hostel-card,
+      .event-card,
+      .owner-content,
+      .memory-copy,
+      .philosophy-grid > div
+      `
     );
 
-
-    /*
-      Pause gallery while hovering.
-    */
-
-    gallery.addEventListener(
-      "mouseenter",
-      () => {
-        track.classList.add(
-          "gallery-paused"
-        );
-      }
-    );
-
-    gallery.addEventListener(
-      "mouseleave",
-      () => {
-        track.classList.remove(
-          "gallery-paused"
-        );
-      }
-    );
-
-
-    startGalleryScroll();
-  }
-
-
-  /* =========================================================
-     SCROLL REVEAL
-     ========================================================= */
-
-  const revealElements = $$(
-    ".reveal, .fade-up, .section, .room-card, .hostel-card, .feature-card"
-  );
-
-
-  if ("IntersectionObserver" in window) {
-
-    const revealObserver =
+  if (
+    "IntersectionObserver" in window
+  ) {
+    const observer =
       new IntersectionObserver(
-        entries => {
+        (entries, obs) => {
+          entries.forEach(
+            (entry) => {
+              if (
+                !entry.isIntersecting
+              ) {
+                return;
+              }
 
-          entries.forEach(entry => {
+              entry.target.classList.add(
+                "is-visible"
+              );
 
-            if (!entry.isIntersecting) {
-              return;
+              obs.unobserve(
+                entry.target
+              );
             }
-
-            entry.target.classList.add(
-              "is-visible"
-            );
-
-            revealObserver.unobserve(
-              entry.target
-            );
-          });
-
+          );
         },
         {
-          threshold: 0.12,
-          rootMargin: "0px 0px -50px 0px"
+          threshold: 0.12
         }
       );
 
-
-    revealElements.forEach(
-      element => {
-        element.classList.add(
-          "reveal-ready"
-        );
-
-        revealObserver.observe(
-          element
-        );
-      }
-    );
-
-  } else {
-
-    revealElements.forEach(
-      element => {
-        element.classList.add(
-          "is-visible"
-        );
+    revealItems.forEach(
+      (item) => {
+        observer.observe(item);
       }
     );
   }
 
 
-  /* =========================================================
-     ROOM CARD HOVER EFFECT
-     ========================================================= */
+  /* =========================================
+     LIFE AT MEMORY GALLERY
+     
+     Images are automatically loaded from:
+     /memory-photos/
+  ========================================= */
 
-  $$(".room-card, .pricing-card").forEach(
-    card => {
+  const galleryTrack =
+    document.getElementById(
+      "memoryGallery"
+    );
 
-      card.addEventListener(
-        "mousemove",
-        event => {
+  const galleryApi =
+    "https://api.github.com/repos/krishnakm00q-source/memoryhostel/contents/memory-photos";
 
-          if (
-            window.matchMedia(
-              "(pointer: coarse)"
-            ).matches
-          ) {
-            return;
-          }
+  const imageExtensions =
+    /\.(jpe?g|png|webp|gif|avif)$/i;
 
-          const rect =
-            card.getBoundingClientRect();
 
-          const x =
-            event.clientX -
-            rect.left;
+  /* =========================================
+     CREATE GALLERY IMAGE
+  ========================================= */
 
-          const y =
-            event.clientY -
-            rect.top;
-
-          const centerX =
-            rect.width / 2;
-
-          const centerY =
-            rect.height / 2;
-
-          const rotateX =
-            ((y - centerY) /
-              centerY) *
-            -2;
-
-          const rotateY =
-            ((x - centerX) /
-              centerX) *
-            2;
-
-          card.style.transform =
-            `perspective(900px)
-             rotateX(${rotateX}deg)
-             rotateY(${rotateY}deg)
-             translateY(-3px)`;
-        }
+  const makeGalleryItem = (file) => {
+    const item =
+      document.createElement(
+        "figure"
       );
 
+    item.className =
+      "gallery-item";
 
-      card.addEventListener(
-        "mouseleave",
-        () => {
 
-          card.style.transform = "";
-        }
+    const img =
+      document.createElement(
+        "img"
       );
+
+    img.src =
+      file.download_url;
+
+    img.alt =
+      "Life at Memory";
+
+    img.loading =
+      "lazy";
+
+    img.decoding =
+      "async";
+
+
+    item.appendChild(img);
+
+    return item;
+  };
+
+
+  /* =========================================
+     START AUTO-SCROLL GALLERY
+  ========================================= */
+
+  const startGallery = () => {
+    if (!galleryTrack) {
+      return;
     }
-  );
 
 
-  /* =========================================================
-     ROOM "KNOW MORE" WHATSAPP
-     ========================================================= */
-
-  $$(".room-card, .pricing-card").forEach(
-    card => {
-
-      const button =
-        card.querySelector(
-          ".know-more, .room-link, [data-room]"
-        );
-
-      if (!button) return;
+    const items = [
+      ...galleryTrack.querySelectorAll(
+        ".gallery-item"
+      )
+    ];
 
 
-      button.addEventListener(
-        "click",
-        event => {
-
-          const roomName =
-            card.dataset.room ||
-            card.querySelector(
-              "h3, h4, .room-name"
-            )?.textContent?.trim() ||
-            "room";
-
-
-          const message =
-            `I want to know about this particular room at Memory Group: ${roomName}`;
-
-
-          const whatsappURL =
-            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-
-          if (
-            !button.getAttribute("href")
-          ) {
-            event.preventDefault();
-
-            window.open(
-              whatsappURL,
-              "_blank",
-              "noopener,noreferrer"
-            );
-          }
-        }
-      );
+    if (items.length < 2) {
+      return;
     }
-  );
 
 
-  /* =========================================================
-     GENERAL WHATSAPP BUTTON
-     ========================================================= */
-
-  const whatsappButtons =
-    $$(".whatsapp-btn, .whatsapp, [data-whatsapp]");
-
-
-  whatsappButtons.forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        event => {
-
-          if (
-            button.tagName.toLowerCase() ===
-            "a" &&
-            button.getAttribute("href")
-          ) {
-            return;
-          }
-
-          event.preventDefault();
-
-
-          const message =
-            "Hello Memory Group, I want to know more about the rooms and accommodation.";
-
-
-          const url =
-            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-
-          window.open(
-            url,
-            "_blank",
-            "noopener,noreferrer"
-          );
-        }
-      );
+    // Respect user's reduced motion setting
+    if (
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+    ) {
+      return;
     }
-  );
 
 
-  /* =========================================================
-     CALL BUTTON
-     ========================================================= */
+    /*
+      Duplicate the first sequence.
 
-  const callButtons =
-    $$(".call-btn, .phone-btn, [data-call]");
+      This creates a seamless
+      infinite scrolling effect.
+    */
 
-
-  callButtons.forEach(
-    button => {
-
-      if (
-        button.tagName.toLowerCase() ===
-        "a" &&
-        button.getAttribute("href")
-      ) {
-        return;
-      }
-
-      button.addEventListener(
-        "click",
-        event => {
-
-          event.preventDefault();
-
-          window.location.href =
-            `tel:+${CALL_NUMBER}`;
-        }
-      );
-    }
-  );
-
-
-  /* =========================================================
-     ESC KEY
-     ========================================================= */
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (event.key !== "Escape") {
-        return;
-      }
-
-      if (
-        mobileMenu &&
-        mobileMenu.classList.contains("active")
-      ) {
-
-        mobileMenu.classList.remove(
-          "active"
-        );
-
-        if (menuButton) {
-          menuButton.classList.remove(
-            "active"
-          );
-
-          menuButton.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-        }
-
-        document.body.classList.remove(
-          "menu-open"
-        );
-      }
-    }
-  );
-
-
-  /* =========================================================
-     IMAGE LOAD CHECK
-     ========================================================= */
-
-  $$("img").forEach(image => {
-
-    image.addEventListener(
-      "error",
-      () => {
-        image.classList.add(
-          "image-error"
+    items.forEach(
+      (item) => {
+        galleryTrack.appendChild(
+          item.cloneNode(true)
         );
       }
     );
-  });
 
 
-  /* =========================================================
-     CURRENT YEAR
-     ========================================================= */
+    let position = 0;
 
-  $$(".current-year").forEach(
-    element => {
-      element.textContent =
-        new Date().getFullYear();
-    }
-  );
+    let last =
+      performance.now();
+
+    let paused = false;
 
 
-  /* =========================================================
-     PRIVACY + TERMS
-     ========================================================= */
+    /* Pause when mouse is over gallery */
+    const pause = () => {
+      paused = true;
+    };
 
-  $$(
-    'a[href*="privacy"], a[href*="terms"]'
-  ).forEach(link => {
 
-    link.addEventListener(
-      "click",
-      () => {
+    /* Resume when mouse leaves gallery */
+    const resume = () => {
+      paused = false;
 
+      last =
+        performance.now();
+    };
+
+
+    galleryTrack.addEventListener(
+      "mouseenter",
+      pause
+    );
+
+
+    galleryTrack.addEventListener(
+      "mouseleave",
+      resume
+    );
+
+
+    galleryTrack.addEventListener(
+      "touchstart",
+      pause,
+      {
+        passive: true
+      }
+    );
+
+
+    galleryTrack.addEventListener(
+      "touchend",
+      resume,
+      {
+        passive: true
+      }
+    );
+
+
+    /*
+      Calculate width of the
+      original image sequence.
+    */
+
+    const firstSetWidth = () => {
+      const all = [
+        ...galleryTrack.children
+      ];
+
+
+      const half =
+        Math.floor(
+          all.length / 2
+        );
+
+
+      const gap =
+        parseFloat(
+          getComputedStyle(
+            galleryTrack
+          ).gap
+        ) || 0;
+
+
+      return (
+        all
+          .slice(0, half)
+          .reduce(
+            (
+              sum,
+              element
+            ) =>
+              sum +
+              element.getBoundingClientRect()
+                .width,
+            0
+          )
+        +
+        Math.max(
+          0,
+          half - 1
+        ) *
+          gap
+      );
+    };
+
+
+    /* =========================================
+       ANIMATION LOOP
+    ========================================= */
+
+    const animate = (now) => {
+      const delta =
+        Math.min(
+          now - last,
+          40
+        );
+
+      last = now;
+
+
+      if (!paused) {
         /*
-          These pages remain normal separate HTML pages.
-          No SPA navigation is used.
+          Gallery movement speed.
+
+          Increase 0.035 for faster.
+          Decrease 0.035 for slower.
         */
 
-        document.body.classList.add(
-          "leaving-page"
-        );
+        position +=
+          delta * 0.035;
+
+
+        const loopWidth =
+          firstSetWidth();
+
+
+        /*
+          Reset position when
+          first image sequence ends.
+        */
+
+        if (
+          loopWidth > 0 &&
+          position >= loopWidth
+        ) {
+          position -= loopWidth;
+        }
+
+
+        galleryTrack.style.transform =
+          `translate3d(${-position}px, 0, 0)`;
       }
+
+
+      requestAnimationFrame(
+        animate
+      );
+    };
+
+
+    requestAnimationFrame(
+      animate
     );
-  });
+  };
 
 
-  /* =========================================================
-     PAGE LOADED
-     ========================================================= */
+  /* =========================================
+     LOAD MEMORY PHOTOS FROM GITHUB
+  ========================================= */
 
-  document.documentElement.classList.add(
-    "js-ready"
-  );
+  const loadGallery =
+    async () => {
+      if (!galleryTrack) {
+        return;
+      }
 
-  document.body.classList.add(
-    "page-loaded"
-  );
+
+      try {
+        const response =
+          await fetch(
+            galleryApi,
+            {
+              headers: {
+                Accept:
+                  "application/vnd.github+json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            `GitHub API error: ${response.status}`
+          );
+        }
+
+
+        const files =
+          await response.json();
+
+
+        /*
+          Keep only image files.
+        */
+
+        const images =
+          files
+            .filter(
+              (file) =>
+                file.type === "file" &&
+                imageExtensions.test(
+                  file.name
+                )
+            )
+            .sort(
+              (
+                a,
+                b
+              ) =>
+                a.name.localeCompare(
+                  b.name,
+                  undefined,
+                  {
+                    numeric: true
+                  }
+                )
+            );
+
+
+        if (!images.length) {
+          throw new Error(
+            "No gallery images found."
+          );
+        }
+
+
+        /*
+          Remove loading content
+          and insert actual photos.
+        */
+
+        galleryTrack.innerHTML =
+          "";
+
+
+        images.forEach(
+          (file) => {
+            galleryTrack.appendChild(
+              makeGalleryItem(file)
+            );
+          }
+        );
+
+
+        /*
+          Start automatic
+          horizontal scrolling.
+        */
+
+        startGallery();
+
+
+      } catch (error) {
+
+        console.error(
+          "Memory gallery could not load:",
+          error
+        );
+
+
+        galleryTrack.innerHTML = `
+          <div class="gallery-loading">
+            The Memory gallery is preparing.
+            Please refresh once the photo
+            collection is available.
+          </div>
+        `;
+      }
+    };
+
+
+  /*
+    Start loading the
+    Life at Memory gallery.
+  */
+
+  loadGallery();
 
 });
