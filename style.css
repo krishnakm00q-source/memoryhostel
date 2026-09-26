@@ -1,899 +1,42 @@
 /* =========================================================
-   MEMORY GROUP — COMPLETE STYLE.CSS
-   Existing design preserved + new sections added
+   MEMORY GROUP — FINAL TARIFF + MEMORY MOMENTS PATCH
+   Existing design preserved
 ========================================================= */
-
-:root{
-    --bg:#080807;
-    --white:#f4f1e9;
-    --muted:#bbb4a8;
-    --gold:#c1a06a;
-    --border:rgba(244,241,233,0.16);
-
-    --serif:"Cormorant Garamond",serif;
-    --sans:"Manrope",sans-serif;
-    --devanagari:"Noto Serif Devanagari",serif;
-}
 
 
 /* =========================================================
-   RESET
+   TARIFF CARDS
 ========================================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    background:var(--bg);
-    color:var(--white);
-    font-family:var(--sans);
-    overflow-x:hidden;
-}
-
-body.menu-open{
-    overflow:hidden;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-button{
-    font-family:inherit;
-}
-
-
-/* =========================================================
-   FIXED KRISHNA BACKGROUND
-   EXISTING — DO NOT CHANGE
-========================================================= */
-
-.site-background{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:-20;
-    overflow:hidden;
-    pointer-events:none;
-}
-
-.krishna-background{
-    position:absolute;
-    inset:-5%;
-    width:110%;
-    height:110%;
-
-    background-image:url("assets/krishna.jpg");
-    background-size:cover;
-    background-position:center center;
-
-    opacity:.52;
-
-    filter:
-        saturate(.72)
-        contrast(1.08)
-        brightness(.82);
-
-    transform:scale(1.04);
-
-    will-change:transform;
-}
-
-.background-dark{
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(5,5,5,.52) 0%,
-            rgba(5,5,5,.26) 25%,
-            rgba(5,5,5,.38) 55%,
-            rgba(5,5,5,.67) 100%
-        );
-}
-
-.background-vignette{
-    position:absolute;
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at 50% 38%,
-            transparent 15%,
-            rgba(0,0,0,.18) 45%,
-            rgba(0,0,0,.64) 100%
-        );
-}
-
-.background-grain{
-    position:absolute;
-    inset:0;
-
-    opacity:.055;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-
-    pointer-events:none;
-}
-
-
-/* =========================================================
-   NAVBAR
-   EXISTING
-========================================================= */
-
-.navbar{
-    position:fixed;
-    top:0;
-    left:0;
-
-    width:100%;
-    height:90px;
-
-    padding:0 5vw;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    z-index:100;
-
-    border-bottom:1px solid rgba(255,255,255,.1);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0,0,0,.42),
-            rgba(0,0,0,.05)
-        );
-
-    backdrop-filter:blur(7px);
-}
-
-.logo{
-    font-size:17px;
-    font-weight:600;
-    letter-spacing:.18em;
-}
-
-.logo span{
-    color:var(--gold);
-}
-
-.desktop-nav{
-    display:flex;
-    gap:42px;
-}
-
-.desktop-nav a{
-    position:relative;
-
-    font-size:10px;
-    letter-spacing:.18em;
-
-    color:rgba(244,241,233,.78);
-
-    transition:color .3s ease;
-}
-
-.desktop-nav a::after{
-    content:"";
-
-    position:absolute;
-    left:0;
-    bottom:-8px;
-
-    width:0;
-    height:1px;
-
-    background:var(--gold);
-
-    transition:width .35s ease;
-}
-
-.desktop-nav a:hover{
-    color:var(--white);
-}
-
-.desktop-nav a:hover::after{
-    width:100%;
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-.menu-button{
-    display:none;
-
-    width:42px;
-    height:42px;
-
-    border:1px solid rgba(255,255,255,.22);
-
-    background:rgba(0,0,0,.25);
-
-    cursor:pointer;
-
-    align-items:center;
-    justify-content:center;
-
-    flex-direction:column;
-    gap:6px;
-}
-
-.menu-button span{
-    width:18px;
-    height:1px;
-
-    background:var(--white);
-
-    transition:.3s ease;
-}
-
-.menu-button.active span:first-child{
-    transform:
-        rotate(45deg)
-        translateY(3px);
-}
-
-.menu-button.active span:last-child{
-    transform:
-        rotate(-45deg)
-        translateY(-3px);
-}
-
-.mobile-menu{
-    position:fixed;
-    inset:0;
-
-    z-index:90;
-
-    background:rgba(7,7,6,.96);
-
-    backdrop-filter:blur(22px);
-
-    transform:translateY(-100%);
-
-    transition:
-        transform .65s
-        cubic-bezier(.76,0,.24,1);
-}
-
-.mobile-menu.active{
-    transform:translateY(0);
-}
-
-.mobile-menu-inner{
-    height:100%;
-
-    padding:130px 8vw 40px;
-
-    display:flex;
-    flex-direction:column;
-
-    gap:30px;
-}
-
-.mobile-menu-inner>a{
-    font-family:var(--serif);
-
-    font-size:clamp(40px,12vw,70px);
-
-    font-weight:500;
-
-    border-bottom:1px solid var(--border);
-
-    padding-bottom:18px;
-}
-
-.mobile-menu-footer{
-    margin-top:auto;
-
-    display:flex;
-    flex-direction:column;
-
-    gap:8px;
-
-    font-size:9px;
-
-    letter-spacing:.16em;
-
-    color:var(--muted);
-}
-
-
-/* =========================================================
-   HERO
-   EXISTING
-========================================================= */
-
-.hero{
-    min-height:100vh;
-
-    padding:90px 8vw 60px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-
-    position:relative;
-}
-
-.hero-content{
-    max-width:1100px;
-    margin-top:30px;
-}
-
-.hero-eyebrow{
-    display:flex;
-    align-items:center;
-
-    gap:14px;
-
-    margin-bottom:28px;
-
-    font-size:9px;
-
-    letter-spacing:.25em;
-
-    color:rgba(244,241,233,.68);
-}
-
-.eyebrow-line{
-    width:34px;
-    height:1px;
-
-    background:var(--gold);
-}
-
-.sanskrit-title{
-    font-family:var(--devanagari);
-
-    font-size:clamp(52px,8vw,125px);
-
-    font-weight:500;
-
-    line-height:1.15;
-
-    letter-spacing:-.03em;
-
-    text-shadow:
-        0 5px 35px rgba(0,0,0,.65);
-
-    animation:
-        heroReveal
-        1.3s
-        cubic-bezier(.2,.7,.2,1)
-        both;
-}
-
-.roman-title{
-    margin-top:12px;
-
-    font-size:clamp(10px,1vw,13px);
-
-    letter-spacing:.34em;
-
-    color:var(--gold);
-
-    font-weight:500;
-
-    animation:
-        heroReveal
-        1.3s .15s
-        cubic-bezier(.2,.7,.2,1)
-        both;
-}
-
-.hero-divider{
-    width:75px;
-    height:1px;
-
-    background:var(--border);
-
-    margin:34px 0 27px;
-
-    position:relative;
-}
-
-.hero-divider::after{
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    top:0;
-
-    width:24px;
-    height:1px;
-
-    background:var(--gold);
-}
-
-.english-title{
-    font-family:var(--serif);
-
-    font-size:clamp(35px,5vw,72px);
-
-    font-weight:400;
-
-    line-height:.95;
-
-    letter-spacing:-.025em;
-
-    text-shadow:
-        0 4px 25px rgba(0,0,0,.5);
-
-    animation:
-        heroReveal
-        1.3s .25s
-        cubic-bezier(.2,.7,.2,1)
-        both;
-}
-
-.hero-description{
-    margin-top:28px;
-
-    color:var(--muted);
-
-    font-size:13px;
-
-    line-height:1.9;
-
-    font-weight:300;
-
-    animation:
-        heroReveal
-        1.3s .35s
-        cubic-bezier(.2,.7,.2,1)
-        both;
-}
-
-@keyframes heroReveal{
-
-    from{
-        opacity:0;
-        transform:translateY(35px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-
-}
-
-.scroll-indicator{
-    position:absolute;
-
-    bottom:40px;
-    right:5vw;
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-
-    gap:13px;
-}
-
-.scroll-indicator span{
-    writing-mode:vertical-rl;
-
-    font-size:8px;
-
-    letter-spacing:.2em;
-
-    color:rgba(244,241,233,.6);
-}
-
-.scroll-line{
-    width:1px;
-    height:65px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            var(--gold),
-            transparent
-        );
-
-    animation:
-        scrollLine
-        2s
-        infinite;
-}
-
-@keyframes scrollLine{
-
-    0%{
-        transform:scaleY(0);
-        transform-origin:top;
-    }
-
-    50%{
-        transform:scaleY(1);
-        transform-origin:top;
-    }
-
-    51%{
-        transform-origin:bottom;
-    }
-
-    100%{
-        transform:scaleY(0);
-        transform-origin:bottom;
-    }
-
-}
-
-
-/* =========================================================
-   OWNER
-   EXISTING
-========================================================= */
-
-.owner-section{
-    padding:170px 8vw 180px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.54),
-            rgba(7,7,6,.68)
-        );
-}
-
-.owner-inner{
-    max-width:1250px;
-
+.tariff-grid{
+    max-width:1400px;
     margin:0 auto;
 
     display:grid;
-
-    grid-template-columns:
-        minmax(300px,.9fr)
-        minmax(0,1.1fr);
-
-    gap:9vw;
-
-    align-items:center;
-}
-
-.owner-image-wrap{
-    position:relative;
-
-    overflow:hidden;
-
-    border:
-        1px solid
-        rgba(255,255,255,.14);
-
-    background:#12110f;
-
-    aspect-ratio:.82;
-}
-
-.owner-image{
-    width:100%;
-    height:100%;
-
-    display:block;
-
-    object-fit:cover;
-
-    filter:
-        saturate(.78)
-        contrast(1.04);
-
-    transition:
-        transform 1s
-        cubic-bezier(.2,.7,.2,1),
-        filter .6s ease;
-}
-
-.owner-image-wrap:hover .owner-image{
-    transform:scale(1.035);
-
-    filter:
-        saturate(.95)
-        contrast(1.04);
-}
-
-.owner-image-caption{
-    position:absolute;
-
-    left:22px;
-    right:22px;
-    bottom:20px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    gap:20px;
-
-    font-size:7px;
-
-    letter-spacing:.2em;
-
-    color:rgba(255,255,255,.72);
-
-    z-index:2;
-}
-
-.owner-image-wrap::after{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent 55%,
-            rgba(0,0,0,.72) 100%
-        );
-
-    pointer-events:none;
-}
-
-.owner-content{
-    max-width:650px;
-}
-
-.owner-content h2{
-    font-family:var(--serif);
-
-    font-size:
-        clamp(58px,7vw,105px);
-
-    font-weight:400;
-
-    line-height:.88;
-
-    letter-spacing:-.045em;
-
-    text-shadow:
-        0 5px 30px rgba(0,0,0,.45);
-}
-
-.owner-content h2 span{
-    color:var(--gold);
-}
-
-.owner-role{
-    margin-top:18px;
-
-    font-size:9px;
-
-    letter-spacing:.24em;
-
-    color:var(--gold);
-}
-
-.owner-divider{
-    width:80px;
-    height:1px;
-
-    background:var(--border);
-
-    margin:32px 0 28px;
-
-    position:relative;
-}
-
-.owner-divider::after{
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    top:0;
-
-    width:26px;
-    height:1px;
-
-    background:var(--gold);
-}
-
-.owner-text{
-    max-width:600px;
-
-    color:var(--muted);
-
-    font-size:14px;
-
-    line-height:2;
-
-    font-weight:300;
-}
-
-.owner-text+.owner-text{
-    margin-top:24px;
-}
-
-.owner-text strong{
-    color:var(--white);
-    font-weight:500;
-}
-
-.owner-faith{
-    border-left:1px solid var(--gold);
-
-    padding-left:22px;
-}
-
-.owner-signature{
-    margin-top:35px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:25px;
-
-    max-width:600px;
-
-    padding-top:20px;
-
-    border-top:1px solid var(--border);
-}
-
-.owner-signature>span{
-    font-family:var(--devanagari);
-
-    color:var(--muted);
-
-    font-size:18px;
-}
-
-.owner-link{
-    font-size:8px;
-
-    letter-spacing:.17em;
-
-    color:var(--gold);
-
-    transition:color .3s ease;
-}
-
-.owner-link:hover{
-    color:var(--white);
-}
-
-
-/* =========================================================
-   NEW — PRICING SECTION
-========================================================= */
-
-.pricing-section{
-
-    padding:
-        150px
-        5vw
-        170px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.76),
-            rgba(7,7,6,.62)
-        );
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.04);
-}
-
-
-/* heading */
-
-.pricing-heading{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        3fr;
-
-    gap:30px;
-
-    max-width:1400px;
-
-    margin:
-        0 auto
-        65px;
-}
-
-.pricing-heading h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(48px,6vw,85px);
-
-    line-height:.95;
-
-    font-weight:400;
-
-    letter-spacing:-.03em;
-}
-
-.pricing-intro{
-
-    max-width:650px;
-
-    margin-top:24px;
-
-    color:var(--muted);
-
-    font-size:14px;
-
-    line-height:1.9;
-}
-
-
-/* =========================================================
-   PRICING CARDS
-========================================================= */
-
-.pricing-grid{
-
-    max-width:1400px;
-
-    margin:0 auto;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(5,1fr);
+    grid-template-columns:repeat(5,1fr);
 
     gap:16px;
 }
 
-
-/* card */
-
-.price-card{
-
+.tariff-card{
     position:relative;
 
-    min-height:420px;
+    min-height:455px;
 
     overflow:hidden;
 
-    border:
-        1px solid
-        rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
 
-    background:#151412;
+    background:#11100e;
 
     isolation:isolate;
 
     transition:
-        transform .55s
-        cubic-bezier(.2,.7,.2,1),
+        transform .55s cubic-bezier(.2,.7,.2,1),
         border-color .4s ease;
 }
 
-.price-card:hover{
-
+.tariff-card:hover{
     transform:translateY(-8px);
 
     border-color:
@@ -901,10 +44,11 @@ button{
 }
 
 
-/* image */
+/* =========================================================
+   ROOM PHOTO BACKGROUND
+========================================================= */
 
-.price-card-image{
-
+.tariff-card-background{
     position:absolute;
 
     inset:0;
@@ -912,78 +56,71 @@ button{
     z-index:-3;
 
     background-size:cover;
-
     background-position:center;
 
     transform:scale(1.02);
 
     transition:
-        transform 1s
-        cubic-bezier(.2,.7,.2,1);
+        transform 1s cubic-bezier(.2,.7,.2,1);
 }
 
 
-/*
-===========================================================
-   ROOM PHOTO PATHS
+/* 5500 — photo will be added later */
 
-   Put your bed/room photos in the separate
-   "memory photos" folder.
-
-   Change ONLY these filenames when you know
-   the actual names.
-
-   Existing assets are NOT touched.
-===========================================================
-*/
-
-.price-card-5500 .price-card-image{
-
+.tariff-card[data-photo-index="0"]
+.tariff-card-background{
     background-image:
-        url("memory photos/5500.jpg");
-
+        url("room-photos/5500.jpeg");
 }
 
-.price-card-6000 .price-card-image{
 
+/* 6000 */
+
+.tariff-card[data-photo-index="1"]
+.tariff-card-background{
     background-image:
-        url("memory photos/6000.jpg");
-
+        url("room-photos/6000.jpeg");
 }
 
-.price-card-6500 .price-card-image{
 
+/* 6500 */
+
+.tariff-card[data-photo-index="2"]
+.tariff-card-background{
     background-image:
-        url("memory photos/6500.jpg");
-
+        url("room-photos/6500.jpeg");
 }
 
-.price-card-7500 .price-card-image{
 
+/* 7500 */
+
+.tariff-card[data-photo-index="3"]
+.tariff-card-background{
     background-image:
-        url("memory photos/7500.jpg");
-
+        url("room-photos/7500.jpeg");
 }
 
-.price-card-12500 .price-card-image{
 
+/* 12500 */
+
+.tariff-card[data-photo-index="4"]
+.tariff-card-background{
     background-image:
-        url("memory photos/12500.jpg");
-
+        url("room-photos/12500.jpeg");
 }
 
 
-.price-card:hover
-.price-card-image{
-
+.tariff-card:hover
+.tariff-card-background{
     transform:scale(1.07);
 }
 
 
-/* dark layer */
+/* =========================================================
+   DARK OVERLAY
+========================================================= */
 
-.price-card-overlay{
-
+.tariff-card-overlay{
     position:absolute;
 
     inset:0;
@@ -993,18 +130,19 @@ button{
     background:
         linear-gradient(
             180deg,
-            rgba(8,8,7,.48) 0%,
-            rgba(8,8,7,.30) 30%,
-            rgba(8,8,7,.70) 66%,
+            rgba(8,8,7,.38) 0%,
+            rgba(8,8,7,.24) 30%,
+            rgba(8,8,7,.70) 65%,
             rgba(8,8,7,.96) 100%
         );
 }
 
 
-/* extra cinematic tint */
+/* =========================================================
+   GOLD CINEMATIC TINT
+========================================================= */
 
-.price-card::after{
-
+.tariff-card::after{
     content:"";
 
     position:absolute;
@@ -1024,15 +162,16 @@ button{
 }
 
 
-/* card content */
+/* =========================================================
+   TARIFF CONTENT
+========================================================= */
 
-.price-card-content{
-
+.tariff-card-content{
     position:relative;
 
     z-index:2;
 
-    min-height:420px;
+    min-height:455px;
 
     padding:27px 25px;
 
@@ -1043,8 +182,8 @@ button{
     justify-content:flex-end;
 }
 
-.price-number{
 
+.tariff-number{
     position:absolute;
 
     top:27px;
@@ -1054,12 +193,11 @@ button{
 
     letter-spacing:.22em;
 
-    color:
-        rgba(255,255,255,.72);
+    color:rgba(255,255,255,.76);
 }
 
-.price-card h3{
 
+.tariff-card h3{
     font-family:var(--serif);
 
     font-size:
@@ -1075,8 +213,8 @@ button{
         0 4px 20px rgba(0,0,0,.55);
 }
 
-.price-unit{
 
+.tariff-unit{
     margin-top:10px;
 
     font-size:8px;
@@ -1086,14 +224,14 @@ button{
     color:var(--gold);
 }
 
-.price-description{
 
+.tariff-description{
     margin-top:52px;
 
     color:
-        rgba(244,241,233,.72);
+        rgba(244,241,233,.78);
 
-    font-size:11px;
+    font-size:12px;
 
     line-height:1.8;
 
@@ -1102,185 +240,10 @@ button{
 
 
 /* =========================================================
-   PRICING DETAILS
+   MEMORY PHOTO TRACK
 ========================================================= */
 
-.pricing-details{
-
-    max-width:1400px;
-
-    margin:
-        70px
-        auto
-        0;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:55px;
-}
-
-.pricing-detail{
-
-    display:grid;
-
-    grid-template-columns:
-        45px
-        1fr;
-
-    gap:20px;
-
-    border-top:
-        1px solid
-        var(--border);
-
-    padding-top:18px;
-}
-
-.pricing-detail>span{
-
-    font-size:8px;
-
-    letter-spacing:.2em;
-
-    color:var(--gold);
-}
-
-.pricing-detail p{
-
-    font-size:8px;
-
-    letter-spacing:.2em;
-
-    color:var(--muted);
-
-    margin-bottom:8px;
-}
-
-.pricing-detail strong{
-
-    display:block;
-
-    font-family:var(--serif);
-
-    font-size:35px;
-
-    font-weight:400;
-
-    line-height:1;
-
-    margin-bottom:12px;
-}
-
-.pricing-detail small{
-
-    display:block;
-
-    color:var(--muted);
-
-    font-size:10px;
-
-    line-height:1.7;
-}
-
-.pricing-note{
-
-    max-width:1400px;
-
-    margin:
-        50px
-        auto
-        0;
-
-    padding-top:20px;
-
-    border-top:
-        1px solid
-        var(--border);
-
-    color:var(--muted);
-
-    font-size:10px;
-
-    letter-spacing:.08em;
-}
-
-
-/* =========================================================
-   NEW — MEMORY MOMENTS
-========================================================= */
-
-.moments-section{
-
-    padding:
-        150px
-        0
-        130px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.64),
-            rgba(7,7,6,.72)
-        );
-
-    overflow:hidden;
-}
-
-.moments-heading{
-
-    max-width:1400px;
-
-    margin:
-        0 auto
-        65px;
-
-    padding:
-        0 5vw;
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        3fr;
-
-    gap:30px;
-}
-
-.moments-heading h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(48px,6vw,85px);
-
-    font-weight:400;
-
-    line-height:.95;
-
-    letter-spacing:-.03em;
-}
-
-.moments-intro{
-
-    max-width:650px;
-
-    margin-top:24px;
-
-    color:var(--muted);
-
-    font-size:14px;
-
-    line-height:1.9;
-}
-
-
-/* photo track */
-
-.moments-track-wrapper{
-
+.memory-photo-track-wrapper{
     width:100%;
 
     overflow:hidden;
@@ -1289,15 +252,7 @@ button{
 }
 
 
-/*
-   The track itself is animated by JS.
-
-   This keeps it smooth on desktop and
-   touch-friendly on mobile.
-*/
-
-.moments-track{
-
+.memory-photo-track{
     display:flex;
 
     gap:16px;
@@ -1310,13 +265,8 @@ button{
 }
 
 
-/* individual photo */
-
-.moment-photo{
-
+.memory-photo{
     position:relative;
-
-    display:block;
 
     flex:0 0
         clamp(250px,27vw,410px);
@@ -1324,7 +274,7 @@ button{
     height:
         clamp(310px,32vw,500px);
 
-    padding:0;
+    overflow:hidden;
 
     border:
         1px solid
@@ -1332,20 +282,22 @@ button{
 
     background:#11100e;
 
-    overflow:hidden;
-
     cursor:pointer;
 
-    text-align:left;
+    isolation:isolate;
 }
 
-.moment-photo::after{
 
+.memory-photo::after{
     content:"";
 
     position:absolute;
 
     inset:0;
+
+    z-index:2;
+
+    pointer-events:none;
 
     background:
         linear-gradient(
@@ -1353,12 +305,10 @@ button{
             transparent 45%,
             rgba(0,0,0,.45)
         );
-
-    pointer-events:none;
 }
 
-.moment-photo img{
 
+.memory-photo img{
     width:100%;
     height:100%;
 
@@ -1371,13 +321,12 @@ button{
         contrast(1.02);
 
     transition:
-        transform 1s
-        cubic-bezier(.2,.7,.2,1),
+        transform 1s cubic-bezier(.2,.7,.2,1),
         filter .6s ease;
 }
 
-.moment-photo:hover img{
 
+.memory-photo:hover img{
     transform:scale(1.055);
 
     filter:
@@ -1386,33 +335,41 @@ button{
 }
 
 
-/* catalogue hint */
+/* =========================================================
+   MEMORY GALLERY NOTE
+========================================================= */
 
-.moments-hint{
+.memory-gallery-note{
+    max-width:1400px;
 
-    text-align:center;
+    margin:28px auto 0;
 
-    margin-top:32px;
+    padding:0 5vw;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
 
     font-size:8px;
 
-    letter-spacing:.25em;
+    letter-spacing:.22em;
 
     color:var(--gold);
 }
 
 
 /* =========================================================
-   PHOTO FULLSCREEN VIEWER
+   FULLSCREEN MEMORY PHOTO VIEWER
 ========================================================= */
 
-.photo-viewer{
-
+.memory-photo-viewer{
     position:fixed;
 
     inset:0;
 
-    z-index:500;
+    z-index:9999;
 
     display:flex;
 
@@ -1420,12 +377,12 @@ button{
 
     justify-content:center;
 
-    padding:50px;
+    padding:30px;
 
     background:
         rgba(0,0,0,.94);
 
-    backdrop-filter:blur(18px);
+    backdrop-filter:blur(14px);
 
     opacity:0;
 
@@ -1434,12 +391,12 @@ button{
     pointer-events:none;
 
     transition:
-        opacity .35s ease,
-        visibility .35s ease;
+        opacity .3s ease,
+        visibility .3s ease;
 }
 
-.photo-viewer.active{
 
+.memory-photo-viewer.active{
     opacity:1;
 
     visibility:visible;
@@ -1447,13 +404,11 @@ button{
     pointer-events:auto;
 }
 
-.photo-viewer img{
 
-    max-width:
-        min(1100px,92vw);
+.memory-photo-viewer img{
+    max-width:92vw;
 
-    max-height:
-        88vh;
+    max-height:88vh;
 
     width:auto;
 
@@ -1470,12 +425,12 @@ button{
         rgba(0,0,0,.6);
 }
 
-.photo-viewer-close{
 
+.memory-photo-viewer-close{
     position:absolute;
 
-    top:25px;
-    right:30px;
+    top:22px;
+    right:25px;
 
     width:45px;
     height:45px;
@@ -1490,1514 +445,119 @@ button{
         rgba(255,255,255,.25);
 
     background:
-        rgba(0,0,0,.3);
-
-    color:var(--white);
-
-    font-size:30px;
-
-    line-height:1;
-
-    cursor:pointer;
-
-    transition:
-        background .3s ease,
-        border-color .3s ease;
-}
-
-.photo-viewer-close:hover{
-
-    background:
-        rgba(193,160,106,.15);
-
-    border-color:
-        var(--gold);
-}
-
-
-/* =========================================================
-   HOSTELS
-   EXISTING
-========================================================= */
-
-.hostels-section{
-
-    padding:
-        160px
-        5vw
-        180px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.70),
-            rgba(7,7,6,.54)
-        );
-
-    backdrop-filter:blur(1px);
-}
-
-.section-heading{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        3fr;
-
-    gap:30px;
-
-    margin-bottom:65px;
-}
-
-.section-number{
-
-    font-size:9px;
-
-    letter-spacing:.2em;
-
-    color:var(--gold);
-
-    padding-top:10px;
-}
-
-.section-eyebrow{
-
-    font-size:9px;
-
-    letter-spacing:.25em;
-
-    color:var(--gold);
-
-    margin-bottom:12px;
-}
-
-.section-heading h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(48px,6vw,85px);
-
-    line-height:.95;
-
-    font-weight:400;
-
-    letter-spacing:-.03em;
-}
-
-.hostel-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:20px;
-}
-
-.hostel-card{
-
-    display:block;
-
-    position:relative;
-
-    transition:
-        transform .5s
-        cubic-bezier(.2,.7,.2,1);
-}
-
-.hostel-card:hover{
-
-    transform:translateY(-10px);
-}
-
-.card-image-wrapper{
-
-    position:relative;
-
-    overflow:hidden;
-
-    aspect-ratio:.78;
-
-    background:#161513;
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-}
-
-.card-image{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    display:block;
-
-    filter:saturate(.82);
-
-    transition:
-        transform 1s
-        cubic-bezier(.2,.7,.2,1),
-        filter .6s ease;
-}
-
-.hostel-card:hover .card-image{
-
-    transform:scale(1.06);
-
-    filter:saturate(1);
-}
-
-.card-overlay{
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0,0,0,.12),
-            transparent 45%,
-            rgba(0,0,0,.78)
-        );
-}
-
-.card-number{
-
-    position:absolute;
-
-    top:22px;
-    left:22px;
-
-    font-size:8px;
-
-    letter-spacing:.2em;
-
-    color:rgba(255,255,255,.76);
-}
-
-.card-arrow{
-
-    position:absolute;
-
-    right:22px;
-    top:18px;
-
-    width:35px;
-    height:35px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.3);
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:16px;
-
-    opacity:0;
-
-    transform:
-        translate(-5px,5px);
-
-    transition:
-        opacity .4s ease,
-        transform .4s ease;
-}
-
-.hostel-card:hover .card-arrow{
-
-    opacity:1;
-
-    transform:
-        translate(0,0);
-}
-
-.card-content{
-
-    padding:20px 0;
-
-    display:flex;
-
-    align-items:flex-end;
-
-    justify-content:space-between;
-
-    border-bottom:
-        1px solid
-        var(--border);
-}
-
-.card-small{
-
-    font-size:8px;
-
-    letter-spacing:.2em;
-
-    color:var(--gold);
-
-    margin-bottom:7px;
-}
-
-.card-content h3{
-
-    font-family:var(--serif);
-
-    font-size:32px;
-
-    font-weight:400;
-
-    line-height:1;
-}
-
-.branch-name{
-
-    margin-top:8px;
-
-    font-size:9px;
-
-    letter-spacing:.16em;
-
-    color:var(--muted);
-
-    text-transform:uppercase;
-}
-
-.explore{
-
-    font-size:8px;
-
-    letter-spacing:.18em;
-
-    color:var(--muted);
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    transition:color .3s ease;
-}
-
-.hostel-card:hover .explore{
-
-    color:var(--white);
-}
-
-.explore span{
-
-    font-size:14px;
-
-    color:var(--gold);
-}
-
-
-/* =========================================================
-   PHILOSOPHY
-========================================================= */
-
-.philosophy-section{
-
-    min-height:90vh;
-
-    padding:180px 8vw;
-
-    display:flex;
-
-    align-items:center;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.48),
-            rgba(7,7,6,.62)
-        );
-}
-
-.philosophy-inner{
-
-    max-width:1000px;
-}
-
-.philosophy-inner h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(55px,8vw,120px);
-
-    font-weight:400;
-
-    line-height:.88;
-
-    letter-spacing:-.04em;
-
-    text-shadow:
-        0 5px 30px
-        rgba(0,0,0,.45);
-}
-
-.philosophy-inner h2 span{
-
-    color:var(--gold);
-}
-
-.philosophy-text{
-
-    max-width:580px;
-
-    margin-top:55px;
-
-    margin-left:25%;
-
-    color:var(--muted);
-
-    font-size:14px;
-
-    line-height:2;
-
-    font-weight:300;
-}
-
-.philosophy-text em{
-
-    color:var(--white);
-
-    font-family:var(--serif);
-
-    font-size:20px;
-}
-
-
-/* =========================================================
-   CLOSING
-========================================================= */
-
-.closing-section{
-
-    min-height:75vh;
-
-    padding:150px 5vw;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(7,7,6,.58),
-            rgba(7,7,6,.72)
-        );
-}
-
-.closing-small{
-
-    font-size:9px;
-
-    letter-spacing:.3em;
-
-    color:var(--gold);
-
-    margin-bottom:22px;
-}
-
-.closing-content h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(65px,12vw,190px);
-
-    line-height:.8;
-
-    font-weight:400;
-
-    letter-spacing:-.06em;
-}
-
-.closing-sanskrit{
-
-    margin-top:50px;
-
-    font-family:var(--devanagari);
-
-    font-size:
-        clamp(22px,3vw,40px);
-
-    color:var(--muted);
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-
-    padding:
-        45px 5vw;
-
-    border-top:
-        1px solid
-        var(--border);
-
-    display:flex;
-
-    align-items:flex-end;
-
-    justify-content:space-between;
-
-    background:
-        rgba(5,5,4,.72);
-
-    backdrop-filter:blur(7px);
-}
-
-.footer-logo{
-
-    font-size:18px;
-
-    letter-spacing:.16em;
-
-    font-weight:600;
-}
-
-.footer-logo span{
-
-    color:var(--gold);
-}
-
-.footer-left p{
-
-    margin-top:8px;
-
-    font-family:var(--serif);
-
-    font-size:18px;
-
-    color:var(--muted);
-}
-
-.footer-middle{
-
-    display:flex;
-
-    gap:25px;
-}
-
-.footer-middle a{
-
-    font-size:8px;
-
-    letter-spacing:.15em;
-
-    color:var(--muted);
-
-    transition:color .3s ease;
-}
-
-.footer-middle a:hover{
-
-    color:var(--gold);
-}
-
-.footer-right{
-
-    text-align:right;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:7px;
-
-    font-size:8px;
-
-    letter-spacing:.15em;
-
-    color:
-        rgba(244,241,233,.45);
-}
-
-
-/* =========================================================
-   TERMS + PRIVACY
-========================================================= */
-
-.legal-section{
-
-    padding:
-        120px
-        8vw;
-
-    background:
-        rgba(5,5,4,.82);
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.07);
-}
-
-.privacy-section{
-
-    padding-top:40px;
-
-    padding-bottom:140px;
-}
-
-.legal-inner{
-
-    max-width:900px;
-
-    margin:0 auto;
-}
-
-.legal-inner h2{
-
-    font-family:var(--serif);
-
-    font-size:
-        clamp(45px,6vw,75px);
-
-    font-weight:400;
-
-    line-height:.95;
-
-    margin-bottom:45px;
-}
-
-.legal-content{
-
-    max-width:760px;
-}
-
-.legal-content p{
-
-    color:var(--muted);
-
-    font-size:13px;
-
-    line-height:2;
-
-    margin-bottom:22px;
-
-    font-weight:300;
-}
-
-
-/* =========================================================
-   FLOATING CONTACT
-========================================================= */
-
-.floating-contact{
-
-    position:fixed;
-
-    right:25px;
-    bottom:25px;
-
-    z-index:200;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-}
-
-.contact-button{
-
-    position:relative;
-
-    width:54px;
-    height:54px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
+        rgba(0,0,0,.35);
 
     color:white;
 
-    font-size:21px;
+    font-size:28px;
 
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.35);
-
-    transition:
-        transform .3s ease,
-        box-shadow .3s ease;
-}
-
-.contact-button:hover{
-
-    transform:
-        translateY(-5px)
-        scale(1.05);
-
-    box-shadow:
-        0 15px 35px
-        rgba(0,0,0,.5);
-}
-
-.whatsapp-button{
-
-    background:#25D366;
-}
-
-.phone-button{
-
-    background:#151515;
-
-    border:
-        1px solid
-        rgba(255,255,255,.25);
-}
-
-.contact-tooltip{
-
-    position:absolute;
-
-    right:68px;
-    top:50%;
-
-    transform:
-        translateY(-50%)
-        translateX(10px);
-
-    white-space:nowrap;
-
-    background:
-        rgba(10,10,9,.94);
-
-    border:
-        1px solid
-        rgba(255,255,255,.15);
-
-    padding:
-        9px 13px;
-
-    font-size:9px;
-
-    letter-spacing:.12em;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
-}
-
-.contact-button:hover
-.contact-tooltip{
-
-    opacity:1;
-
-    transform:
-        translateY(-50%)
-        translateX(0);
+    cursor:pointer;
 }
 
 
 /* =========================================================
-   TABLET
+   RESPONSIVE TARIFF
 ========================================================= */
 
-@media (max-width:1200px){
+@media(max-width:1200px){
 
-    .pricing-grid{
-
+    .tariff-grid{
         grid-template-columns:
             repeat(3,1fr);
-
-    }
-
-    .price-card{
-
-        min-height:400px;
-    }
-
-    .price-card-content{
-
-        min-height:400px;
     }
 
 }
 
 
-/* =========================================================
-   TABLET — 900px
-========================================================= */
+@media(max-width:900px){
 
-@media (max-width:900px){
-
-    .owner-inner{
-
-        grid-template-columns:
-            minmax(250px,.85fr)
-            minmax(0,1.15fr);
-
-        gap:5vw;
-    }
-
-    .owner-content h2{
-
-        font-size:
-            clamp(52px,7vw,85px);
-    }
-
-    .hostel-grid{
-
+    .tariff-grid{
         grid-template-columns:
             repeat(2,1fr);
-    }
-
-    .hostel-card:last-child{
-
-        grid-column:span 2;
-
-        max-width:
-            calc(50% - 10px);
-    }
-
-    .section-heading{
-
-        grid-template-columns:
-            1fr 4fr;
-    }
-
-    .philosophy-text{
-
-        margin-left:15%;
-    }
-
-
-    /* pricing */
-
-    .pricing-heading{
-
-        grid-template-columns:
-            1fr 4fr;
-    }
-
-    .pricing-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .price-card{
-
-        min-height:420px;
-    }
-
-    .price-card-content{
-
-        min-height:420px;
-    }
-
-    .pricing-details{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-        gap:40px;
-    }
-
-    .pricing-detail:last-child{
-
-        grid-column:
-            span 2;
-
-        max-width:
-            calc(50% - 20px);
-    }
-
-
-    /* moments */
-
-    .moments-heading{
-
-        grid-template-columns:
-            1fr 4fr;
     }
 
 }
 
 
-/* =========================================================
-   MOBILE — 650px
-========================================================= */
+@media(max-width:650px){
 
-@media (max-width:650px){
-
-    /* ---------------------------------------------
-       OWNER
-    --------------------------------------------- */
-
-    .owner-section{
-
-        padding:
-            110px
-            7vw
-            120px;
-    }
-
-    .owner-inner{
-
-        grid-template-columns:1fr;
-
-        gap:55px;
-    }
-
-    .owner-image-wrap{
-
-        aspect-ratio:.88;
-    }
-
-    .owner-content h2{
-
-        font-size:60px;
-    }
-
-    .owner-text{
-
-        font-size:13px;
-
-        line-height:1.9;
-    }
-
-    .owner-signature{
-
-        align-items:flex-start;
-
-        flex-direction:column;
-
-        gap:18px;
-    }
-
-
-    /* ---------------------------------------------
-       NAVBAR
-    --------------------------------------------- */
-
-    .navbar{
-
-        height:75px;
-
-        padding:
-            0 6vw;
-    }
-
-    .desktop-nav{
-
-        display:none;
-    }
-
-    .menu-button{
-
-        display:flex;
-    }
-
-
-    /* ---------------------------------------------
-       HERO
-    --------------------------------------------- */
-
-    .hero{
-
-        min-height:100svh;
-
-        padding:
-            100px
-            7vw
-            70px;
-    }
-
-    .krishna-background{
-
-        background-position:
-            53%
-            center;
-
-        opacity:.48;
-    }
-
-    .hero-eyebrow{
-
-        margin-bottom:22px;
-    }
-
-    .sanskrit-title{
-
-        font-size:
-            clamp(
-                44px,
-                13vw,
-                65px
-            );
-
-        line-height:1.25;
-    }
-
-    .roman-title{
-
-        font-size:8px;
-
-        letter-spacing:.23em;
-    }
-
-    .hero-divider{
-
-        margin:
-            28px
-            0
-            22px;
-    }
-
-    .english-title{
-
-        font-size:42px;
-    }
-
-    .hero-description{
-
-        font-size:12px;
-    }
-
-    .scroll-indicator{
-
-        bottom:25px;
-
-        right:7vw;
-    }
-
-
-    /* ---------------------------------------------
-       PRICING
-    --------------------------------------------- */
-
-    .pricing-section{
-
-        padding:
-            110px
-            6vw
-            120px;
-    }
-
-    .pricing-heading{
-
-        display:block;
-
-        margin-bottom:45px;
-    }
-
-    .pricing-heading
-    .section-number{
-
-        margin-bottom:25px;
-    }
-
-    .pricing-heading h2{
-
-        font-size:54px;
-    }
-
-    .pricing-intro{
-
-        font-size:12px;
-
-        line-height:1.9;
-    }
-
-    .pricing-grid{
-
+    .tariff-grid{
         grid-template-columns:1fr;
 
         gap:18px;
     }
 
-    .price-card{
-
-        min-height:
-            390px;
+    .tariff-card{
+        min-height:390px;
     }
 
-    .price-card-content{
-
-        min-height:
-            390px;
+    .tariff-card-content{
+        min-height:390px;
 
         padding:
             25px 23px;
     }
 
-    .price-card h3{
-
-        font-size:
-            48px;
+    .tariff-card h3{
+        font-size:48px;
     }
 
-    .price-description{
-
+    .tariff-description{
         margin-top:40px;
 
         font-size:11px;
     }
 
-    .pricing-details{
 
-        grid-template-columns:1fr;
-
-        gap:30px;
-
-        margin-top:55px;
-    }
-
-    .pricing-detail:last-child{
-
-        grid-column:auto;
-
-        max-width:none;
-    }
-
-    .pricing-detail strong{
-
-        font-size:32px;
-    }
-
-    .pricing-note{
-
-        margin-top:40px;
-
-        line-height:1.8;
-    }
-
-
-    /* ---------------------------------------------
-       MOMENTS
-    --------------------------------------------- */
-
-    .moments-section{
-
-        padding:
-            110px
-            0
-            100px;
-    }
-
-    .moments-heading{
-
-        display:block;
-
-        padding:
-            0 6vw;
-
-        margin-bottom:40px;
-    }
-
-    .moments-heading
-    .section-number{
-
-        margin-bottom:25px;
-    }
-
-    .moments-heading h2{
-
-        font-size:54px;
-    }
-
-    .moments-intro{
-
-        font-size:12px;
-
-        line-height:1.9;
-    }
-
-    .moments-track{
-
+    .memory-photo-track{
         gap:12px;
 
         padding-left:6vw;
     }
 
-    .moment-photo{
 
-        flex-basis:
-            76vw;
+    .memory-photo{
+        flex-basis:76vw;
 
-        height:
-            95vw;
+        height:95vw;
 
         max-height:520px;
     }
 
-    .moments-hint{
+
+    .memory-gallery-note{
+        padding:0 6vw;
+
+        margin-top:22px;
 
         font-size:7px;
 
-        margin-top:25px;
+        flex-direction:column;
+
+        gap:10px;
     }
 
 
-    /* ---------------------------------------------
-       PHOTO VIEWER
-    --------------------------------------------- */
-
-    .photo-viewer{
-
-        padding:20px;
+    .memory-photo-viewer{
+        padding:15px;
     }
 
-    .photo-viewer img{
 
+    .memory-photo-viewer img{
         max-width:94vw;
 
         max-height:82vh;
     }
 
-    .photo-viewer-close{
 
-        top:15px;
+    .memory-photo-viewer-close{
+        top:14px;
 
-        right:15px;
+        right:14px;
 
         width:42px;
+
         height:42px;
-    }
-
-
-    /* ---------------------------------------------
-       HOSTELS
-    --------------------------------------------- */
-
-    .hostels-section{
-
-        padding:
-            110px
-            6vw
-            120px;
-    }
-
-    .section-heading{
-
-        display:block;
-
-        margin-bottom:45px;
-    }
-
-    .section-number{
-
-        margin-bottom:25px;
-    }
-
-    .section-heading h2{
-
-        font-size:54px;
-    }
-
-    .hostel-grid{
-
-        grid-template-columns:1fr;
-
-        gap:42px;
-    }
-
-    .hostel-card:last-child{
-
-        grid-column:auto;
-
-        max-width:none;
-    }
-
-    .card-image-wrapper{
-
-        aspect-ratio:.82;
-    }
-
-    .card-arrow{
-
-        opacity:1;
-
-        transform:none;
-    }
-
-    .card-content h3{
-
-        font-size:29px;
-    }
-
-
-    /* ---------------------------------------------
-       PHILOSOPHY
-    --------------------------------------------- */
-
-    .philosophy-section{
-
-        min-height:auto;
-
-        padding:
-            120px
-            7vw;
-    }
-
-    .philosophy-inner h2{
-
-        font-size:58px;
-    }
-
-    .philosophy-text{
-
-        margin-left:0;
-
-        margin-top:45px;
-
-        font-size:13px;
-    }
-
-
-    /* ---------------------------------------------
-       CLOSING
-    --------------------------------------------- */
-
-    .closing-section{
-
-        min-height:65vh;
-
-        padding:
-            100px
-            6vw;
-    }
-
-    .closing-content h2{
-
-        font-size:80px;
-    }
-
-    .closing-sanskrit{
-
-        margin-top:35px;
-
-        font-size:24px;
-    }
-
-
-    /* ---------------------------------------------
-       FOOTER
-    --------------------------------------------- */
-
-    footer{
-
-        padding:
-            35px
-            6vw;
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-        gap:30px;
-    }
-
-    .footer-middle{
-
-        flex-direction:column;
-
-        gap:15px;
-    }
-
-    .footer-right{
-
-        text-align:left;
-    }
-
-
-    /* ---------------------------------------------
-       LEGAL
-    --------------------------------------------- */
-
-    .legal-section{
-
-        padding:
-            90px
-            7vw;
-    }
-
-    .privacy-section{
-
-        padding-top:20px;
-
-        padding-bottom:100px;
-    }
-
-    .legal-inner h2{
-
-        font-size:52px;
-
-        margin-bottom:35px;
-    }
-
-    .legal-content p{
-
-        font-size:12px;
-
-        line-height:1.9;
-    }
-
-
-    /* ---------------------------------------------
-       FLOATING CONTACT
-    --------------------------------------------- */
-
-    .floating-contact{
-
-        right:17px;
-
-        bottom:17px;
-
-        gap:9px;
-    }
-
-    .contact-button{
-
-        width:51px;
-
-        height:51px;
-
-        font-size:19px;
-    }
-
-    .contact-tooltip{
-
-        display:none;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES — 380px
-========================================================= */
-
-@media (max-width:380px){
-
-    .owner-content h2{
-
-        font-size:52px;
-    }
-
-    .sanskrit-title{
-
-        font-size:39px;
-    }
-
-    .english-title{
-
-        font-size:37px;
-    }
-
-    .section-heading h2{
-
-        font-size:48px;
-    }
-
-    .pricing-heading h2{
-
-        font-size:48px;
-    }
-
-    .moments-heading h2{
-
-        font-size:48px;
-    }
-
-    .philosophy-inner h2{
-
-        font-size:50px;
-    }
-
-    .closing-content h2{
-
-        font-size:68px;
-    }
-
-    .price-card h3{
-
-        font-size:43px;
-    }
-
-}
-
-
-/* =========================================================
-   TOUCH DEVICES
-========================================================= */
-
-@media (hover:none){
-
-    .hostel-card:hover{
-
-        transform:none;
-    }
-
-    .hostel-card:hover .card-image{
-
-        transform:none;
-    }
-
-    .price-card:hover{
-
-        transform:none;
-    }
-
-    .price-card:hover
-    .price-card-image{
-
-        transform:scale(1.02);
-    }
-
-    .moment-photo:hover img{
-
-        transform:none;
-    }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion:reduce){
-
-    *,
-    *::before,
-    *::after{
-
-        animation-duration:.01ms !important;
-
-        animation-iteration-count:1 !important;
-
-        transition-duration:.01ms !important;
-
-        scroll-behavior:auto !important;
     }
 
 }
