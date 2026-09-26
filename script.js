@@ -1,958 +1,560 @@
 ```javascript
+/* =========================================================
+   MEMORY GROUP — MAIN SCRIPT
+   ========================================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+    /* =====================================================
+       MOBILE NAVIGATION
+    ===================================================== */
 
-  const header = document.querySelector(".site-header");
-  const navToggle = document.querySelector(".nav-toggle");
-  const navLinks = document.querySelector(".nav-links");
-  const year = document.getElementById("year");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
 
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
+    if (menuToggle && navLinks) {
 
+        menuToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            menuToggle.classList.toggle("active");
+        });
 
-  /* =========================================================
-     NAVBAR — SCROLL EFFECT
-  ========================================================= */
+        navLinks.querySelectorAll("a").forEach(link => {
 
-  const updateHeader = () => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+                menuToggle.classList.remove("active");
+            });
 
-    if (!header) return;
-
-    header.classList.toggle(
-      "scrolled",
-      window.scrollY > 24
-    );
-
-  };
-
-  updateHeader();
-
-  window.addEventListener(
-    "scroll",
-    updateHeader,
-    { passive: true }
-  );
-
-
-  /* =========================================================
-     MOBILE NAVBAR
-  ========================================================= */
-
-  const closeMenu = () => {
-
-    if (navToggle) {
-
-      navToggle.classList.remove("active");
-
-      navToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      navToggle.setAttribute(
-        "aria-label",
-        "Open menu"
-      );
+        });
     }
 
-    if (navLinks) {
-      navLinks.classList.remove("open");
+
+    /* =====================================================
+       MOBILE MENU — ALTERNATE CLASS SUPPORT
+       ===================================================== */
+
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileClose = document.getElementById("mobileClose");
+
+    if (menuToggle && mobileMenu) {
+
+        menuToggle.addEventListener("click", () => {
+            mobileMenu.classList.add("open");
+            document.body.classList.add("menu-open");
+        });
     }
 
-    document.body.classList.remove(
-      "menu-open"
-    );
+    if (mobileClose && mobileMenu) {
 
-  };
-
-
-  const openMenu = () => {
-
-    if (navToggle) {
-
-      navToggle.classList.add("active");
-
-      navToggle.setAttribute(
-        "aria-expanded",
-        "true"
-      );
-
-      navToggle.setAttribute(
-        "aria-label",
-        "Close menu"
-      );
+        mobileClose.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+            document.body.classList.remove("menu-open");
+        });
     }
 
-    if (navLinks) {
-      navLinks.classList.add("open");
+    if (mobileMenu) {
+
+        mobileMenu.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+                document.body.classList.remove("menu-open");
+            });
+
+        });
     }
 
-    document.body.classList.add(
-      "menu-open"
-    );
 
-  };
+    /* =====================================================
+       HEADER SCROLL EFFECT
+    ===================================================== */
 
+    const header = document.querySelector(".navbar") ||
+                   document.querySelector(".site-header");
 
-  if (navToggle && navLinks) {
+    if (header) {
 
-    navToggle.addEventListener(
-      "click",
-      () => {
+        const updateHeader = () => {
 
-        const isOpen =
-          navLinks.classList.contains("open");
+            if (window.scrollY > 30) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
 
-        if (isOpen) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
+        };
 
-      }
-    );
+        window.addEventListener("scroll", updateHeader, {
+            passive: true
+        });
 
-
-    navLinks
-      .querySelectorAll("a")
-      .forEach(link => {
-
-        link.addEventListener(
-          "click",
-          () => {
-
-            closeMenu();
-
-          }
-        );
-
-      });
-
-  }
-
-
-  /* =========================================================
-     CLOSE MENU WHEN CLICKING OUTSIDE
-  ========================================================= */
-
-  document.addEventListener(
-    "click",
-    event => {
-
-      if (!navLinks || !navToggle) return;
-
-      const clickedInsideMenu =
-        navLinks.contains(event.target);
-
-      const clickedToggle =
-        navToggle.contains(event.target);
-
-      if (
-        navLinks.classList.contains("open") &&
-        !clickedInsideMenu &&
-        !clickedToggle
-      ) {
-
-        closeMenu();
-
-      }
-
+        updateHeader();
     }
-  );
 
 
-  /* =========================================================
-     ESC KEY
-  ========================================================= */
+    /* =====================================================
+       SMOOTH ANCHOR SCROLL
+    ===================================================== */
 
-  document.addEventListener(
-    "keydown",
-    event => {
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
 
-      if (event.key === "Escape") {
+        link.addEventListener("click", event => {
 
-        closeMenu();
+            const targetId = link.getAttribute("href");
 
-      }
+            if (!targetId || targetId === "#") return;
 
-    }
-  );
+            const target = document.querySelector(targetId);
 
+            if (!target) return;
 
-  /* =========================================================
-     RESIZE
-  ========================================================= */
+            event.preventDefault();
 
-  window.addEventListener(
-    "resize",
-    () => {
+            const headerHeight =
+                header ? header.offsetHeight : 0;
 
-      if (window.innerWidth > 800) {
+            const targetPosition =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                headerHeight;
 
-        closeMenu();
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
 
-      }
-
-    },
-    { passive: true }
-  );
-
-
-  /* =========================================================
-     SMOOTH ANCHOR SCROLL
-  ========================================================= */
-
-  document
-    .querySelectorAll('a[href^="#"]')
-    .forEach(link => {
-
-      link.addEventListener(
-        "click",
-        event => {
-
-          const targetId =
-            link.getAttribute("href");
-
-          if (
-            !targetId ||
-            targetId === "#"
-          ) {
-            return;
-          }
-
-          const target =
-            document.querySelector(targetId);
-
-          if (!target) return;
-
-          event.preventDefault();
-
-          const headerHeight =
-            header
-              ? header.offsetHeight
-              : 0;
-
-          const targetPosition =
-            target.getBoundingClientRect().top +
-            window.scrollY -
-            headerHeight;
-
-          window.scrollTo({
-            top: targetPosition,
-            behavior: "smooth"
-          });
-
-        }
-      );
+        });
 
     });
 
 
-  /* =========================================================
-     KRISHNA HERO PARALLAX
-     DESKTOP ONLY
-  ========================================================= */
+    /* =====================================================
+       MOMENTS THAT STAY
+       HORIZONTAL AUTO SCROLL
+    ===================================================== */
 
-  const hero =
-    document.querySelector(".hero");
+    const memoryTrack =
+        document.querySelector(".memory-track");
 
-  const heroBg =
-    document.querySelector(".hero-bg");
+    if (memoryTrack) {
 
-  if (
-    hero &&
-    heroBg &&
-    !window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches
-  ) {
+        /*
+         * Prevent the same gallery from being
+         * duplicated multiple times.
+         */
+        if (!memoryTrack.dataset.ready) {
 
-    hero.addEventListener(
-      "pointermove",
-      event => {
+            memoryTrack.dataset.ready = "true";
 
-        if (window.innerWidth < 900) {
-          return;
-        }
+            /*
+             * Duplicate original images so the
+             * animation can loop continuously.
+             */
+            const originalItems =
+                Array.from(memoryTrack.children);
 
-        const rect =
-          hero.getBoundingClientRect();
+            originalItems.forEach(item => {
 
-        const x =
-          (
-            (event.clientX - rect.left) /
-            rect.width -
-            0.5
-          ) * 8;
+                const clone = item.cloneNode(true);
 
-        const y =
-          (
-            (event.clientY - rect.top) /
-            rect.height -
-            0.5
-          ) * 5;
+                clone.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
 
-        heroBg.style.transform =
-          `scale(1.055) translate3d(${x}px, ${y}px, 0)`;
-
-      }
-    );
-
-
-    hero.addEventListener(
-      "pointerleave",
-      () => {
-
-        heroBg.style.transform =
-          "scale(1.035)";
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     REVEAL ANIMATION
-  ========================================================= */
-
-  const revealItems =
-    document.querySelectorAll(
-      ".room-card, " +
-      ".hostel-card, " +
-      ".event-card, " +
-      ".owner-content, " +
-      ".memory-copy, " +
-      ".philosophy-grid > div"
-    );
-
-
-  if (
-    "IntersectionObserver" in window
-  ) {
-
-    const observer =
-      new IntersectionObserver(
-        (entries, obs) => {
-
-          entries.forEach(entry => {
-
-            if (
-              !entry.isIntersecting
-            ) {
-              return;
-            }
-
-            entry.target.classList.add(
-              "is-visible"
-            );
-
-            obs.unobserve(
-              entry.target
-            );
-
-          });
-
-        },
-        {
-          threshold: 0.12
-        }
-      );
-
-
-    revealItems.forEach(
-      item => observer.observe(item)
-    );
-
-  }
-
-
-  /* =========================================================
-     MOMENTS THAT STAY
-     GITHUB GALLERY
-  ========================================================= */
-
-  const galleryTrack =
-    document.getElementById(
-      "memoryGallery"
-    );
-
-  const galleryWindow =
-    document.querySelector(
-      ".gallery-window"
-    );
-
-
-  const galleryApi =
-    "https://api.github.com/repos/" +
-    "krishnakm00q-source/memoryhostel/" +
-    "contents/memory-photos";
-
-
-  const imageExtensions =
-    /\.(jpe?g|png|webp|gif|avif)$/i;
-
-
-  /* =========================================================
-     CREATE GALLERY IMAGE
-  ========================================================= */
-
-  const makeGalleryItem =
-    file => {
-
-      const item =
-        document.createElement(
-          "figure"
-        );
-
-      item.className =
-        "gallery-item";
-
-
-      const img =
-        document.createElement(
-          "img"
-        );
-
-      img.src =
-        file.download_url;
-
-      img.alt =
-        "Life at Memory";
-
-      img.loading =
-        "lazy";
-
-      img.decoding =
-        "async";
-
-
-      item.appendChild(img);
-
-      return item;
-
-    };
-
-
-  /* =========================================================
-     FALLBACK IMAGE LIST
-     ========================================================= */
-
-  const galleryFallbackFiles = [
-
-    "WhatsApp Image 2026-09-26 at 4.36.49 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM (1).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM (2).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.50 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM (1).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM (2).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.51 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM (1).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM (2).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.52 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM (1).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM (2).jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.56 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.57 PM.jpeg",
-
-    "WhatsApp Image 2026-09-26 at 4.36.58 PM.jpeg",
-
-    "b51d30b1-b2b0-4170-9810-ba2b747b9e54.jpg"
-
-  ];
-
-
-  /* =========================================================
-     FALLBACK GALLERY ITEM
-  ========================================================= */
-
-  const makeFallbackItem =
-    filename => {
-
-      const item =
-        document.createElement(
-          "figure"
-        );
-
-      item.className =
-        "gallery-item";
-
-
-      const img =
-        document.createElement(
-          "img"
-        );
-
-
-      img.src =
-        "memory-photos/" +
-        encodeURIComponent(
-          filename
-        );
-
-
-      img.alt =
-        "Life at Memory";
-
-
-      img.loading =
-        "lazy";
-
-      img.decoding =
-        "async";
-
-
-      item.appendChild(img);
-
-      return item;
-
-    };
-
-
-  /* =========================================================
-     START AUTO SCROLL
-  ========================================================= */
-
-  const startGallery =
-    () => {
-
-      if (!galleryTrack) {
-        return;
-      }
-
-
-      const items =
-        [
-          ...galleryTrack.querySelectorAll(
-            ".gallery-item"
-          )
-        ];
-
-
-      if (items.length < 2) {
-        return;
-      }
-
-
-      if (
-        window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches
-      ) {
-        return;
-      }
-
-
-      /*
-       * Duplicate the complete first set.
-       */
-
-      items.forEach(
-        item => {
-
-          const clone =
-            item.cloneNode(true);
-
-          clone
-            .querySelectorAll("img")
-            .forEach(img => {
-
-              img.loading =
-                "eager";
+                memoryTrack.appendChild(clone);
 
             });
 
-          galleryTrack.appendChild(
-            clone
-          );
-
         }
-      );
+    }
 
 
-      let position = 0;
+    /* =====================================================
+       MEMORY PHOTO FALLBACK
+       ===================================================== */
 
-      let last =
-        performance.now();
+    /*
+     * If the gallery is dynamically generated and
+     * the GitHub/API source fails, use direct
+     * memory-photos paths.
+     *
+     * This does NOT replace existing gallery images.
+     */
 
-      let paused = false;
+    const gallery =
+        document.querySelector(".memory-gallery");
 
+    const galleryContainer =
+        document.querySelector(".memory-track");
 
-      const pause =
-        () => {
+    if (
+        gallery &&
+        galleryContainer &&
+        galleryContainer.children.length === 0
+    ) {
 
-          paused = true;
+        const memoryPhotos = [
 
-        };
+            "memory-photos/IMG_20250820_174444.jpg",
+            "memory-photos/IMG_20250820_174451.jpg",
+            "memory-photos/IMG_20250820_174458.jpg",
+            "memory-photos/IMG_20250820_174505.jpg",
+            "memory-photos/IMG_20250820_174512.jpg",
+            "memory-photos/IMG_20250820_174520.jpg"
 
+        ];
 
-      const resume =
-        () => {
+        memoryPhotos.forEach((src, index) => {
 
-          paused = false;
+            const img = document.createElement("img");
 
-          last =
-            performance.now();
+            img.src = src;
 
-        };
+            img.alt =
+                `Life at Memory ${index + 1}`;
 
+            img.loading = "lazy";
 
-      /*
-       * Desktop hover
-       */
+            galleryContainer.appendChild(img);
 
-      if (galleryWindow) {
-
-        galleryWindow.addEventListener(
-          "mouseenter",
-          pause
-        );
-
-        galleryWindow.addEventListener(
-          "mouseleave",
-          resume
-        );
-
+        });
 
         /*
-         * Mobile touch
+         * Duplicate for infinite scrolling.
          */
 
-        galleryWindow.addEventListener(
-          "touchstart",
-          pause,
-          {
-            passive: true
-          }
-        );
+        memoryPhotos.forEach((src, index) => {
 
+            const img = document.createElement("img");
 
-        galleryWindow.addEventListener(
-          "touchend",
-          () => {
+            img.src = src;
 
-            setTimeout(
-              resume,
-              1000
+            img.alt = "";
+
+            img.loading = "lazy";
+
+            img.setAttribute(
+                "aria-hidden",
+                "true"
             );
 
-          },
-          {
-            passive: true
-          }
-        );
+            galleryContainer.appendChild(img);
 
-      }
+        });
+
+    }
 
 
-      const firstSetWidth =
-        () => {
+    /* =====================================================
+       AUTO HORIZONTAL SCROLL FALLBACK
+    ===================================================== */
 
-          const all =
-            [
-              ...galleryTrack.children
-            ];
+    const autoGallery =
+        document.querySelector(".memory-gallery");
 
-          const half =
-            Math.floor(
-              all.length / 2
-            );
+    if (autoGallery) {
 
+        let animationFrame = null;
+        let isPaused = false;
 
-          const gap =
-            parseFloat(
-              getComputedStyle(
-                galleryTrack
-              ).gap
-            ) || 0;
+        const track =
+            autoGallery.querySelector(".memory-track");
 
+        if (track) {
 
-          return all
-            .slice(
-              0,
-              half
-            )
-            .reduce(
-              (
-                total,
-                element
-              ) => {
-
-                return (
-                  total +
-                  element.getBoundingClientRect().width
-                );
-
-              },
-              0
-            )
-            +
-            Math.max(
-              0,
-              half - 1
-            ) *
-            gap;
-
-        };
-
-
-      const animate =
-        now => {
-
-          const delta =
-            Math.min(
-              now - last,
-              40
-            );
-
-          last = now;
-
-
-          if (!paused) {
+            const isMobile =
+                window.matchMedia(
+                    "(max-width: 768px)"
+                ).matches;
 
             /*
-             * Mobile = slightly slower
-             * Desktop = slightly faster
+             * CSS normally handles animation.
+             * JS fallback only applies if animation
+             * is unavailable.
              */
 
-            const speed =
-              window.innerWidth <= 768
-                ? 0.025
-                : 0.035;
+            if (!CSS.supports(
+                "animation-timeline",
+                "scroll()"
+            )) {
 
+                const moveGallery = () => {
 
-            position +=
-              delta * speed;
+                    if (!isPaused) {
 
+                        autoGallery.scrollLeft +=
+                            isMobile ? 0.35 : 0.55;
 
-            const loopWidth =
-              firstSetWidth();
+                        /*
+                         * Reset after reaching
+                         * approximately half.
+                         */
 
+                        if (
+                            autoGallery.scrollLeft >=
+                            autoGallery.scrollWidth / 2
+                        ) {
 
-            if (
-              loopWidth > 0 &&
-              position >= loopWidth
-            ) {
+                            autoGallery.scrollLeft = 0;
 
-              position -=
-                loopWidth;
+                        }
+
+                    }
+
+                    animationFrame =
+                        requestAnimationFrame(
+                            moveGallery
+                        );
+                };
+
+                /*
+                 * Only use JS scrolling if the gallery
+                 * itself is horizontally scrollable.
+                 */
+
+                if (
+                    autoGallery.scrollWidth >
+                    autoGallery.clientWidth
+                ) {
+
+                    animationFrame =
+                        requestAnimationFrame(
+                            moveGallery
+                        );
+                }
 
             }
 
 
-            galleryTrack.style.transform =
-              `translate3d(${-position}px, 0, 0)`;
+            /* Desktop hover */
 
-          }
+            autoGallery.addEventListener(
+                "mouseenter",
+                () => {
+                    isPaused = true;
+                }
+            );
 
-
-          requestAnimationFrame(
-            animate
-          );
-
-        };
-
-
-      requestAnimationFrame(
-        animate
-      );
-
-    };
-
-
-  /* =========================================================
-     RENDER FALLBACK
-  ========================================================= */
-
-  const renderFallbackGallery =
-    () => {
-
-      if (!galleryTrack) {
-        return;
-      }
-
-
-      galleryTrack.innerHTML =
-        "";
-
-
-      galleryFallbackFiles.forEach(
-        filename => {
-
-          galleryTrack.appendChild(
-            makeFallbackItem(
-              filename
-            )
-          );
-
-        }
-      );
-
-
-      startGallery();
-
-    };
-
-
-  /* =========================================================
-     LOAD GALLERY
-  ========================================================= */
-
-  const loadGallery =
-    async () => {
-
-      if (!galleryTrack) {
-        return;
-      }
-
-
-      try {
-
-        const response =
-          await fetch(
-            galleryApi,
-            {
-              headers: {
-                Accept:
-                  "application/vnd.github+json"
-              }
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            `GitHub API error: ${response.status}`
-          );
-
-        }
-
-
-        const files =
-          await response.json();
-
-
-        const images =
-          files
-            .filter(
-              file =>
-                file.type === "file" &&
-                imageExtensions.test(
-                  file.name
-                )
-            )
-            .sort(
-              (a, b) =>
-                a.name.localeCompare(
-                  b.name,
-                  undefined,
-                  {
-                    numeric: true
-                  }
-                )
+            autoGallery.addEventListener(
+                "mouseleave",
+                () => {
+                    isPaused = false;
+                }
             );
 
 
-        if (!images.length) {
+            /* Mobile touch */
 
-          throw new Error(
-            "No gallery images found."
-          );
-
-        }
-
-
-        galleryTrack.innerHTML =
-          "";
-
-
-        images.forEach(
-          file => {
-
-            galleryTrack.appendChild(
-              makeGalleryItem(
-                file
-              )
+            autoGallery.addEventListener(
+                "touchstart",
+                () => {
+                    isPaused = true;
+                },
+                { passive: true }
             );
 
-          }
-        );
+            autoGallery.addEventListener(
+                "touchend",
+                () => {
 
+                    setTimeout(() => {
+                        isPaused = false;
+                    }, 1200);
 
-        startGallery();
-
-
-      } catch (error) {
-
-        console.warn(
-          "GitHub gallery API unavailable. Using direct images.",
-          error
-        );
-
-
-        renderFallbackGallery();
-
-      }
-
-    };
-
-
-  loadGallery();
-
-
-  /* =========================================================
-     IMAGE ERROR HANDLING
-  ========================================================= */
-
-  document
-    .querySelectorAll("img")
-    .forEach(img => {
-
-      img.addEventListener(
-        "error",
-        () => {
-
-          console.warn(
-            "Memory Group image could not load:",
-            img.src
-          );
-
-          img.classList.add(
-            "image-error"
-          );
+                },
+                { passive: true }
+            );
 
         }
-      );
+    }
+
+
+    /* =====================================================
+       IMAGE ERROR HANDLING
+    ===================================================== */
+
+    document.querySelectorAll("img").forEach(img => {
+
+        img.addEventListener("error", () => {
+
+            console.warn(
+                "Memory Group image could not be loaded:",
+                img.src
+            );
+
+            /*
+             * Prevent broken-image icon
+             * from destroying layout.
+             */
+
+            img.classList.add("image-error");
+
+        });
 
     });
 
 
-  /* =========================================================
-     PAGE READY
-  ========================================================= */
+    /* =====================================================
+       ROOM CARD TOUCH SUPPORT
+    ===================================================== */
 
-  document.body.classList.add(
-    "page-loaded"
-  );
+    const roomSlider =
+        document.querySelector(".room-slider");
+
+    if (roomSlider) {
+
+        let startX = 0;
+        let startScroll = 0;
+
+        roomSlider.addEventListener(
+            "touchstart",
+            event => {
+
+                startX =
+                    event.touches[0].clientX;
+
+                startScroll =
+                    roomSlider.scrollLeft;
+
+            },
+            { passive: true }
+        );
+
+        roomSlider.addEventListener(
+            "touchmove",
+            event => {
+
+                const currentX =
+                    event.touches[0].clientX;
+
+                const distance =
+                    startX - currentX;
+
+                roomSlider.scrollLeft =
+                    startScroll + distance;
+
+            },
+            { passive: true }
+        );
+
+    }
+
+
+    /* =====================================================
+       HOSTEL CARD TOUCH SUPPORT
+    ===================================================== */
+
+    const hostelSlider =
+        document.querySelector(".hostel-slider");
+
+    if (hostelSlider) {
+
+        let startX = 0;
+        let startScroll = 0;
+
+        hostelSlider.addEventListener(
+            "touchstart",
+            event => {
+
+                startX =
+                    event.touches[0].clientX;
+
+                startScroll =
+                    hostelSlider.scrollLeft;
+
+            },
+            { passive: true }
+        );
+
+        hostelSlider.addEventListener(
+            "touchmove",
+            event => {
+
+                const currentX =
+                    event.touches[0].clientX;
+
+                const distance =
+                    startX - currentX;
+
+                hostelSlider.scrollLeft =
+                    startScroll + distance;
+
+            },
+            { passive: true }
+        );
+
+    }
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            if (mobileMenu) {
+                mobileMenu.classList.remove("open");
+            }
+
+            if (navLinks) {
+                navLinks.classList.remove("active");
+            }
+
+            if (menuToggle) {
+                menuToggle.classList.remove("active");
+            }
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+        }
+
+    });
+
+
+    /* =====================================================
+       RESIZE CLEANUP
+    ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            if (window.innerWidth > 768) {
+
+                if (navLinks) {
+                    navLinks.classList.remove("active");
+                }
+
+                if (mobileMenu) {
+                    mobileMenu.classList.remove("open");
+                }
+
+                if (menuToggle) {
+                    menuToggle.classList.remove("active");
+                }
+
+                document.body.classList.remove(
+                    "menu-open"
+                );
+
+            }
+
+        },
+        { passive: true }
+    );
+
+
+    /* =====================================================
+       PAGE READY
+    ===================================================== */
+
+    document.body.classList.add("page-loaded");
 
 });
 ```
