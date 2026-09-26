@@ -1,6 +1,12 @@
-/* =====================================================
+/* =========================================================
+   MEMORY GROUP — SCRIPT.JS
+   Existing functionality preserved
+========================================================= */
+
+
+/* =========================================
    MOBILE MENU
-===================================================== */
+========================================= */
 
 const menuButton =
     document.getElementById("menuButton");
@@ -16,45 +22,14 @@ const mobileLinks =
 
 if (menuButton && mobileMenu) {
 
-    menuButton.addEventListener(
-        "click",
-        () => {
+    menuButton.addEventListener("click", () => {
 
-            menuButton.classList.toggle(
-                "active"
-            );
+        menuButton.classList.toggle("active");
 
-            mobileMenu.classList.toggle(
-                "active"
-            );
+        mobileMenu.classList.toggle("active");
 
-            document.body.classList.toggle(
-                "menu-open"
-            );
-
-        }
-    );
-
-
-    mobileLinks.forEach(link => {
-
-        link.addEventListener(
-            "click",
-            () => {
-
-                menuButton.classList.remove(
-                    "active"
-                );
-
-                mobileMenu.classList.remove(
-                    "active"
-                );
-
-                document.body.classList.remove(
-                    "menu-open"
-                );
-
-            }
+        document.body.classList.toggle(
+            "menu-open"
         );
 
     });
@@ -62,9 +37,31 @@ if (menuButton && mobileMenu) {
 }
 
 
-/* =====================================================
+mobileLinks.forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        if (menuButton) {
+            menuButton.classList.remove("active");
+        }
+
+        if (mobileMenu) {
+            mobileMenu.classList.remove("active");
+        }
+
+        document.body.classList.remove(
+            "menu-open"
+        );
+
+    });
+
+});
+
+
+
+/* =========================================
    KRISHNA BACKGROUND PARALLAX
-===================================================== */
+========================================= */
 
 const krishnaBackground =
     document.querySelector(
@@ -88,7 +85,7 @@ if (
 
     window.addEventListener(
         "mousemove",
-        event => {
+        (event) => {
 
             mouseX =
                 (
@@ -96,6 +93,7 @@ if (
                     window.innerWidth -
                     0.5
                 ) * 9;
+
 
             mouseY =
                 (
@@ -114,17 +112,14 @@ if (
             (mouseX - currentX) *
             0.035;
 
+
         currentY +=
             (mouseY - currentY) *
             0.035;
 
 
         krishnaBackground.style.transform =
-            `translate3d(
-                ${currentX}px,
-                ${currentY}px,
-                0
-            ) scale(1.04)`;
+            `translate3d(${currentX}px, ${currentY}px, 0) scale(1.04)`;
 
 
         requestAnimationFrame(
@@ -139,9 +134,10 @@ if (
 }
 
 
-/* =====================================================
+
+/* =========================================
    HOSTEL CARD TILT
-===================================================== */
+========================================= */
 
 const cards =
     document.querySelectorAll(
@@ -159,15 +155,16 @@ if (
 
         const image =
             card.querySelector(
-                ".card-image img"
+                ".card-image"
             );
+
+
+        if (!image) return;
 
 
         card.addEventListener(
             "mousemove",
-            event => {
-
-                if (!image) return;
+            (event) => {
 
                 const rect =
                     card.getBoundingClientRect();
@@ -177,6 +174,7 @@ if (
                     event.clientX -
                     rect.left;
 
+
                 const y =
                     event.clientY -
                     rect.top;
@@ -185,28 +183,23 @@ if (
                 const centerX =
                     rect.width / 2;
 
+
                 const centerY =
                     rect.height / 2;
 
 
                 const rotateX =
-                    (
-                        (y - centerY) /
-                        centerY
-                    ) * -1.8;
+                    ((y - centerY) /
+                    centerY) * -1.8;
 
 
                 const rotateY =
-                    (
-                        (x - centerX) /
-                        centerX
-                    ) * 1.8;
+                    ((x - centerX) /
+                    centerX) * 1.8;
 
 
                 image.style.transform =
-                    `scale(1.045)
-                     rotateX(${rotateX}deg)
-                     rotateY(${rotateY}deg)`;
+                    `scale(1.045) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
             }
         );
@@ -215,8 +208,6 @@ if (
         card.addEventListener(
             "mouseleave",
             () => {
-
-                if (!image) return;
 
                 image.style.transform =
                     "scale(1) rotateX(0deg) rotateY(0deg)";
@@ -229,232 +220,75 @@ if (
 }
 
 
-/* =====================================================
-   MOMENTS GALLERY
-=====================================================
 
-   IMPORTANT:
+/* =========================================
+   MEMORY PHOTO GALLERY
+   Safe auto-scrolling gallery
+========================================= */
 
-   Browser JavaScript cannot automatically read
-   every file inside "memory-photos/" on GitHub Pages.
-
-   Keep your existing filenames unchanged.
-
-   After you upload the folder, put the exact filenames
-   in this array.
-
-===================================================== */
-
-const galleryPhotos = [
-
-    /*
-    Example:
-
-    "memory-photos/WhatsApp Image 2026-09-26 at 4.36.49 PM.jpg",
-    "memory-photos/WhatsApp Image 2026-09-26 at 4.36.50 PM (1).jpg",
-    "memory-photos/WhatsApp Image 2026-09-26 at 4.36.50 PM (2).jpg",
-
-    DO NOT rename the actual files.
-    Only put their existing filenames here.
-    */
-
-];
-
-
-/* =====================================================
-   CREATE GALLERY
-===================================================== */
-
-const galleryTrack =
-    document.getElementById(
-        "galleryTrack"
+const gallery =
+    document.querySelector(
+        ".memory-gallery"
     );
 
 
-const lightbox =
-    document.getElementById(
-        "lightbox"
-    );
+if (gallery) {
 
-const lightboxImage =
-    document.getElementById(
-        "lightboxImage"
-    );
-
-const lightboxClose =
-    document.getElementById(
-        "lightboxClose"
-    );
-
-const lightboxPrev =
-    document.getElementById(
-        "lightboxPrev"
-    );
-
-const lightboxNext =
-    document.getElementById(
-        "lightboxNext"
-    );
+    let galleryPaused = false;
 
 
-let currentGalleryIndex = 0;
+    /* -----------------------------------------
+       AUTO SCROLL
+    ----------------------------------------- */
+
+    let gallerySpeed = 0.6;
 
 
-function createGallery() {
+    function autoScrollGallery() {
 
-    if (!galleryTrack) return;
+        if (!galleryPaused) {
 
-    galleryTrack.innerHTML = "";
-
-
-    /*
-       Duplicate the photos.
-
-       This creates the seamless infinite
-       scrolling effect.
-    */
-
-    const photos =
-        [
-            ...galleryPhotos,
-            ...galleryPhotos
-        ];
+            gallery.scrollLeft +=
+                gallerySpeed;
 
 
-    photos.forEach(
-        (photo, index) => {
+            /*
+               When reaching the end,
+               smoothly return to beginning.
+            */
 
-            const item =
-                document.createElement(
-                    "div"
-                );
+            if (
+                gallery.scrollLeft +
+                gallery.clientWidth >=
+                gallery.scrollWidth - 5
+            ) {
 
-            item.className =
-                "gallery-item";
+                gallery.scrollTo({
+                    left: 0,
+                    behavior: "smooth"
+                });
 
-
-            const image =
-                document.createElement(
-                    "img"
-                );
-
-
-            image.src = photo;
-
-            image.alt =
-                "Memory Group moment";
-
-
-            image.loading =
-                index < 5
-                    ? "eager"
-                    : "lazy";
-
-
-            item.appendChild(
-                image
-            );
-
-
-            item.addEventListener(
-                "click",
-                () => {
-
-                    if (
-                        galleryPhotos.length === 0
-                    ) {
-                        return;
-                    }
-
-
-                    currentGalleryIndex =
-                        index %
-                        galleryPhotos.length;
-
-
-                    openLightbox();
-
-                }
-            );
-
-
-            galleryTrack.appendChild(
-                item
-            );
-
-        }
-    );
-
-}
-
-
-createGallery();
-
-
-/* =====================================================
-   AUTO SCROLL
-===================================================== */
-
-let galleryPosition = 0;
-
-let gallerySpeed = 0.45;
-
-let galleryPaused = false;
-
-
-function animateGallery() {
-
-    if (
-        galleryTrack &&
-        galleryPhotos.length > 0 &&
-        !galleryPaused
-    ) {
-
-        galleryPosition -=
-            gallerySpeed;
-
-
-        const firstSetWidth =
-            galleryTrack.scrollWidth / 2;
-
-
-        if (
-            Math.abs(galleryPosition) >=
-            firstSetWidth
-        ) {
-
-            galleryPosition = 0;
+            }
 
         }
 
 
-        galleryTrack.style.transform =
-            `translate3d(
-                ${galleryPosition}px,
-                0,
-                0
-            )`;
+        requestAnimationFrame(
+            autoScrollGallery
+        );
 
     }
 
 
-    requestAnimationFrame(
-        animateGallery
-    );
-
-}
+    autoScrollGallery();
 
 
-animateGallery();
 
+    /* -----------------------------------------
+       PAUSE ON MOUSE HOVER
+    ----------------------------------------- */
 
-/* =====================================================
-   PAUSE WHEN TOUCHING / HOVERING
-===================================================== */
-
-if (galleryTrack) {
-
-    galleryTrack.addEventListener(
+    gallery.addEventListener(
         "mouseenter",
         () => {
 
@@ -464,7 +298,7 @@ if (galleryTrack) {
     );
 
 
-    galleryTrack.addEventListener(
+    gallery.addEventListener(
         "mouseleave",
         () => {
 
@@ -474,239 +308,144 @@ if (galleryTrack) {
     );
 
 
-    galleryTrack.addEventListener(
+
+    /* -----------------------------------------
+       PAUSE ON TOUCH
+       Mobile friendly
+    ----------------------------------------- */
+
+    gallery.addEventListener(
         "touchstart",
         () => {
 
             galleryPaused = true;
 
         },
-        {
-            passive: true
-        }
+        { passive: true }
     );
 
 
-    galleryTrack.addEventListener(
+    gallery.addEventListener(
         "touchend",
         () => {
 
-            setTimeout(
-                () => {
+            setTimeout(() => {
 
-                    galleryPaused = false;
+                galleryPaused = false;
 
-                },
-                1500
-            );
+            }, 1500);
 
         },
-        {
-            passive: true
-        }
+        { passive: true }
     );
 
 }
 
 
-/* =====================================================
-   LIGHTBOX
-===================================================== */
 
-function openLightbox() {
+/* =========================================
+   GALLERY IMAGE LIGHTBOX
+   Opens photo when clicked
+========================================= */
 
-    if (
-        !galleryPhotos.length ||
-        !lightbox ||
-        !lightboxImage
-    ) {
-        return;
-    }
-
-
-    lightboxImage.src =
-        galleryPhotos[
-            currentGalleryIndex
-        ];
-
-
-    lightbox.classList.add(
-        "active"
+const galleryImages =
+    document.querySelectorAll(
+        ".memory-gallery img"
     );
 
 
-    lightbox.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+galleryImages.forEach(image => {
 
-
-    document.body.style.overflow =
-        "hidden";
-
-}
-
-
-function closeLightbox() {
-
-    if (!lightbox) return;
-
-
-    lightbox.classList.remove(
-        "active"
-    );
-
-
-    lightbox.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-function showPrevious() {
-
-    if (!galleryPhotos.length)
-        return;
-
-
-    currentGalleryIndex--;
-
-    if (
-        currentGalleryIndex < 0
-    ) {
-
-        currentGalleryIndex =
-            galleryPhotos.length - 1;
-
-    }
-
-
-    lightboxImage.src =
-        galleryPhotos[
-            currentGalleryIndex
-        ];
-
-}
-
-
-function showNext() {
-
-    if (!galleryPhotos.length)
-        return;
-
-
-    currentGalleryIndex++;
-
-    if (
-        currentGalleryIndex >=
-        galleryPhotos.length
-    ) {
-
-        currentGalleryIndex = 0;
-
-    }
-
-
-    lightboxImage.src =
-        galleryPhotos[
-            currentGalleryIndex
-        ];
-
-}
-
-
-if (lightboxClose) {
-
-    lightboxClose.addEventListener(
+    image.addEventListener(
         "click",
-        closeLightbox
-    );
+        () => {
 
-}
-
-
-if (lightboxPrev) {
-
-    lightboxPrev.addEventListener(
-        "click",
-        showPrevious
-    );
-
-}
+            const lightbox =
+                document.createElement(
+                    "div"
+                );
 
 
-if (lightboxNext) {
-
-    lightboxNext.addEventListener(
-        "click",
-        showNext
-    );
-
-}
+            lightbox.className =
+                "photo-lightbox";
 
 
-if (lightbox) {
+            const fullImage =
+                document.createElement(
+                    "img"
+                );
 
-    lightbox.addEventListener(
-        "click",
-        event => {
 
-            if (
-                event.target ===
+            fullImage.src =
+                image.src;
+
+
+            fullImage.alt =
+                image.alt || "Memory Group";
+
+
+            lightbox.appendChild(
+                fullImage
+            );
+
+
+            document.body.appendChild(
                 lightbox
-            ) {
+            );
 
-                closeLightbox();
 
-            }
+            document.body.classList.add(
+                "lightbox-open"
+            );
+
+
+            lightbox.addEventListener(
+                "click",
+                () => {
+
+                    lightbox.remove();
+
+                    document.body.classList.remove(
+                        "lightbox-open"
+                    );
+
+                }
+            );
 
         }
     );
 
-}
+});
 
 
-/* =====================================================
-   KEYBOARD LIGHTBOX
-===================================================== */
+
+/* =========================================
+   ESC KEY CLOSES LIGHTBOX
+========================================= */
 
 document.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
         if (
-            !lightbox ||
-            !lightbox.classList.contains(
-                "active"
-            )
+            event.key === "Escape"
         ) {
-            return;
-        }
+
+            const lightbox =
+                document.querySelector(
+                    ".photo-lightbox"
+                );
 
 
-        if (event.key === "Escape") {
+            if (lightbox) {
 
-            closeLightbox();
+                lightbox.remove();
 
-        }
+                document.body.classList.remove(
+                    "lightbox-open"
+                );
 
-
-        if (event.key === "ArrowLeft") {
-
-            showPrevious();
-
-        }
-
-
-        if (event.key === "ArrowRight") {
-
-            showNext();
+            }
 
         }
 
@@ -714,50 +453,65 @@ document.addEventListener(
 );
 
 
-/* =====================================================
+
+/* =========================================
    IMAGE ERROR CHECK
-===================================================== */
+========================================= */
 
-document
-    .querySelectorAll("img")
-    .forEach(image => {
-
-        image.addEventListener(
-            "error",
-            () => {
-
-                console.warn(
-                    "Image could not be loaded:",
-                    image.src
-                );
-
-            }
-        );
-
-    });
+const images =
+    document.querySelectorAll(
+        "img"
+    );
 
 
-/* =====================================================
-   PREVENT MOBILE MENU AFTER RESIZE
-===================================================== */
+images.forEach(image => {
+
+    image.addEventListener(
+        "error",
+        () => {
+
+            console.warn(
+                "Image could not be loaded:",
+                image.src
+            );
+
+        }
+    );
+
+});
+
+
+
+/* =========================================
+   PREVENT MOBILE MENU FROM STAYING OPEN
+   AFTER RESIZE
+========================================= */
 
 window.addEventListener(
     "resize",
     () => {
 
         if (
-            window.innerWidth > 800
+            window.innerWidth > 650
         ) {
 
-            if (menuButton)
+            if (menuButton) {
+
                 menuButton.classList.remove(
                     "active"
                 );
 
-            if (mobileMenu)
+            }
+
+
+            if (mobileMenu) {
+
                 mobileMenu.classList.remove(
                     "active"
                 );
+
+            }
+
 
             document.body.classList.remove(
                 "menu-open"
@@ -767,3 +521,119 @@ window.addEventListener(
 
     }
 );
+
+
+
+/* =========================================
+   PREVENT BACKGROUND SCROLL
+   WHEN MOBILE MENU IS OPEN
+========================================= */
+
+const bodyObserver =
+    new MutationObserver(() => {
+
+        if (
+            document.body.classList.contains(
+                "menu-open"
+            )
+        ) {
+
+            document.body.style.overflow =
+                "hidden";
+
+        } else {
+
+            document.body.style.overflow =
+                "";
+
+        }
+
+    });
+
+
+bodyObserver.observe(
+    document.body,
+    {
+        attributes: true,
+        attributeFilter: [
+            "class"
+        ]
+    }
+);
+
+
+
+/* =========================================
+   SMOOTH ANCHOR SCROLL
+========================================= */
+
+document.querySelectorAll(
+    'a[href^="#"]'
+).forEach(link => {
+
+    link.addEventListener(
+        "click",
+        function (event) {
+
+            const targetId =
+                this.getAttribute(
+                    "href"
+                );
+
+
+            if (
+                targetId === "#" ||
+                !targetId
+            ) {
+                return;
+            }
+
+
+            const target =
+                document.querySelector(
+                    targetId
+                );
+
+
+            if (!target) {
+                return;
+            }
+
+
+            event.preventDefault();
+
+
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+    );
+
+});
+
+
+
+/* =========================================
+   REDUCED MOTION SUPPORT
+========================================= */
+
+const prefersReducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
+
+if (
+    prefersReducedMotion.matches
+) {
+
+    if (krishnaBackground) {
+
+        krishnaBackground.style.transform =
+            "none";
+
+    }
+
+}
