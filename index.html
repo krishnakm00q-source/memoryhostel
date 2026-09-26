@@ -168,14 +168,6 @@
                 THE OWNER
             </a>
 
-            <a href="#pricing">
-                TARIFF
-            </a>
-
-            <a href="#moments">
-                MEMORY MOMENTS
-            </a>
-
             <a href="#philosophy">
                 PHILOSOPHY
             </a>
@@ -402,20 +394,94 @@
 
 
         <!-- =================================================
-             TARIFF / PRICING
+             MEMORY MOMENTS / PHOTO CATALOGUE
+             PHOTOS COME FROM memory-photos/
         ================================================== -->
 
         <section
-            class="pricing-section"
-            id="pricing"
+            class="memory-moments-section"
+            id="memories"
         >
 
-            <div class="pricing-heading">
+            <div class="memory-moments-heading">
 
                 <div class="section-number">
                     01 / 05
                 </div>
 
+                <div>
+
+                    <p class="section-eyebrow">
+                        MEMORY MOMENTS
+                    </p>
+
+                    <h2>
+                        Life at Memory.
+                    </h2>
+
+                    <p class="memory-moments-intro">
+                        A collection of moments, celebrations,
+                        people and memories from across Memory Group.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!--
+                JavaScript will automatically populate this
+                from the memory-photos/ folder.
+
+                Existing filenames do NOT need to be changed.
+            -->
+
+            <div
+                class="memory-photo-track"
+                id="memoryPhotoTrack"
+            >
+
+                <div class="memory-photo-loading">
+
+                    <span>
+                        LOADING MEMORIES
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="memory-gallery-note">
+
+                <span>
+                    MEMORY GROUP
+                </span>
+
+                <span>
+                    MOMENTS ACROSS MEMORIES ↗
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TARIFF / PRICING
+        ================================================== -->
+
+        <section
+            class="tariff-section"
+            id="tariff"
+        >
+
+            <div class="tariff-heading">
+
+                <div class="section-number">
+                    02 / 05
+                </div>
 
                 <div>
 
@@ -427,12 +493,9 @@
                         Stay Your Way.
                     </h2>
 
-                    <p class="pricing-intro">
-
-                        Fully furnished accommodation with a
-                        transparent pricing structure across
-                        Memory Group hostels.
-
+                    <p class="tariff-intro">
+                        Fully furnished accommodation with a transparent
+                        pricing structure across Memory Group hostels.
                     </p>
 
                 </div>
@@ -440,23 +503,26 @@
             </div>
 
 
+            <!-- =================================================
+                 ROOM / BED PRICING
+            ================================================== -->
 
-            <div class="pricing-grid">
+            <div class="tariff-grid">
 
 
-                <!-- 5500 -->
-
+                <!-- 01 -->
                 <article
-                    class="price-card price-card-5500"
+                    class="tariff-card"
+                    data-photo-index="0"
                 >
 
-                    <div class="price-card-image"></div>
+                    <div class="tariff-card-background"></div>
 
-                    <div class="price-card-overlay"></div>
+                    <div class="tariff-card-overlay"></div>
 
-                    <div class="price-card-content">
+                    <div class="tariff-card-content">
 
-                        <p class="price-number">
+                        <p class="tariff-number">
                             01 · 2 BHK
                         </p>
 
@@ -464,15 +530,13 @@
                             ₹5,500
                         </h3>
 
-                        <p class="price-unit">
+                        <p class="tariff-unit">
                             PER BED · PER MONTH
                         </p>
 
-                        <p class="price-description">
-
-                            Double-bed accommodation
-                            in 2 BHK with dining hall.
-
+                        <p class="tariff-description">
+                            Double-bed accommodation in 2 BHK
+                            with dining hall.
                         </p>
 
                     </div>
@@ -481,19 +545,19 @@
 
 
 
-                <!-- 6000 -->
-
+                <!-- 02 -->
                 <article
-                    class="price-card price-card-6000"
+                    class="tariff-card"
+                    data-photo-index="1"
                 >
 
-                    <div class="price-card-image"></div>
+                    <div class="tariff-card-background"></div>
 
-                    <div class="price-card-overlay"></div>
+                    <div class="tariff-card-overlay"></div>
 
-                    <div class="price-card-content">
+                    <div class="tariff-card-content">
 
-                        <p class="price-number">
+                        <p class="tariff-number">
                             02 · SHARING
                         </p>
 
@@ -501,15 +565,13 @@
                             ₹6,000
                         </h3>
 
-                        <p class="price-unit">
+                        <p class="tariff-unit">
                             PER BED · PER MONTH
                         </p>
 
-                        <p class="price-description">
-
-                            6 and 7 sharing rooms designed
-                            for comfortable community living.
-
+                        <p class="tariff-description">
+                            6 and 7 sharing rooms designed for
+                            comfortable community living.
                         </p>
 
                     </div>
@@ -518,19 +580,19 @@
 
 
 
-                <!-- 6500 -->
-
+                <!-- 03 -->
                 <article
-                    class="price-card price-card-6500"
+                    class="tariff-card"
+                    data-photo-index="2"
                 >
 
-                    <div class="price-card-image"></div>
+                    <div class="tariff-card-background"></div>
 
-                    <div class="price-card-overlay"></div>
+                    <div class="tariff-card-overlay"></div>
 
-                    <div class="price-card-content">
+                    <div class="tariff-card-content">
 
-                        <p class="price-number">
+                        <p class="tariff-number">
                             03 · TRIPLE / FOUR
                         </p>
 
@@ -538,15 +600,13 @@
                             ₹6,500
                         </h3>
 
-                        <p class="price-unit">
+                        <p class="tariff-unit">
                             PER BED · PER MONTH
                         </p>
 
-                        <p class="price-description">
-
+                        <p class="tariff-description">
                             Triple and four-sharing room
                             accommodation.
-
                         </p>
 
                     </div>
@@ -555,19 +615,19 @@
 
 
 
-                <!-- 7500 -->
-
+                <!-- 04 -->
                 <article
-                    class="price-card price-card-7500"
+                    class="tariff-card"
+                    data-photo-index="3"
                 >
 
-                    <div class="price-card-image"></div>
+                    <div class="tariff-card-background"></div>
 
-                    <div class="price-card-overlay"></div>
+                    <div class="tariff-card-overlay"></div>
 
-                    <div class="price-card-content">
+                    <div class="tariff-card-content">
 
-                        <p class="price-number">
+                        <p class="tariff-number">
                             04 · DOUBLE
                         </p>
 
@@ -575,15 +635,13 @@
                             ₹7,500
                         </h3>
 
-                        <p class="price-unit">
+                        <p class="tariff-unit">
                             PER BED · PER MONTH
                         </p>
 
-                        <p class="price-description">
-
+                        <p class="tariff-description">
                             Double-sharing room for guests
                             looking for more personal space.
-
                         </p>
 
                     </div>
@@ -592,19 +650,19 @@
 
 
 
-                <!-- 12500 -->
-
+                <!-- 05 -->
                 <article
-                    class="price-card price-card-12500"
+                    class="tariff-card"
+                    data-photo-index="4"
                 >
 
-                    <div class="price-card-image"></div>
+                    <div class="tariff-card-background"></div>
 
-                    <div class="price-card-overlay"></div>
+                    <div class="tariff-card-overlay"></div>
 
-                    <div class="price-card-content">
+                    <div class="tariff-card-content">
 
-                        <p class="price-number">
+                        <p class="tariff-number">
                             05 · SINGLE
                         </p>
 
@@ -612,15 +670,13 @@
                             ₹12,500
                         </h3>
 
-                        <p class="price-unit">
+                        <p class="tariff-unit">
                             PER ROOM · PER MONTH
                         </p>
 
-                        <p class="price-description">
-
-                            Private single room for guests
-                            who prefer their own personal space.
-
+                        <p class="tariff-description">
+                            Private single room for guests who
+                            prefer their own personal space.
                         </p>
 
                     </div>
@@ -635,29 +691,29 @@
                  SECURITY / JOINING
             ================================================== -->
 
-            <div class="pricing-details">
+            <div class="tariff-extra-grid">
 
 
-                <div class="pricing-detail">
+                <div class="tariff-extra-item">
 
-                    <span>
+                    <span class="tariff-extra-number">
                         01
                     </span>
 
                     <div>
 
-                        <p>
+                        <p class="tariff-extra-label">
                             SHARING SECURITY
                         </p>
 
-                        <strong>
+                        <h3>
                             ₹3,000
-                        </strong>
+                        </h3>
 
-                        <small>
+                        <p>
                             Security deposit for sharing rooms,
                             adjustable in the last month.
-                        </small>
+                        </p>
 
                     </div>
 
@@ -665,26 +721,26 @@
 
 
 
-                <div class="pricing-detail">
+                <div class="tariff-extra-item">
 
-                    <span>
+                    <span class="tariff-extra-number">
                         02
                     </span>
 
                     <div>
 
-                        <p>
+                        <p class="tariff-extra-label">
                             SINGLE ROOM SECURITY
                         </p>
 
-                        <strong>
+                        <h3>
                             ₹5,000
-                        </strong>
+                        </h3>
 
-                        <small>
+                        <p>
                             Security deposit for single rooms,
                             adjustable in the last month.
-                        </small>
+                        </p>
 
                     </div>
 
@@ -692,26 +748,26 @@
 
 
 
-                <div class="pricing-detail">
+                <div class="tariff-extra-item">
 
-                    <span>
+                    <span class="tariff-extra-number">
                         03
                     </span>
 
                     <div>
 
-                        <p>
+                        <p class="tariff-extra-label">
                             JOINING FEE
                         </p>
 
-                        <strong>
+                        <h3>
                             ₹500
-                        </strong>
+                        </h3>
 
-                        <small>
+                        <p>
                             One-time joining fee applicable
                             at the time of admission.
-                        </small>
+                        </p>
 
                     </div>
 
@@ -721,268 +777,19 @@
 
 
 
-            <div class="pricing-note">
+            <div class="tariff-bottom-note">
 
-                Fully furnished accommodation and all included.
+                <span>
+                    FULLY FURNISHED ACCOMMODATION
+                </span>
+
+                <span>
+                    ALL INCLUDED
+                </span>
 
             </div>
 
         </section>
-
-
-
-        <!-- =================================================
-             MEMORY MOMENTS / PHOTO CATALOGUE
-        ================================================== -->
-
-        <section
-            class="moments-section"
-            id="moments"
-        >
-
-            <div class="moments-heading">
-
-                <div class="section-number">
-                    02 / 05
-                </div>
-
-
-                <div>
-
-                    <p class="section-eyebrow">
-                        MEMORY MOMENTS
-                    </p>
-
-                    <h2>
-                        Moments Across Memories.
-                    </h2>
-
-                    <p class="moments-intro">
-
-                        A glimpse into the people, celebrations,
-                        friendships and everyday moments that make
-                        Memory Group feel like home.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <!--
-                IMPORTANT:
-
-                Put your existing JPG photos inside:
-
-                memory photos/
-
-                The filenames can stay exactly as they are.
-
-                Add their exact filenames below.
-
-                Example:
-
-                "memory photos/WhatsApp Image 2026-09-26 at 4.36.50 PM.jpg"
-
-                Do NOT rename your old website images.
-            -->
-
-
-            <div
-                class="moments-track-wrapper"
-                id="momentsWrapper"
-            >
-
-                <div
-                    class="moments-track"
-                    id="momentsTrack"
-                >
-
-
-                    <!-- PHOTO 01 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-01.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-01.jpg"
-                            alt="Memory Group moment"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 02 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-02.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-02.jpg"
-                            alt="Memory Group celebration"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 03 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-03.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-03.jpg"
-                            alt="Memory Group event"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 04 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-04.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-04.jpg"
-                            alt="Memory Group moment"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 05 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-05.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-05.jpg"
-                            alt="Memory Group celebration"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 06 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-06.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-06.jpg"
-                            alt="Memory Group event"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 07 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-07.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-07.jpg"
-                            alt="Memory Group moment"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-
-
-                    <!-- PHOTO 08 -->
-
-                    <button
-                        class="moment-photo"
-                        type="button"
-                        data-image="memory photos/PHOTO-08.jpg"
-                    >
-
-                        <img
-                            src="memory photos/PHOTO-08.jpg"
-                            alt="Memory Group celebration"
-                            loading="lazy"
-                        >
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <p class="moments-hint">
-                CLICK ANY PHOTO TO VIEW
-            </p>
-
-        </section>
-
-
-
-        <!-- =================================================
-             PHOTO VIEWER
-        ================================================== -->
-
-        <div
-            class="photo-viewer"
-            id="photoViewer"
-            aria-hidden="true"
-        >
-
-            <button
-                class="photo-viewer-close"
-                id="photoViewerClose"
-                type="button"
-                aria-label="Close photo"
-            >
-                ×
-            </button>
-
-
-            <img
-                id="photoViewerImage"
-                src=""
-                alt="Memory Group photo"
-            >
-
-        </div>
 
 
 
@@ -996,6 +803,7 @@
         >
 
             <div class="section-heading">
+
 
                 <div class="section-number">
                     03 / 05
@@ -1071,10 +879,6 @@
                                 Memory One
                             </h3>
 
-                            <p class="branch-name">
-                                Danapur Branch
-                            </p>
-
                         </div>
 
 
@@ -1144,10 +948,6 @@
                                 Memory Two
                             </h3>
 
-                            <p class="branch-name">
-                                Danapur Branch
-                            </p>
-
                         </div>
 
 
@@ -1216,10 +1016,6 @@
                             <h3>
                                 Memory Three
                             </h3>
-
-                            <p class="branch-name">
-                                Bihta Branch
-                            </p>
 
                         </div>
 
@@ -1333,7 +1129,6 @@
 
     <footer id="contact">
 
-
         <div class="footer-left">
 
             <a
@@ -1352,20 +1147,6 @@
 
 
 
-        <div class="footer-middle">
-
-            <a href="#terms">
-                TERMS & CONDITIONS
-            </a>
-
-            <a href="#privacy">
-                PRIVACY POLICY
-            </a>
-
-        </div>
-
-
-
         <div class="footer-right">
 
             <p>
@@ -1376,136 +1157,21 @@
                 © 2026 MEMORY GROUP. ALL RIGHTS RESERVED.
             </p>
 
+            <div class="footer-legal">
+
+                <a href="terms.html">
+                    TERMS & CONDITIONS
+                </a>
+
+                <a href="privacy.html">
+                    PRIVACY POLICY
+                </a>
+
+            </div>
+
         </div>
 
     </footer>
-
-
-
-    <!-- =====================================================
-         TERMS & CONDITIONS
-    ====================================================== -->
-
-    <section
-        class="legal-section"
-        id="terms"
-    >
-
-        <div class="legal-inner">
-
-            <p class="section-eyebrow">
-                LEGAL
-            </p>
-
-            <h2>
-                Terms & Conditions
-            </h2>
-
-
-            <div class="legal-content">
-
-                <p>
-                    By choosing accommodation at Memory Group,
-                    residents agree to follow the hostel's
-                    rules, discipline standards and applicable
-                    property guidelines.
-                </p>
-
-                <p>
-                    Room allocation is subject to availability
-                    and may depend on the selected room category.
-                </p>
-
-                <p>
-                    The applicable monthly rent, security deposit
-                    and joining fee are communicated before
-                    admission.
-                </p>
-
-                <p>
-                    Security deposits are adjustable against the
-                    last month as applicable, subject to settlement
-                    of any outstanding dues or applicable charges.
-                </p>
-
-                <p>
-                    Residents are expected to maintain cleanliness,
-                    discipline, safety and respectful behaviour
-                    within the premises.
-                </p>
-
-                <p>
-                    Hostel management reserves the right to update
-                    operational rules when reasonably required
-                    for the safety and comfort of residents.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         PRIVACY POLICY
-    ====================================================== -->
-
-    <section
-        class="legal-section privacy-section"
-        id="privacy"
-    >
-
-        <div class="legal-inner">
-
-            <p class="section-eyebrow">
-                LEGAL
-            </p>
-
-            <h2>
-                Privacy Policy
-            </h2>
-
-
-            <div class="legal-content">
-
-                <p>
-                    Memory Group respects the privacy of its
-                    residents and visitors.
-                </p>
-
-                <p>
-                    Information voluntarily provided through
-                    enquiry, booking or communication may be used
-                    only for accommodation-related communication,
-                    administration and service purposes.
-                </p>
-
-                <p>
-                    Personal information will not be intentionally
-                    sold or shared for unrelated commercial
-                    purposes.
-                </p>
-
-                <p>
-                    Residents should avoid submitting sensitive
-                    personal information through public website
-                    forms or unsecured communication channels.
-                </p>
-
-                <p>
-                    By contacting Memory Group, you acknowledge
-                    that communication may take place through
-                    phone, WhatsApp or other contact methods
-                    provided by the group.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
 
 
 
@@ -1516,7 +1182,9 @@
     <div class="floating-contact">
 
 
-        <!-- CALL BUTTON -->
+        <!-- =================================================
+             CALL BUTTON
+        ================================================== -->
 
         <a
             href="tel:+918789934663"
@@ -1534,7 +1202,9 @@
 
 
 
-        <!-- WHATSAPP BUTTON -->
+        <!-- =================================================
+             WHATSAPP BUTTON
+        ================================================== -->
 
         <a
             href="https://wa.me/918789934663?text=Hello%2C%20I%20want%20to%20know%20more%20about%20Memory%20Group.%20Please%20share%20the%20available%20rooms%2C%20rent%2C%20facilities%20and%20other%20details."
@@ -1552,6 +1222,7 @@
 
         </a>
 
+
     </div>
 
 
@@ -1561,7 +1232,6 @@
     ====================================================== -->
 
     <script src="script.js"></script>
-
 
 </body>
 
