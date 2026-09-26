@@ -1,587 +1,560 @@
+```javascript
+/* =========================================================
+   MEMORY GROUP — MAIN SCRIPT
+   ========================================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
-  const header = document.querySelector(".site-header");
-  const navToggle = document.querySelector(".nav-toggle");
-  const navLinks = document.querySelector(".nav-links");
-  const year = document.getElementById("year");
 
-  // Current year
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
+    /* =====================================================
+       MOBILE NAVIGATION
+    ===================================================== */
 
-  /* =========================================
-     NAVBAR SCROLL EFFECT
-  ========================================= */
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
 
-  const updateHeader = () => {
-    if (!header) return;
+    if (menuToggle && navLinks) {
 
-    header.classList.toggle(
-      "scrolled",
-      window.scrollY > 24
-    );
-  };
+        menuToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            menuToggle.classList.toggle("active");
+        });
 
-  updateHeader();
+        navLinks.querySelectorAll("a").forEach(link => {
 
-  window.addEventListener(
-    "scroll",
-    updateHeader,
-    { passive: true }
-  );
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+                menuToggle.classList.remove("active");
+            });
 
-
-  /* =========================================
-     MOBILE NAVIGATION
-  ========================================= */
-
-  const closeMenu = () => {
-    navToggle?.classList.remove("active");
-    navToggle?.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-    navLinks?.classList.remove("open");
-
-    document.body.classList.remove(
-      "menu-open"
-    );
-  };
-
-  navToggle?.addEventListener("click", () => {
-    const isOpen =
-      navLinks?.classList.toggle("open");
-
-    navToggle.classList.toggle(
-      "active",
-      isOpen
-    );
-
-    navToggle.setAttribute(
-      "aria-expanded",
-      String(Boolean(isOpen))
-    );
-
-    document.body.classList.toggle(
-      "menu-open",
-      Boolean(isOpen)
-    );
-  });
-
-
-  // Close mobile menu after clicking a link
-  navLinks?.querySelectorAll("a").forEach(
-    (link) => {
-      link.addEventListener(
-        "click",
-        closeMenu
-      );
+        });
     }
-  );
 
 
-  // Close mobile menu when switching to desktop
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 800) {
-      closeMenu();
+    /* =====================================================
+       MOBILE MENU — ALTERNATE CLASS SUPPORT
+       ===================================================== */
+
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileClose = document.getElementById("mobileClose");
+
+    if (menuToggle && mobileMenu) {
+
+        menuToggle.addEventListener("click", () => {
+            mobileMenu.classList.add("open");
+            document.body.classList.add("menu-open");
+        });
     }
-  });
+
+    if (mobileClose && mobileMenu) {
+
+        mobileClose.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+            document.body.classList.remove("menu-open");
+        });
+    }
+
+    if (mobileMenu) {
+
+        mobileMenu.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+                document.body.classList.remove("menu-open");
+            });
+
+        });
+    }
 
 
-  /* =========================================
-     KRISHNA HERO PARALLAX
-  ========================================= */
+    /* =====================================================
+       HEADER SCROLL EFFECT
+    ===================================================== */
 
-  const hero =
-    document.querySelector(".hero");
+    const header = document.querySelector(".navbar") ||
+                   document.querySelector(".site-header");
 
-  const heroBg =
-    document.querySelector(".hero-bg");
+    if (header) {
 
-  if (
-    hero &&
-    heroBg &&
-    !window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches
-  ) {
-    hero.addEventListener(
-      "pointermove",
-      (event) => {
-        if (window.innerWidth < 900) return;
+        const updateHeader = () => {
 
-        const rect =
-          hero.getBoundingClientRect();
-
-        const x =
-          (
-            (event.clientX - rect.left) /
-            rect.width -
-            0.5
-          ) * 8;
-
-        const y =
-          (
-            (event.clientY - rect.top) /
-            rect.height -
-            0.5
-          ) * 5;
-
-        heroBg.style.transform =
-          `scale(1.055) translate3d(${x}px, ${y}px, 0)`;
-      }
-    );
-
-    hero.addEventListener(
-      "pointerleave",
-      () => {
-        heroBg.style.transform =
-          "scale(1.035)";
-      }
-    );
-  }
-
-
-  /* =========================================
-     SCROLL REVEAL ANIMATIONS
-  ========================================= */
-
-  const revealItems =
-    document.querySelectorAll(
-      `
-      .room-card,
-      .hostel-card,
-      .event-card,
-      .owner-content,
-      .memory-copy,
-      .philosophy-grid > div
-      `
-    );
-
-  if (
-    "IntersectionObserver" in window
-  ) {
-    const observer =
-      new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach(
-            (entry) => {
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
-
-              entry.target.classList.add(
-                "is-visible"
-              );
-
-              obs.unobserve(
-                entry.target
-              );
+            if (window.scrollY > 30) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
             }
-          );
-        },
-        {
-          threshold: 0.12
+
+        };
+
+        window.addEventListener("scroll", updateHeader, {
+            passive: true
+        });
+
+        updateHeader();
+    }
+
+
+    /* =====================================================
+       SMOOTH ANCHOR SCROLL
+    ===================================================== */
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+
+        link.addEventListener("click", event => {
+
+            const targetId = link.getAttribute("href");
+
+            if (!targetId || targetId === "#") return;
+
+            const target = document.querySelector(targetId);
+
+            if (!target) return;
+
+            event.preventDefault();
+
+            const headerHeight =
+                header ? header.offsetHeight : 0;
+
+            const targetPosition =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                headerHeight;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+
+        });
+
+    });
+
+
+    /* =====================================================
+       MOMENTS THAT STAY
+       HORIZONTAL AUTO SCROLL
+    ===================================================== */
+
+    const memoryTrack =
+        document.querySelector(".memory-track");
+
+    if (memoryTrack) {
+
+        /*
+         * Prevent the same gallery from being
+         * duplicated multiple times.
+         */
+        if (!memoryTrack.dataset.ready) {
+
+            memoryTrack.dataset.ready = "true";
+
+            /*
+             * Duplicate original images so the
+             * animation can loop continuously.
+             */
+            const originalItems =
+                Array.from(memoryTrack.children);
+
+            originalItems.forEach(item => {
+
+                const clone = item.cloneNode(true);
+
+                clone.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                memoryTrack.appendChild(clone);
+
+            });
+
         }
-      );
-
-    revealItems.forEach(
-      (item) => {
-        observer.observe(item);
-      }
-    );
-  }
-
-
-  /* =========================================
-     LIFE AT MEMORY GALLERY
-     
-     Images are automatically loaded from:
-     /memory-photos/
-  ========================================= */
-
-  const galleryTrack =
-    document.getElementById(
-      "memoryGallery"
-    );
-
-  const galleryApi =
-    "https://api.github.com/repos/krishnakm00q-source/memoryhostel/contents/memory-photos";
-
-  const imageExtensions =
-    /\.(jpe?g|png|webp|gif|avif)$/i;
-
-
-  /* =========================================
-     CREATE GALLERY IMAGE
-  ========================================= */
-
-  const makeGalleryItem = (file) => {
-    const item =
-      document.createElement(
-        "figure"
-      );
-
-    item.className =
-      "gallery-item";
-
-
-    const img =
-      document.createElement(
-        "img"
-      );
-
-    img.src =
-      file.download_url;
-
-    img.alt =
-      "Life at Memory";
-
-    img.loading =
-      "lazy";
-
-    img.decoding =
-      "async";
-
-
-    item.appendChild(img);
-
-    return item;
-  };
-
-
-  /* =========================================
-     START AUTO-SCROLL GALLERY
-  ========================================= */
-
-  const startGallery = () => {
-    if (!galleryTrack) {
-      return;
     }
 
 
-    const items = [
-      ...galleryTrack.querySelectorAll(
-        ".gallery-item"
-      )
-    ];
+    /* =====================================================
+       MEMORY PHOTO FALLBACK
+       ===================================================== */
 
+    /*
+     * If the gallery is dynamically generated and
+     * the GitHub/API source fails, use direct
+     * memory-photos paths.
+     *
+     * This does NOT replace existing gallery images.
+     */
 
-    if (items.length < 2) {
-      return;
-    }
+    const gallery =
+        document.querySelector(".memory-gallery");
 
+    const galleryContainer =
+        document.querySelector(".memory-track");
 
-    // Respect user's reduced motion setting
     if (
-      window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches
+        gallery &&
+        galleryContainer &&
+        galleryContainer.children.length === 0
     ) {
-      return;
+
+        const memoryPhotos = [
+
+            "memory-photos/IMG_20250820_174444.jpg",
+            "memory-photos/IMG_20250820_174451.jpg",
+            "memory-photos/IMG_20250820_174458.jpg",
+            "memory-photos/IMG_20250820_174505.jpg",
+            "memory-photos/IMG_20250820_174512.jpg",
+            "memory-photos/IMG_20250820_174520.jpg"
+
+        ];
+
+        memoryPhotos.forEach((src, index) => {
+
+            const img = document.createElement("img");
+
+            img.src = src;
+
+            img.alt =
+                `Life at Memory ${index + 1}`;
+
+            img.loading = "lazy";
+
+            galleryContainer.appendChild(img);
+
+        });
+
+        /*
+         * Duplicate for infinite scrolling.
+         */
+
+        memoryPhotos.forEach((src, index) => {
+
+            const img = document.createElement("img");
+
+            img.src = src;
+
+            img.alt = "";
+
+            img.loading = "lazy";
+
+            img.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            galleryContainer.appendChild(img);
+
+        });
+
     }
 
 
-    /*
-      Duplicate the first sequence.
+    /* =====================================================
+       AUTO HORIZONTAL SCROLL FALLBACK
+    ===================================================== */
 
-      This creates a seamless
-      infinite scrolling effect.
-    */
+    const autoGallery =
+        document.querySelector(".memory-gallery");
 
-    items.forEach(
-      (item) => {
-        galleryTrack.appendChild(
-          item.cloneNode(true)
-        );
-      }
-    );
+    if (autoGallery) {
 
+        let animationFrame = null;
+        let isPaused = false;
 
-    let position = 0;
+        const track =
+            autoGallery.querySelector(".memory-track");
 
-    let last =
-      performance.now();
+        if (track) {
 
-    let paused = false;
+            const isMobile =
+                window.matchMedia(
+                    "(max-width: 768px)"
+                ).matches;
 
+            /*
+             * CSS normally handles animation.
+             * JS fallback only applies if animation
+             * is unavailable.
+             */
 
-    /* Pause when mouse is over gallery */
-    const pause = () => {
-      paused = true;
-    };
+            if (!CSS.supports(
+                "animation-timeline",
+                "scroll()"
+            )) {
 
+                const moveGallery = () => {
 
-    /* Resume when mouse leaves gallery */
-    const resume = () => {
-      paused = false;
+                    if (!isPaused) {
 
-      last =
-        performance.now();
-    };
+                        autoGallery.scrollLeft +=
+                            isMobile ? 0.35 : 0.55;
 
+                        /*
+                         * Reset after reaching
+                         * approximately half.
+                         */
 
-    galleryTrack.addEventListener(
-      "mouseenter",
-      pause
-    );
+                        if (
+                            autoGallery.scrollLeft >=
+                            autoGallery.scrollWidth / 2
+                        ) {
 
+                            autoGallery.scrollLeft = 0;
 
-    galleryTrack.addEventListener(
-      "mouseleave",
-      resume
-    );
+                        }
 
+                    }
 
-    galleryTrack.addEventListener(
-      "touchstart",
-      pause,
-      {
-        passive: true
-      }
-    );
+                    animationFrame =
+                        requestAnimationFrame(
+                            moveGallery
+                        );
+                };
 
+                /*
+                 * Only use JS scrolling if the gallery
+                 * itself is horizontally scrollable.
+                 */
 
-    galleryTrack.addEventListener(
-      "touchend",
-      resume,
-      {
-        passive: true
-      }
-    );
+                if (
+                    autoGallery.scrollWidth >
+                    autoGallery.clientWidth
+                ) {
 
+                    animationFrame =
+                        requestAnimationFrame(
+                            moveGallery
+                        );
+                }
 
-    /*
-      Calculate width of the
-      original image sequence.
-    */
-
-    const firstSetWidth = () => {
-      const all = [
-        ...galleryTrack.children
-      ];
-
-
-      const half =
-        Math.floor(
-          all.length / 2
-        );
-
-
-      const gap =
-        parseFloat(
-          getComputedStyle(
-            galleryTrack
-          ).gap
-        ) || 0;
-
-
-      return (
-        all
-          .slice(0, half)
-          .reduce(
-            (
-              sum,
-              element
-            ) =>
-              sum +
-              element.getBoundingClientRect()
-                .width,
-            0
-          )
-        +
-        Math.max(
-          0,
-          half - 1
-        ) *
-          gap
-      );
-    };
-
-
-    /* =========================================
-       ANIMATION LOOP
-    ========================================= */
-
-    const animate = (now) => {
-      const delta =
-        Math.min(
-          now - last,
-          40
-        );
-
-      last = now;
-
-
-      if (!paused) {
-        /*
-          Gallery movement speed.
-
-          Increase 0.035 for faster.
-          Decrease 0.035 for slower.
-        */
-
-        position +=
-          delta * 0.035;
-
-
-        const loopWidth =
-          firstSetWidth();
-
-
-        /*
-          Reset position when
-          first image sequence ends.
-        */
-
-        if (
-          loopWidth > 0 &&
-          position >= loopWidth
-        ) {
-          position -= loopWidth;
-        }
-
-
-        galleryTrack.style.transform =
-          `translate3d(${-position}px, 0, 0)`;
-      }
-
-
-      requestAnimationFrame(
-        animate
-      );
-    };
-
-
-    requestAnimationFrame(
-      animate
-    );
-  };
-
-
-  /* =========================================
-     LOAD MEMORY PHOTOS FROM GITHUB
-  ========================================= */
-
-  const loadGallery =
-    async () => {
-      if (!galleryTrack) {
-        return;
-      }
-
-
-      try {
-        const response =
-          await fetch(
-            galleryApi,
-            {
-              headers: {
-                Accept:
-                  "application/vnd.github+json"
-              }
             }
-          );
 
 
-        if (!response.ok) {
-          throw new Error(
-            `GitHub API error: ${response.status}`
-          );
-        }
+            /* Desktop hover */
 
+            autoGallery.addEventListener(
+                "mouseenter",
+                () => {
+                    isPaused = true;
+                }
+            );
 
-        const files =
-          await response.json();
-
-
-        /*
-          Keep only image files.
-        */
-
-        const images =
-          files
-            .filter(
-              (file) =>
-                file.type === "file" &&
-                imageExtensions.test(
-                  file.name
-                )
-            )
-            .sort(
-              (
-                a,
-                b
-              ) =>
-                a.name.localeCompare(
-                  b.name,
-                  undefined,
-                  {
-                    numeric: true
-                  }
-                )
+            autoGallery.addEventListener(
+                "mouseleave",
+                () => {
+                    isPaused = false;
+                }
             );
 
 
-        if (!images.length) {
-          throw new Error(
-            "No gallery images found."
-          );
+            /* Mobile touch */
+
+            autoGallery.addEventListener(
+                "touchstart",
+                () => {
+                    isPaused = true;
+                },
+                { passive: true }
+            );
+
+            autoGallery.addEventListener(
+                "touchend",
+                () => {
+
+                    setTimeout(() => {
+                        isPaused = false;
+                    }, 1200);
+
+                },
+                { passive: true }
+            );
+
+        }
+    }
+
+
+    /* =====================================================
+       IMAGE ERROR HANDLING
+    ===================================================== */
+
+    document.querySelectorAll("img").forEach(img => {
+
+        img.addEventListener("error", () => {
+
+            console.warn(
+                "Memory Group image could not be loaded:",
+                img.src
+            );
+
+            /*
+             * Prevent broken-image icon
+             * from destroying layout.
+             */
+
+            img.classList.add("image-error");
+
+        });
+
+    });
+
+
+    /* =====================================================
+       ROOM CARD TOUCH SUPPORT
+    ===================================================== */
+
+    const roomSlider =
+        document.querySelector(".room-slider");
+
+    if (roomSlider) {
+
+        let startX = 0;
+        let startScroll = 0;
+
+        roomSlider.addEventListener(
+            "touchstart",
+            event => {
+
+                startX =
+                    event.touches[0].clientX;
+
+                startScroll =
+                    roomSlider.scrollLeft;
+
+            },
+            { passive: true }
+        );
+
+        roomSlider.addEventListener(
+            "touchmove",
+            event => {
+
+                const currentX =
+                    event.touches[0].clientX;
+
+                const distance =
+                    startX - currentX;
+
+                roomSlider.scrollLeft =
+                    startScroll + distance;
+
+            },
+            { passive: true }
+        );
+
+    }
+
+
+    /* =====================================================
+       HOSTEL CARD TOUCH SUPPORT
+    ===================================================== */
+
+    const hostelSlider =
+        document.querySelector(".hostel-slider");
+
+    if (hostelSlider) {
+
+        let startX = 0;
+        let startScroll = 0;
+
+        hostelSlider.addEventListener(
+            "touchstart",
+            event => {
+
+                startX =
+                    event.touches[0].clientX;
+
+                startScroll =
+                    hostelSlider.scrollLeft;
+
+            },
+            { passive: true }
+        );
+
+        hostelSlider.addEventListener(
+            "touchmove",
+            event => {
+
+                const currentX =
+                    event.touches[0].clientX;
+
+                const distance =
+                    startX - currentX;
+
+                hostelSlider.scrollLeft =
+                    startScroll + distance;
+
+            },
+            { passive: true }
+        );
+
+    }
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            if (mobileMenu) {
+                mobileMenu.classList.remove("open");
+            }
+
+            if (navLinks) {
+                navLinks.classList.remove("active");
+            }
+
+            if (menuToggle) {
+                menuToggle.classList.remove("active");
+            }
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
         }
 
-
-        /*
-          Remove loading content
-          and insert actual photos.
-        */
-
-        galleryTrack.innerHTML =
-          "";
+    });
 
 
-        images.forEach(
-          (file) => {
-            galleryTrack.appendChild(
-              makeGalleryItem(file)
-            );
-          }
-        );
+    /* =====================================================
+       RESIZE CLEANUP
+    ===================================================== */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            if (window.innerWidth > 768) {
+
+                if (navLinks) {
+                    navLinks.classList.remove("active");
+                }
+
+                if (mobileMenu) {
+                    mobileMenu.classList.remove("open");
+                }
+
+                if (menuToggle) {
+                    menuToggle.classList.remove("active");
+                }
+
+                document.body.classList.remove(
+                    "menu-open"
+                );
+
+            }
+
+        },
+        { passive: true }
+    );
 
 
-        /*
-          Start automatic
-          horizontal scrolling.
-        */
+    /* =====================================================
+       PAGE READY
+    ===================================================== */
 
-        startGallery();
-
-
-      } catch (error) {
-
-        console.error(
-          "Memory gallery could not load:",
-          error
-        );
-
-
-        galleryTrack.innerHTML = `
-          <div class="gallery-loading">
-            The Memory gallery is preparing.
-            Please refresh once the photo
-            collection is available.
-          </div>
-        `;
-      }
-    };
-
-
-  /*
-    Start loading the
-    Life at Memory gallery.
-  */
-
-  loadGallery();
+    document.body.classList.add("page-loaded");
 
 });
+```
