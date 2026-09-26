@@ -1,9 +1,7 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -13,7 +11,7 @@
 
     <meta
         name="description"
-        content="Memory Group — a place to belong. Comfortable hostel and PG accommodation in Danapur and Bihta."
+        content="Memory Group — The World Is One Family. Comfortable hostel and PG accommodation across Danapur and Bihta."
     >
 
     <meta
@@ -21,7 +19,7 @@
         content="#080807"
     >
 
-    <!-- MEMORY GROUP FAVICON -->
+    <!-- FAVICON -->
     <link
         rel="icon"
         type="image/png"
@@ -35,33 +33,7 @@
 
     <title>Memory Group — The World Is One Family</title>
 
-
-    <!-- Google Fonts -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- Main CSS -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-</head>
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -70,7 +42,13 @@
         rel="stylesheet"
     >
 
-    <!-- Main CSS -->
+    <!-- ICONS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
     <link
         rel="stylesheet"
         href="style.css"
@@ -80,177 +58,172 @@
 
 <body>
 
-
     <!-- =========================================
-         FIXED BACKGROUND
+         FIXED KRISHNA BACKGROUND
     ========================================== -->
 
-    <div class="site-background">
+    <div
+        class="krishna-background"
+        aria-hidden="true"
+    ></div>
 
-        <div class="krishna-background"></div>
+    <div
+        class="background-overlay"
+        aria-hidden="true"
+    ></div>
 
-        <div class="background-dark"></div>
-
-        <div class="background-vignette"></div>
-
-        <div class="background-grain"></div>
-
-    </div>
-
+    <div
+        class="background-vignette"
+        aria-hidden="true"
+    ></div>
 
 
     <!-- =========================================
          NAVBAR
     ========================================== -->
 
-    <header class="navbar">
+    <header class="site-header">
 
-        <a
-            href="#home"
-            class="logo"
-        >
-            MEMORY <span>GROUP</span>
-        </a>
+        <nav class="navbar">
 
-
-        <!-- Desktop Navigation -->
-
-        <nav class="desktop-nav">
-
-            <a href="#hostels">
-                HOSTELS
+            <a
+                href="#home"
+                class="brand"
+                aria-label="Memory Group Home"
+            >
+                <span>MEMORY</span>
+                <strong>GROUP</strong>
             </a>
 
-            <a href="#owner">
-                THE OWNER
-            </a>
 
-            <a href="#philosophy">
-                PHILOSOPHY
-            </a>
+            <div class="desktop-nav">
 
-            <a href="#contact">
-                CONTACT
-            </a>
+                <a href="#hostels">
+                    HOSTELS
+                </a>
+
+                <a href="#owner">
+                    THE OWNER
+                </a>
+
+                <a href="#philosophy">
+                    PHILOSOPHY
+                </a>
+
+                <a href="#contact">
+                    CONTACT
+                </a>
+
+            </div>
+
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Open menu"
+                aria-expanded="false"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
 
         </nav>
 
 
-        <!-- Mobile Menu Button -->
+        <!-- MOBILE MENU -->
 
-        <button
-            class="menu-button"
-            id="menuButton"
-            aria-label="Open navigation menu"
-            type="button"
+        <div
+            class="mobile-menu"
+            id="mobileMenu"
         >
 
-            <span></span>
-            <span></span>
+            <div class="mobile-menu-inner">
 
-        </button>
+                <a href="#hostels">
+                    HOSTELS
+                </a>
 
-    </header>
+                <a href="#pricing">
+                    PRICING
+                </a>
 
+                <a href="#owner">
+                    THE OWNER
+                </a>
 
+                <a href="#philosophy">
+                    PHILOSOPHY
+                </a>
 
-    <!-- =========================================
-         MOBILE MENU
-    ========================================== -->
-
-    <div
-        class="mobile-menu"
-        id="mobileMenu"
-    >
-
-        <div class="mobile-menu-inner">
-
-            <a href="#hostels">
-                HOSTELS
-            </a>
-
-            <a href="#pricing">
-                PRICING
-            </a>
-
-            <a href="#owner">
-                THE OWNER
-            </a>
-
-            <a href="#philosophy">
-                PHILOSOPHY
-            </a>
-
-            <a href="#contact">
-                CONTACT
-            </a>
-
-
-            <div class="mobile-menu-footer">
-
-                <span>
-                    MEMORY GROUP
-                </span>
-
-                <span>
-                    THE WORLD IS ONE FAMILY
-                </span>
+                <a href="#contact">
+                    CONTACT
+                </a>
 
             </div>
 
         </div>
 
-    </div>
+    </header>
 
 
+    <main>
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
 
-    <main id="home">
+        <!-- =========================================
+             HERO
+        ========================================== -->
 
-        <section class="hero">
+        <section
+            class="hero"
+            id="home"
+        >
 
             <div class="hero-content">
 
+                <div class="eyebrow">
 
-                <div class="hero-eyebrow">
+                    <span></span>
 
-                    <span class="eyebrow-line"></span>
-
-                    <span>
+                    <p>
                         A PLACE TO BELONG
-                    </span>
+                    </p>
 
                 </div>
 
 
-                <h1 class="sanskrit-title">
+                <h1 class="hero-hindi">
                     वसुधैव कुटुम्बकम्
                 </h1>
 
 
-                <div class="roman-title">
+                <p class="hero-sanskrit">
                     VASUDHAIVA KUTUMBAKAM
-                </div>
+                </p>
 
 
                 <div class="hero-divider"></div>
 
 
-                <h2 class="english-title">
+                <h2>
                     The World Is One Family.
                 </h2>
 
 
-                <p class="hero-description">
+                <div class="hero-description">
 
-                    More than a place to stay.<br>
+                    <p>
+                        More than a place to stay.
+                    </p>
 
-                    A place where memories become home.
+                    <p>
+                        A place where memories become home.
+                    </p>
 
-                </p>
+                </div>
 
             </div>
 
@@ -261,8 +234,6 @@
                     SCROLL TO DISCOVER
                 </span>
 
-                <div class="scroll-line"></div>
-
             </div>
 
         </section>
@@ -270,76 +241,74 @@
 
 
         <!-- =========================================
-             OWNER SECTION
+             OWNER
         ========================================== -->
 
         <section
-            class="owner-section"
+            class="owner-section section-space"
             id="owner"
         >
 
-            <div class="owner-inner">
+            <div class="owner-grid">
 
 
-                <!-- Owner Image -->
+                <!-- PHOTO -->
 
                 <div class="owner-image-wrap">
 
-                    <img
-                        src="assets/owner.jpg"
-                        alt="Sushil Kumar Tiwari, owner of Memory Group"
-                        class="owner-image"
-                        loading="lazy"
-                    >
+                    <div class="owner-image">
 
-                    <div class="owner-image-caption">
+                        <img
+                            src="assets/owner.jpg"
+                            alt="Sushil Kumar Tiwari"
+                        >
 
-                        <span>
-                            MEMORY GROUP
-                        </span>
+                    </div>
 
-                        <span>
-                            THE PERSON BEHIND THE PLACE
-                        </span>
 
+                    <div class="owner-image-label left">
+                        MEMORY GROUP
+                    </div>
+
+                    <div class="owner-image-label right">
+                        THE PERSON BEHIND THE PLACE
                     </div>
 
                 </div>
 
 
-
-                <!-- Owner Content -->
+                <!-- CONTENT -->
 
                 <div class="owner-content">
 
-                    <h2>
-                        Sushil Kumar
-                        <span>
-                            Tiwari.
-                        </span>
-                    </h2>
-
-
-                    <div class="owner-role">
-                        OWNER · MEMORY GROUP
+                    <div class="small-label">
+                        THE PERSON BEHIND THE PLACE
                     </div>
 
 
-                    <div class="owner-divider"></div>
+                    <h2>
+                        Sushil Kumar
+                        <span>Tiwari.</span>
+                    </h2>
 
 
-                    <p class="owner-text">
+                    <p class="owner-role">
+                        OWNER · MEMORY GROUP
+                    </p>
 
+
+                    <div class="gold-line"></div>
+
+
+                    <p>
                         Sushil Kumar Tiwari brings a
                         hospitality-focused approach to
                         Memory Group, with his professional
                         work in stay support services in Patna.
-
                     </p>
 
 
-                    <p class="owner-text">
-
+                    <p>
                         For him, hospitality is not only about
                         providing a room. It is about creating
                         an environment built on
@@ -347,27 +316,30 @@
                             discipline, dignity, cleanliness
                             and genuine care.
                         </strong>
-
                     </p>
 
 
-                    <p class="owner-text owner-faith">
+                    <div class="owner-quote">
 
-                        A devoted <strong>Krishna bhakt</strong>,
-                        he draws inspiration from the values of
-                        humility, discipline, service and
-                        responsibility. These principles guide
-                        the way he looks at hospitality —
-                        maintaining discipline across the
-                        services while making every guest feel
-                        respected, comfortable and at home.
+                        <p>
+                            A devoted
+                            <strong>Krishna bhakt</strong>,
+                            he draws inspiration from the values
+                            of humility, discipline, service
+                            and responsibility. These principles
+                            guide the way he looks at hospitality
+                            — maintaining discipline across the
+                            services while making every guest
+                            feel respected, comfortable and at
+                            home.
+                        </p>
 
-                    </p>
+                    </div>
 
 
-                    <div class="owner-signature">
+                    <div class="owner-footer">
 
-                        <span>
+                        <span class="sanskrit-signature">
                             श्री कृष्णार्पणम्
                         </span>
 
@@ -375,9 +347,9 @@
                             href="https://www.linkedin.com/in/sushil-kumar-tiwari-48b8aa1b/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="owner-link"
                         >
-                            VIEW PROFESSIONAL PROFILE ↗
+                            VIEW PROFESSIONAL PROFILE
+                            <span>↗</span>
                         </a>
 
                     </div>
@@ -391,162 +363,146 @@
 
 
         <!-- =========================================
-             PRICING SECTION
+             PRICING
         ========================================== -->
 
         <section
-            class="pricing-section"
+            class="pricing-section section-space"
             id="pricing"
         >
 
-            <div class="pricing-heading">
+            <div class="section-heading">
 
-                <div>
-
-                    <div class="section-number">
-                        01 · PRICING
-                    </div>
-
+                <div class="section-eyebrow">
+                    MEMORY GROUP · PRICING
                 </div>
 
 
-                <div>
+                <h2>
+                    Clearly Priced.
+                </h2>
 
-                    <div class="section-eyebrow">
-                        SIMPLE · TRANSPARENT · CLEAR
-                    </div>
 
-                    <h2>
-                        Your Stay,<br>
-                        Clearly Priced.
-                    </h2>
-
-                    <p class="pricing-intro">
-
-                        The same transparent pricing structure
-                        applies across Memory Group hostels.
-                        Choose the room arrangement that fits
-                        your stay and lifestyle.
-
-                    </p>
-
-                </div>
+                <p>
+                    The same transparent pricing structure
+                    applies across Memory Group hostels.
+                    Choose the room arrangement that fits
+                    your stay and lifestyle.
+                </p>
 
             </div>
 
 
-
-            <!-- Pricing Cards -->
+            <!-- PRICE CARDS -->
 
             <div class="pricing-grid">
 
 
-                <!-- 2 BHK -->
+                <!-- ₹5500 -->
 
-                <article class="pricing-card pricing-featured">
+                <article class="pricing-card">
 
-                    <div class="pricing-label">
+                    <span class="pricing-number">
                         01 · 2 BHK
-                    </div>
+                    </span>
+
 
                     <h3>
                         ₹5,500
                     </h3>
 
+
                     <span class="pricing-unit">
                         PER BED · PER MONTH
                     </span>
 
-                    <div class="pricing-line"></div>
 
                     <p>
-                        Double-bed arrangement in
-                        2 BHK accommodation with
-                        dining hall access.
+                        Double-bed arrangement in 2 BHK
+                        accommodation with dining hall access.
                     </p>
 
                 </article>
 
 
+                <!-- ₹6500 -->
 
-                <!-- 6-7 Sharing -->
+                <article class="pricing-card featured-price">
 
-                <article class="pricing-card">
-
-                    <div class="pricing-label">
+                    <span class="pricing-number">
                         02 · SHARING
-                    </div>
+                    </span>
+
 
                     <h3>
-                        ₹6,000
+                        ₹6,500
                     </h3>
+
 
                     <span class="pricing-unit">
                         PER BED · PER MONTH
                     </span>
 
-                    <div class="pricing-line"></div>
 
                     <p>
-                        6–7 sharing rooms designed
-                        for comfortable and practical
-                        community living.
+                        6–7 sharing rooms designed for
+                        comfortable and practical community
+                        living.
                     </p>
 
                 </article>
 
 
-
-                <!-- Double Sharing -->
+                <!-- ₹7500 -->
 
                 <article class="pricing-card">
 
-                    <div class="pricing-label">
+                    <span class="pricing-number">
                         03 · DOUBLE
-                    </div>
+                    </span>
+
 
                     <h3>
                         ₹7,500
                     </h3>
 
+
                     <span class="pricing-unit">
                         PER BED · PER MONTH
                     </span>
 
-                    <div class="pricing-line"></div>
 
                     <p>
-                        Double-sharing room for guests
-                        looking for a more private
-                        accommodation experience.
+                        Double-sharing room for guests looking
+                        for a more private accommodation
+                        experience.
                     </p>
 
                 </article>
 
 
-
-                <!-- Single -->
+                <!-- ₹12500 -->
 
                 <article class="pricing-card">
 
-                    <div class="pricing-label">
+                    <span class="pricing-number">
                         04 · SINGLE
-                    </div>
+                    </span>
+
 
                     <h3>
                         ₹12,500
                     </h3>
 
+
                     <span class="pricing-unit">
                         PER ROOM · PER MONTH
                     </span>
 
-                    <div class="pricing-line"></div>
 
                     <p>
-                        Private single room for guests
-                        who prefer their own personal
-                        space.
+                        Private single room for guests who
+                        prefer their own personal space.
                     </p>
 
                 </article>
@@ -554,33 +510,31 @@
             </div>
 
 
+            <!-- SECURITY / JOINING -->
 
-            <!-- Additional Fees -->
-
-            <div class="pricing-fees">
+            <div class="pricing-details">
 
 
-                <div class="fee-item">
+                <div class="pricing-detail">
 
-                    <div class="fee-number">
+                    <span>
                         01
-                    </div>
+                    </span>
 
                     <div>
 
-                        <div class="fee-title">
+                        <small>
                             SHARING SECURITY
-                        </div>
+                        </small>
 
-                        <div class="fee-price">
+                        <strong>
                             ₹3,000
-                        </div>
+                        </strong>
 
-                        <p class="fee-description">
+                        <p>
                             Security deposit for sharing
-                            accommodation. Adjustable
-                            against the last month as
-                            applicable.
+                            accommodation. Adjustable against
+                            the last month as applicable.
                         </p>
 
                     </div>
@@ -588,24 +542,23 @@
                 </div>
 
 
+                <div class="pricing-detail">
 
-                <div class="fee-item">
-
-                    <div class="fee-number">
+                    <span>
                         02
-                    </div>
+                    </span>
 
                     <div>
 
-                        <div class="fee-title">
+                        <small>
                             SINGLE ROOM SECURITY
-                        </div>
+                        </small>
 
-                        <div class="fee-price">
+                        <strong>
                             ₹5,000
-                        </div>
+                        </strong>
 
-                        <p class="fee-description">
+                        <p>
                             Security deposit for a single
                             room. Adjustable against the
                             last month as applicable.
@@ -616,24 +569,23 @@
                 </div>
 
 
+                <div class="pricing-detail">
 
-                <div class="fee-item">
-
-                    <div class="fee-number">
+                    <span>
                         03
-                    </div>
+                    </span>
 
                     <div>
 
-                        <div class="fee-title">
+                        <small>
                             JOINING FEE
-                        </div>
+                        </small>
 
-                        <div class="fee-price">
+                        <strong>
                             ₹500
-                        </div>
+                        </strong>
 
-                        <p class="fee-description">
+                        <p>
                             One-time joining fee applicable
                             at the time of admission.
                         </p>
@@ -646,12 +598,10 @@
 
 
             <p class="pricing-note">
-
                 * Pricing shown is the standard Memory Group
                 pricing structure. Availability, room allocation,
-                services and applicable terms may vary by
-                property and room category.
-
+                services and applicable terms may vary by property
+                and room category.
             </p>
 
         </section>
@@ -659,102 +609,94 @@
 
 
         <!-- =========================================
-             HOSTELS SECTION
+             HOSTELS
         ========================================== -->
 
         <section
-            class="hostels-section"
+            class="hostels-section section-space"
             id="hostels"
         >
 
-            <div class="section-heading">
+            <div class="hostels-heading">
 
-                <div>
-
-                    <div class="section-number">
-                        02 · THE PLACES
-                    </div>
-
+                <div class="section-eyebrow">
+                    MEMORY GROUP · OUR HOSTELS
                 </div>
 
 
-                <div>
+                <h2>
+                    Your Next Chapter.
+                </h2>
 
-                    <div class="section-eyebrow">
-                        YOUR NEXT CHAPTER
-                    </div>
 
-                    <h2>
-                        Find Your<br>
-                        Place.
-                    </h2>
-
-                </div>
+                <p>
+                    Three places. One philosophy.
+                    Find the Memory Group home that
+                    feels right for you.
+                </p>
 
             </div>
-
 
 
             <div class="hostel-grid">
 
 
-                <!-- =================================
-                     MEMORY ONE
-                ================================== -->
+                <!-- MEMORY 1 -->
 
                 <a
-                    href="hostels/memory-1/index.html"
                     class="hostel-card"
+                    href="hostels/memory-1/index.html"
                 >
 
-                    <div class="card-image-wrapper">
+                    <div class="card-image-wrap">
 
                         <img
+                            class="card-image"
                             src="assets/hostel-1.png"
                             alt="Memory One Danapur Branch"
-                            class="card-image"
-                            loading="lazy"
                         >
+
 
                         <div class="card-overlay"></div>
 
 
-                        <div class="card-number">
-                            MEMORY 01 · DANAPUR BRANCH
+                        <div class="branch-badge">
+                            MEMORY 01
+                            <strong>
+                                DANAPUR BRANCH
+                            </strong>
                         </div>
 
 
-                        <div class="card-arrow">
+                        <div class="explore-button">
                             ↗
                         </div>
 
                     </div>
 
 
-                    <div class="card-content">
+                    <div class="hostel-card-info">
 
                         <div>
 
-                            <div class="card-small">
-                                DANAPUR BRANCH
-                            </div>
+                            <span class="card-eyebrow">
+                                MEMORY GROUP
+                            </span>
 
                             <h3>
                                 Memory One
                             </h3>
 
-                        </div>
-
-
-                        <div class="explore">
-
-                            EXPLORE
-
-                            <span>
-                                ↗
-                            </span>
+                            <p class="branch-name">
+                                Danapur Branch
+                            </p>
 
                         </div>
+
+
+                        <span class="explore-text">
+                            EXPLORE ↗
+                        </span>
 
                     </div>
 
@@ -762,63 +704,62 @@
 
 
 
-                <!-- =================================
-                     MEMORY TWO
-                ================================== -->
+                <!-- MEMORY 2 -->
 
                 <a
-                    href="hostels/memory-2/index.html"
                     class="hostel-card"
+                    href="hostels/memory-2/index.html"
                 >
 
-                    <div class="card-image-wrapper">
+                    <div class="card-image-wrap">
 
                         <img
+                            class="card-image"
                             src="assets/hostel-2.jpeg"
                             alt="Memory Two Danapur Branch"
-                            class="card-image"
-                            loading="lazy"
                         >
+
 
                         <div class="card-overlay"></div>
 
 
-                        <div class="card-number">
-                            MEMORY 02 · DANAPUR BRANCH
+                        <div class="branch-badge">
+                            MEMORY 02
+                            <strong>
+                                DANAPUR BRANCH
+                            </strong>
                         </div>
 
 
-                        <div class="card-arrow">
+                        <div class="explore-button">
                             ↗
                         </div>
 
                     </div>
 
 
-                    <div class="card-content">
+                    <div class="hostel-card-info">
 
                         <div>
 
-                            <div class="card-small">
-                                DANAPUR BRANCH
-                            </div>
+                            <span class="card-eyebrow">
+                                MEMORY GROUP
+                            </span>
 
                             <h3>
                                 Memory Two
                             </h3>
 
-                        </div>
-
-
-                        <div class="explore">
-
-                            EXPLORE
-
-                            <span>
-                                ↗
-                            </span>
+                            <p class="branch-name">
+                                Danapur Branch
+                            </p>
 
                         </div>
+
+
+                        <span class="explore-text">
+                            EXPLORE ↗
+                        </span>
 
                     </div>
 
@@ -826,63 +767,62 @@
 
 
 
-                <!-- =================================
-                     MEMORY THREE
-                ================================== -->
+                <!-- MEMORY 3 -->
 
                 <a
-                    href="hostels/memory-3/index.html"
                     class="hostel-card"
+                    href="hostels/memory-3/index.html"
                 >
 
-                    <div class="card-image-wrapper">
+                    <div class="card-image-wrap">
 
                         <img
+                            class="card-image"
                             src="assets/hostel-3.jpeg"
                             alt="Memory Three Bihta Branch"
-                            class="card-image"
-                            loading="lazy"
                         >
+
 
                         <div class="card-overlay"></div>
 
 
-                        <div class="card-number">
-                            MEMORY 03 · BIHTA BRANCH
+                        <div class="branch-badge">
+                            MEMORY 03
+                            <strong>
+                                BIHTA BRANCH
+                            </strong>
                         </div>
 
 
-                        <div class="card-arrow">
+                        <div class="explore-button">
                             ↗
                         </div>
 
                     </div>
 
 
-                    <div class="card-content">
+                    <div class="hostel-card-info">
 
                         <div>
 
-                            <div class="card-small">
-                                BIHTA BRANCH
-                            </div>
+                            <span class="card-eyebrow">
+                                MEMORY GROUP
+                            </span>
 
                             <h3>
                                 Memory Three
                             </h3>
 
-                        </div>
-
-
-                        <div class="explore">
-
-                            EXPLORE
-
-                            <span>
-                                ↗
-                            </span>
+                            <p class="branch-name">
+                                Bihta Branch
+                            </p>
 
                         </div>
+
+
+                        <span class="explore-text">
+                            EXPLORE ↗
+                        </span>
 
                     </div>
 
@@ -899,12 +839,11 @@
         ========================================== -->
 
         <section
-            class="philosophy-section"
+            class="philosophy-section section-space"
             id="philosophy"
         >
 
             <div class="philosophy-inner">
-
 
                 <div class="section-eyebrow">
                     OUR PHILOSOPHY
@@ -912,37 +851,39 @@
 
 
                 <h2>
-
-                    A stay is<br>
-
-                    more than<br>
-
-                    <span>
-                        four walls.
-                    </span>
-
+                    A place is more than
+                    four walls.
                 </h2>
 
 
-                <p class="philosophy-text">
-
-                    We believe a place becomes a home
-                    when people feel respected, safe,
-                    comfortable and connected.
-
-                    <br><br>
-
-                    <em>
-                        “Vasudhaiva Kutumbakam”
-                    </em>
-
-                    reminds us that the world is one family.
-
-                    At Memory Group, this thought shapes
-                    the way we build spaces, maintain
-                    discipline and welcome every resident.
-
+                <p class="philosophy-large">
+                    It becomes a home through the people,
+                    discipline, care and memories created
+                    within it.
                 </p>
+
+
+                <div class="philosophy-line"></div>
+
+
+                <p class="philosophy-small">
+                    At Memory Group, we believe that every
+                    resident deserves a clean, respectful
+                    and comfortable environment — a place
+                    where everyday living feels a little
+                    more like home.
+                </p>
+
+
+                <div class="philosophy-mantra">
+                    <span>
+                        वसुधैव कुटुम्बकम्
+                    </span>
+
+                    <small>
+                        THE WORLD IS ONE FAMILY
+                    </small>
+                </div>
 
             </div>
 
@@ -951,26 +892,54 @@
 
 
         <!-- =========================================
-             CLOSING
+             CONTACT
         ========================================== -->
 
-        <section class="closing-section">
+        <section
+            class="contact-section section-space"
+            id="contact"
+        >
 
-            <div class="closing-content">
+            <div class="contact-content">
 
-                <div class="closing-small">
-                    COME HOME
+                <div class="section-eyebrow">
+                    MEMORY GROUP · CONTACT
                 </div>
 
 
                 <h2>
-                    Your Next<br>
-                    Chapter.
+                    Find your place.
                 </h2>
 
 
-                <div class="closing-sanskrit">
-                    वसुधैव कुटुम्बकम्
+                <p>
+                    Have a question about rooms,
+                    availability or admission?
+                    Get in touch with Memory Group.
+                </p>
+
+
+                <div class="contact-actions">
+
+                    <a
+                        href="tel:+918409698676"
+                        class="contact-button"
+                    >
+                        CALL US
+                        <span>↗</span>
+                    </a>
+
+
+                    <a
+                        href="https://wa.me/918409698676?text=Hello%20Memory%20Group%2C%20I%20want%20to%20know%20about%20the%20rooms."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="contact-button whatsapp-contact"
+                    >
+                        WHATSAPP
+                        <span>↗</span>
+                    </a>
+
                 </div>
 
             </div>
@@ -985,35 +954,59 @@
          FOOTER
     ========================================== -->
 
-    <footer id="contact">
+    <footer
+        class="site-footer"
+        id="footer"
+    >
 
+        <div class="footer-top">
 
-        <div class="footer-left">
+            <div class="footer-brand">
 
-            <div class="footer-logo">
-                MEMORY <span>GROUP</span>
+                <a href="#home">
+                    MEMORY
+                    <span>GROUP</span>
+                </a>
+
+                <p>
+                    The World Is One Family.
+                </p>
+
             </div>
 
-            <p>
-                The World Is One Family.
-            </p>
+
+            <div class="footer-links">
+
+                <a href="#hostels">
+                    HOSTELS
+                </a>
+
+                <a href="#pricing">
+                    PRICING
+                </a>
+
+                <a href="#owner">
+                    THE OWNER
+                </a>
+
+                <a href="#philosophy">
+                    PHILOSOPHY
+                </a>
+
+                <a href="#contact">
+                    CONTACT
+                </a>
+
+            </div>
 
 
             <div class="footer-legal">
 
-                <a
-                    href="terms.html"
-                >
+                <a href="terms.html">
                     TERMS & CONDITIONS
                 </a>
 
-                <span>
-                    ·
-                </span>
-
-                <a
-                    href="privacy.html"
-                >
+                <a href="privacy.html">
                     PRIVACY POLICY
                 </a>
 
@@ -1022,19 +1015,14 @@
         </div>
 
 
-
-        <div class="footer-right">
+        <div class="footer-bottom">
 
             <span>
-                MEMORY GROUP
+                © 2026 MEMORY GROUP. ALL RIGHTS RESERVED.
             </span>
 
             <span>
-                DANAPUR · BIHTA · BIHAR
-            </span>
-
-            <span>
-                © 2026 MEMORY GROUP
+                वसुधैव कुटुम्बकम्
             </span>
 
         </div>
@@ -1049,55 +1037,36 @@
 
     <div class="floating-contact">
 
-
-        <!-- Call -->
-
         <a
-            href="tel:+918789934663"
-            class="contact-button phone-button"
+            href="tel:+918409698676"
+            class="floating-call"
             aria-label="Call Memory Group"
         >
-
-            ☎
-
-            <span class="contact-tooltip">
-                CALL MEMORY GROUP
-            </span>
-
+            <i class="fa-solid fa-phone"></i>
         </a>
 
 
-        <!-- WhatsApp -->
-
         <a
-            href="https://wa.me/918789934663?text=Hello%20Memory%20Group%2C%20I%20want%20to%20know%20about%20the%20rooms."
+            href="https://wa.me/918409698676?text=Hello%20Memory%20Group%2C%20I%20want%20to%20know%20about%20the%20rooms."
             target="_blank"
             rel="noopener noreferrer"
-            class="contact-button whatsapp-button"
+            class="floating-whatsapp"
             aria-label="WhatsApp Memory Group"
         >
-
-            <span>
-                ☎
-            </span>
-
-            <span class="contact-tooltip">
-                WHATSAPP US
-            </span>
-
+            <i class="fa-brands fa-whatsapp"></i>
         </a>
 
     </div>
 
 
 
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
+    <!-- JS -->
 
-    <script src="script.js"></script>
+    <script
+        src="script.js"
+        defer
+    ></script>
 
 </body>
 
 </html>
-```
