@@ -1,164 +1,81 @@
 /* =========================================================
    MEMORY GROUP
    MAIN JAVASCRIPT
-========================================================= */
+   ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
     /* =====================================================
-       ELEMENTS
-    ===================================================== */
+       NAVBAR
+       ===================================================== */
 
-    const navbar =
-        document.getElementById("navbar");
+    const navbar = document.getElementById("navbar");
 
-    const menuButton =
-        document.getElementById("menuButton");
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
 
-    const mobileMenu =
-        document.getElementById("mobileMenu");
-
-    const memoryTrack =
-        document.getElementById("memoryPhotoTrack");
-
-    const lightbox =
-        document.getElementById("photoLightbox");
-
-    const lightboxImage =
-        document.getElementById("lightboxImage");
-
-    const lightboxClose =
-        document.getElementById("lightboxClose");
-
-    const currentYear =
-        document.getElementById("currentYear");
-
-
-    /* =====================================================
-       YEAR
-    ===================================================== */
-
-    if (currentYear) {
-        currentYear.textContent =
-            new Date().getFullYear();
+    if (window.scrollY > 30) {
+        navbar.classList.add("scrolled");
     }
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            if (window.scrollY > 30) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+
+        },
+        { passive: true }
+    );
 
 
     /* =====================================================
        MOBILE MENU
-    ===================================================== */
+       ===================================================== */
 
-    if (menuButton && mobileMenu) {
+    if (menuToggle && navLinks) {
 
-        menuButton.addEventListener(
-            "click",
-            () => {
+        menuToggle.addEventListener("click", () => {
 
-                const isOpen =
-                    menuButton.classList.toggle("active");
+            navLinks.classList.toggle("active");
 
-                mobileMenu.classList.toggle(
-                    "active",
-                    isOpen
-                );
-
-                menuButton.setAttribute(
-                    "aria-expanded",
-                    String(isOpen)
-                );
-
-                document.body.classList.toggle(
-                    "menu-open",
-                    isOpen
-                );
-
-            }
-        );
+        });
 
 
-        mobileMenu
-            .querySelectorAll("a")
-            .forEach(link => {
+        navLinks.querySelectorAll("a").forEach((link) => {
 
-                link.addEventListener(
-                    "click",
-                    () => {
+            link.addEventListener("click", () => {
 
-                        menuButton.classList.remove(
-                            "active"
-                        );
-
-                        mobileMenu.classList.remove(
-                            "active"
-                        );
-
-                        menuButton.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-
-                        document.body.classList.remove(
-                            "menu-open"
-                        );
-
-                    }
-                );
+                navLinks.classList.remove("active");
 
             });
+
+        });
 
     }
 
 
     /* =====================================================
-       NAVBAR SCROLL
-    ===================================================== */
+       MEMORY EVENTS PHOTOS
+       ===================================================== */
 
-    const handleNavbar =
-        () => {
+    const eventsTrack = document.getElementById("eventsTrack");
 
-            if (!navbar) {
-                return;
-            }
-
-            if (window.scrollY > 30) {
-
-                navbar.classList.add(
-                    "scrolled"
-                );
-
-            } else {
-
-                navbar.classList.remove(
-                    "scrolled"
-                );
-
-            }
-
-        };
-
-    window.addEventListener(
-        "scroll",
-        handleNavbar,
-        { passive: true }
-    );
-
-    handleNavbar();
-
-
-    /* =====================================================
-       MEMORY EVENT PHOTOS
-       
+    /*
        IMPORTANT:
-       All photos are inside:
 
-       memory-photos/
+       These are the files actually inside:
 
-       We use the exact filenames currently
-       stored in your repository.
-    ===================================================== */
+       /memory-photos/
 
-    const memoryPhotos = [
+       Do NOT move them into assets.
+    */
+
+    const eventPhotos = [
 
         "WhatsApp Image 2026-09-26 at 4.36.49 PM.jpeg",
 
@@ -195,113 +112,212 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
 
-    /* =====================================================
-       BUILD MEMORY GALLERY
-    ===================================================== */
+    if (eventsTrack) {
 
-    function createMemoryPhoto(
-        filename,
-        number
-    ) {
+        /*
+           Build the first set.
+        */
 
-        const card =
-            document.createElement("button");
+        eventPhotos.forEach((photo, index) => {
 
-        card.type = "button";
+            const card = document.createElement("div");
 
-        card.className =
-            "memory-photo-card";
+            card.className = "event-card";
 
-        card.setAttribute(
-            "aria-label",
-            "Open Memory Group photo"
-        );
+            const image = document.createElement("img");
 
+            image.src =
+                "memory-photos/" +
+                encodeURIComponent(photo);
 
-        const image =
-            document.createElement("img");
+            image.alt =
+                "Memory Group event moment " +
+                (index + 1);
 
-        image.src =
-            "memory-photos/" +
-            encodeURI(filename);
-
-        image.alt =
-            "Memory Group moment " +
-            number;
-
-        image.loading =
-            number <= 5
+            image.loading = index < 4
                 ? "eager"
                 : "lazy";
 
+            image.addEventListener("error", () => {
+
+                card.style.display = "none";
+
+            });
+
+            card.appendChild(image);
+
+            eventsTrack.appendChild(card);
+
+        });
+
+
+        /*
+           Duplicate the cards.
+
+           This creates a seamless continuous
+           auto-scroll instead of jumping back.
+        */
+
+        const originalCards =
+            Array.from(eventsTrack.children);
+
+        originalCards.forEach((card) => {
+
+            const clone = card.cloneNode(true);
+
+            clone.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            eventsTrack.appendChild(clone);
+
+        });
+
+
+        /* =================================================
+           AUTO SCROLL
+           ================================================= */
+
+        let position = 0;
+
+        let speed = 0.45;
+
+        let paused = false;
+
+        let animationFrame;
+
+
+        function animateEvents() {
+
+            if (!paused) {
+
+                position -= speed;
+
+                const halfWidth =
+                    eventsTrack.scrollWidth / 2;
+
+                if (Math.abs(position) >= halfWidth) {
+
+                    position = 0;
+
+                }
+
+                eventsTrack.style.transform =
+                    `translate3d(${position}px, 0, 0)`;
+
+            }
+
+            animationFrame =
+                requestAnimationFrame(
+                    animateEvents
+                );
+        }
+
+
+        const eventsSlider =
+            document.getElementById("eventsSlider");
+
+
+        if (eventsSlider) {
+
+            eventsSlider.addEventListener(
+                "mouseenter",
+                () => {
+                    paused = true;
+                }
+            );
+
+            eventsSlider.addEventListener(
+                "mouseleave",
+                () => {
+                    paused = false;
+                }
+            );
+
+            eventsSlider.addEventListener(
+                "touchstart",
+                () => {
+                    paused = true;
+                },
+                { passive: true }
+            );
+
+            eventsSlider.addEventListener(
+                "touchend",
+                () => {
+                    setTimeout(() => {
+                        paused = false;
+                    }, 1200);
+                },
+                { passive: true }
+            );
+
+        }
+
+
+        /*
+           Start after browser has painted the page.
+        */
+
+        requestAnimationFrame(() => {
+            animateEvents();
+        });
+
+
+        /*
+           Stop animation if tab becomes hidden.
+        */
+
+        document.addEventListener(
+            "visibilitychange",
+            () => {
+
+                paused =
+                    document.hidden;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       5500 ROOM PHOTO FALLBACK
+       ===================================================== */
+
+    /*
+       5500.jpeg does NOT exist yet.
+
+       Therefore it must NOT show a broken-image icon.
+
+       When you upload:
+
+       room-photos/5500.jpeg
+
+       the same code will automatically
+       start showing the image.
+    */
+
+    const roomImages =
+        document.querySelectorAll(
+            ".room-photo"
+        );
+
+
+    roomImages.forEach((image) => {
 
         image.addEventListener(
             "error",
             () => {
 
-                console.warn(
-                    "Memory photo could not be loaded:",
-                    image.src
-                );
+                const wrapper =
+                    image.closest(".room-image");
 
-                card.style.display =
-                    "none";
+                if (!wrapper) return;
 
-            }
-        );
-
-
-        const numberLabel =
-            document.createElement("span");
-
-        numberLabel.className =
-            "memory-photo-card-number";
-
-        numberLabel.textContent =
-            String(number)
-                .padStart(2, "0");
-
-
-        card.appendChild(image);
-
-        card.appendChild(numberLabel);
-
-        card.addEventListener(
-            "click",
-            () => {
-
-                openLightbox(
-                    image.src,
-                    image.alt
-                );
-
-            }
-        );
-
-
-        return card;
-
-    }
-
-
-    function buildMemoryGallery() {
-
-        if (!memoryTrack) {
-            return;
-        }
-
-
-        memoryTrack.innerHTML = "";
-
-
-        memoryPhotos.forEach(
-            (filename, index) => {
-
-                memoryTrack.appendChild(
-                    createMemoryPhoto(
-                        filename,
-                        index + 1
-                    )
+                wrapper.classList.add(
+                    "missing"
                 );
 
             }
@@ -309,435 +325,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         /*
-         * Duplicate the complete group once.
-         *
-         * This makes the horizontal movement
-         * seamless instead of stopping after
-         * the last image.
-         */
+           In case browser already knows
+           the image failed before listener.
+        */
 
-        memoryPhotos.forEach(
-            (filename, index) => {
+        if (image.complete && image.naturalWidth === 0) {
 
-                const duplicate =
-                    createMemoryPhoto(
-                        filename,
-                        index + 1
-                    );
+            const wrapper =
+                image.closest(".room-image");
 
-                duplicate.classList.add(
-                    "memory-photo-duplicate"
-                );
+            if (wrapper) {
 
-                memoryTrack.appendChild(
-                    duplicate
+                wrapper.classList.add(
+                    "missing"
                 );
 
             }
-        );
 
-    }
+        }
 
-
-    buildMemoryGallery();
+    });
 
 
     /* =====================================================
-       AUTO SCROLL
-    ===================================================== */
+       CURRENT YEAR
+       ===================================================== */
 
-    let autoScrollRunning = true;
+    const year =
+        document.getElementById("year");
 
-    let scrollPosition = 0;
+    if (year) {
 
-    let animationFrame = null;
-
-    const scrollSpeed =
-        0.42;
-
-
-    function autoScroll() {
-
-        if (
-            !memoryTrack ||
-            !autoScrollRunning
-        ) {
-            return;
-        }
-
-
-        const firstSetWidth =
-            memoryTrack.scrollWidth / 2;
-
-
-        scrollPosition +=
-            scrollSpeed;
-
-
-        if (
-            scrollPosition >=
-            firstSetWidth
-        ) {
-
-            scrollPosition = 0;
-
-        }
-
-
-        memoryTrack.style.transform =
-            `translate3d(${-scrollPosition}px, 0, 0)`;
-
-
-        animationFrame =
-            requestAnimationFrame(
-                autoScroll
-            );
-
-    }
-
-
-    const reducedMotion =
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        );
-
-
-    if (
-        !reducedMotion.matches
-    ) {
-
-        animationFrame =
-            requestAnimationFrame(
-                autoScroll
-            );
+        year.textContent =
+            new Date().getFullYear();
 
     }
 
 
     /* =====================================================
-       PAUSE ON HOVER
-    ===================================================== */
-
-    if (memoryTrack) {
-
-        memoryTrack.addEventListener(
-            "mouseenter",
-            () => {
-
-                autoScrollRunning =
-                    false;
-
-            }
-        );
-
-
-        memoryTrack.addEventListener(
-            "mouseleave",
-            () => {
-
-                autoScrollRunning =
-                    true;
-
-            }
-        );
-
-
-        /*
-         * On phone there is no hover.
-         * Touching the gallery pauses it
-         * briefly, then continues.
-         */
-
-        memoryTrack.addEventListener(
-            "touchstart",
-            () => {
-
-                autoScrollRunning =
-                    false;
-
-            },
-            { passive: true }
-        );
-
-
-        memoryTrack.addEventListener(
-            "touchend",
-            () => {
-
-                setTimeout(
-                    () => {
-
-                        autoScrollRunning =
-                            true;
-
-                    },
-                    1500
-                );
-
-            },
-            { passive: true }
-        );
-
-    }
-
-
-    /* =====================================================
-       LIGHTBOX
-    ===================================================== */
-
-    function openLightbox(
-        imageSrc,
-        imageAlt
-    ) {
-
-        if (
-            !lightbox ||
-            !lightboxImage
-        ) {
-            return;
-        }
-
-
-        lightboxImage.src =
-            imageSrc;
-
-        lightboxImage.alt =
-            imageAlt || "Memory Group moment";
-
-
-        lightbox.classList.add(
-            "active"
-        );
-
-        lightbox.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-
-        document.body.classList.add(
-            "menu-open"
-        );
-
-    }
-
-
-    function closeLightbox() {
-
-        if (!lightbox) {
-            return;
-        }
-
-
-        lightbox.classList.remove(
-            "active"
-        );
-
-        lightbox.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-
-        document.body.classList.remove(
-            "menu-open"
-        );
-
-
-        setTimeout(
-            () => {
-
-                if (lightboxImage) {
-                    lightboxImage.src = "";
-                }
-
-            },
-            250
-        );
-
-    }
-
-
-    if (lightboxClose) {
-
-        lightboxClose.addEventListener(
-            "click",
-            closeLightbox
-        );
-
-    }
-
-
-    if (lightbox) {
-
-        lightbox.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target ===
-                    lightbox
-                ) {
-
-                    closeLightbox();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key === "Escape"
-            ) {
-
-                closeLightbox();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       CLOSE MENU WHEN RESIZING
-    ===================================================== */
+       CLOSE MOBILE MENU ON RESIZE
+       ===================================================== */
 
     window.addEventListener(
         "resize",
         () => {
 
             if (
-                window.innerWidth > 760
+                window.innerWidth > 850 &&
+                navLinks
             ) {
 
-                if (menuButton) {
-
-                    menuButton.classList.remove(
-                        "active"
-                    );
-
-                    menuButton.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                }
-
-
-                if (mobileMenu) {
-
-                    mobileMenu.classList.remove(
-                        "active"
-                    );
-
-                }
-
-
-                document.body.classList.remove(
-                    "menu-open"
-                );
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       IMAGE ERROR DEBUGGING
-    ===================================================== */
-
-    document
-        .querySelectorAll("img")
-        .forEach(image => {
-
-            image.addEventListener(
-                "error",
-                () => {
-
-                    console.warn(
-                        "Image could not be loaded:",
-                        image.src
-                    );
-
-                }
-            );
-
-        });
-
-
-    /* =====================================================
-       SMOOTH ANCHOR SCROLL
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            'a[href^="#"]'
-        )
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                event => {
-
-                    const targetId =
-                        link.getAttribute(
-                            "href"
-                        );
-
-
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) {
-                        return;
-                    }
-
-
-                    const target =
-                        document.querySelector(
-                            targetId
-                        );
-
-
-                    if (!target) {
-                        return;
-                    }
-
-
-                    event.preventDefault();
-
-
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
-                }
-            );
-
-        });
-
-
-    /* =====================================================
-       CLEANUP
-    ===================================================== */
-
-    window.addEventListener(
-        "beforeunload",
-        () => {
-
-            if (animationFrame) {
-
-                cancelAnimationFrame(
-                    animationFrame
+                navLinks.classList.remove(
+                    "active"
                 );
 
             }
